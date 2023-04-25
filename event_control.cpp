@@ -1,0 +1,2 @@
+/* ici on écrit les focntions pour gérer les évenements claviers (faut faire une classe associée dans un .h?)
+On peut faire ça dans un autre ficheir mais je pense que le faire à part c'est mieux pour respecter le MVC*/

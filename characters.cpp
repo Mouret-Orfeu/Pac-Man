@@ -1,0 +1,1 @@
+//definitions of characters.h functions

@@ -1,0 +1,33 @@
+ projet en binome (petit jeu , 2/3 de la note (ou pour le 2/3 je sais pas))
+on aura un QCM en cours 
+
+ -Rendre 1 seule fois le projet par groupe
+ -Envoyer une archive ou le lien git par mail
+ -Dans l'archive(nommé avec les noms des membres du groupe) ou le git il doit y avoir le code et 2 rapports (1 rapport par membre du groupe, pour expliquer ce que chacun a fait)
+ -rapport: 3-4 pages pour expliquer notre travail
+
+- la documentation du code compte pour 5 points sur 20, je propose de faire du doxigen
+
+- en C++ quand t'utilises des float avec des template, écrire 4.5F ou 4.5f pour indiquer que c'est un float.
+
+-pas mettre de musique
+-eviter d'utiliser des grosses librairies
+
+-utiliser cmake
+-les bibli externes sont interdites sauf si tu incorpores le code source de la bibli dans ton projet et que tu le compile avec le reste (faut pas avoir à installer des trucs)
+
+-appeler les constructeur comme ça: int i{3.14} 
+				   et pas comme ça: int i(3.14)
+
+				   parce que le 2ème compile alors qu'il y a une erreur, le 1er ne compile pas en disant que 3.14 est pas un int
+
+- utiliser un design pattern genre MVC (Model View Controller) voir https://www.geeksforgeeks.org/mvc-design-pattern/
+En gros, d'après ce que j'ai compris, dans l'architecture de projet MVC,on divise les taches en 3 grandes parties successives: le controller qui gères les évènements (les entrées), le model qui gère le processing, et le viewer qui gère l'affichage (les sorties).
+
+ - faut vraiment utiliser le paradigme c++ (on va être punis pour pas utiliser de trucs assez poussé, genre template et tout)
+ - utiliser l'heritage de façon plus large, par ex, faire de l'heritage multiple (une classe a plusieurs parents)
+ - la prof conseil d'utiliser pas mal de namespace pour definir des scope de variable globales
+
+
+-(Si tu modifies cMakeList, faut supprimer le dossier cMakeFiles et cMakecache.)
+

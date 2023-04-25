@@ -1,0 +1,1 @@
+//ici on pourra juste initialiser la partie et la lancer
