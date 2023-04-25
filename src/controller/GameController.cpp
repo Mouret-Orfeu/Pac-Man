@@ -5,20 +5,28 @@
 #include <SDL.h>
 #include <iostream>
 
-GameController::GameController() {
-    // Initialize SDL and any other required resources here.
-    if (SDL_Init(SDL_INIT_VIDEO) != 0 )
-    {
-		std::cerr <<"Echec de l'initialisation de la SDL "<<SDL_GetError() << std::endl;
-		return 1;
+GameController::GameController() : sdl_initialized(false) {}
+
+GameController::~GameController() {
+    if (sdl_initialized) {
+        SDL_Quit();
     }
 }
 
-GameController::~GameController() {
-    // Clean up SDL and any other resources here.
+bool GameController::init() {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError() << std::endl;
+        return false;
+    }
+    sdl_initialized = true;
+    return true;
 }
 
 void GameController::run() {
+    if (!sdl_initialized) {
+        return;
+    }
+
     GameModel gameModel;
     GameView gameView;
 
@@ -53,6 +61,4 @@ void GameController::run() {
         // LIMITE A 60 FPS
 		SDL_Delay(16); // utiliser SDL_GetTicks64() pour plus de precisions
 	}
-    SDL_Quit(); // ON SORT
-    return 0;
 }
