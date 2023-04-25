@@ -21,3 +21,10 @@ cmake --build ./
 ```
 
 Alternatively, you can use `cmake --build ./ -j8` to enable cmake to use 8 cores for parallel compilation (change 8 to whatever the number of cores you want to use).
+
+### How to launch
+
+From the `build` directory:
+```bash
+./PacMan
+```
