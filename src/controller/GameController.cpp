@@ -1,6 +1,7 @@
 #include "GameController.h"
 #include "model/GameModel.h"
 #include "view/GameView.h"
+#include "model/Ghost.h"
 
 #include <SDL.h>
 #include <iostream>
@@ -28,9 +29,9 @@ void GameController::run() {
     }
 
     GameModel gameModel;
-    GameView gameView;
+    GameView gameView(gameModel);
 
-    // Main game loop (previously in main() function)
+    // Main game loop
 	bool quit = false;
 	while (!quit)
 	{
@@ -55,6 +56,12 @@ void GameController::run() {
             puts("LEFT");
         if (keys[SDL_SCANCODE_RIGHT])
             puts("RIGHT");
+        if (keys[SDL_SCANCODE_UP])
+            puts("UP");
+        if (keys[SDL_SCANCODE_DOWN])
+            puts("DOWN");
+
+        gameModel.update();
 
         // AFFICHAGE
 		gameView.draw();

@@ -1,11 +1,31 @@
 #include "GameModel.h"
 
-GameModel::GameModel() {
-    // Initialize game model related data here
+#include <iostream>
+
+GameModel::GameModel() : count(0) {
+    // Initialize other game objects here
 }
 
 GameModel::~GameModel() {
-    // Clean up game model related data here
+    // Clean up if necessary
 }
 
-// Implement game logic-related methods here
+void GameModel::update() {
+    // Update Ghost position
+    ghost.updatePosition(count);
+
+    // Update other game objects here
+    count = (count + 1) % 512;
+}
+
+Ghost& GameModel::getGhost() {
+    return ghost;
+}
+
+int GameModel::getCount() const {
+    return count;
+}
+
+void GameModel::setCount(int count) {
+    this->count = count;
+}

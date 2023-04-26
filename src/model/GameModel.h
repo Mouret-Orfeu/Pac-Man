@@ -1,9 +1,20 @@
 #pragma once
 
+#include "Ghost.h"
+
 class GameModel {
 public:
     GameModel();
     ~GameModel();
 
-    // Add any game logic-related methods here
+    void update();
+
+    Ghost& getGhost();
+
+    int getCount() const;
+    void setCount(int count);
+
+private:
+    Ghost ghost;
+    int count;
 };
