@@ -21,3 +21,14 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/pacman_sprites.bmp
 IF (MSVC)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 ENDIF()
+
+find_program(VALGRIND_EXECUTABLE valgrind)
+
+if(VALGRIND_EXECUTABLE)
+    add_custom_target(valgrind
+        COMMAND ${VALGRIND_EXECUTABLE} --leak-check=full ./${PROJECT_NAME}
+        DEPENDS ${PROJECT_NAME}
+        COMMENT "Running ${PROJECT_NAME} under Valgrind"
+        VERBATIM
+    )
+endif()
