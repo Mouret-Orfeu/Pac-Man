@@ -13,6 +13,7 @@ public:
     void draw();
 
     void render(const Ghost& ghost);
+    void render(const PacMan& pacman);
 
 private:
     SDL_Surface* win_surf;

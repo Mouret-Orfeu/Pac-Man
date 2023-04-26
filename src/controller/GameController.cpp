@@ -2,6 +2,8 @@
 #include "model/GameModel.h"
 #include "view/GameView.h"
 #include "model/Ghost.h"
+#include "model/PacMan.h"
+#include "model/Character.h"
 
 #include <SDL.h>
 #include <iostream>
@@ -50,18 +52,21 @@ void GameController::run() {
         // Gestion du clavier
         int nbk;
         const Uint8* keys = SDL_GetKeyboardState(&nbk);
+
         if (keys[SDL_SCANCODE_ESCAPE])
             quit = true;
-        if (keys[SDL_SCANCODE_LEFT])
-            puts("LEFT");
-        if (keys[SDL_SCANCODE_RIGHT])
-            puts("RIGHT");
-        if (keys[SDL_SCANCODE_UP])
-            puts("UP");
-        if (keys[SDL_SCANCODE_DOWN])
-            puts("DOWN");
 
-        gameModel.update();
+        CharacterDirection input_direction = CharacterDirection::NONE;
+        if (keys[SDL_SCANCODE_LEFT])
+            input_direction = CharacterDirection::LEFT;
+        if (keys[SDL_SCANCODE_RIGHT])
+            input_direction = CharacterDirection::RIGHT;
+        if (keys[SDL_SCANCODE_UP])
+            input_direction = CharacterDirection::UP;
+        if (keys[SDL_SCANCODE_DOWN])
+            input_direction = CharacterDirection::DOWN;
+
+        gameModel.update(input_direction);
 
         // AFFICHAGE
 		gameView.draw();

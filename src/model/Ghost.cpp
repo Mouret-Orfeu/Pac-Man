@@ -3,7 +3,7 @@
 
 Ghost::Ghost()
 :Character({CharacterDirection::RIGHT, {34, 34}}),
-sprite_r({ 3,123, 16,16 }),
+ sprite_r({ 3,123, 16,16 }),
  sprite_l({ 37,123, 16,16 }),
  sprite_d({ 105,123, 16,16 }),
  sprite_u({ 71,123, 16,16 })

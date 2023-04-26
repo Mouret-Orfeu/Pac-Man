@@ -8,7 +8,8 @@ enum class CharacterDirection {
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    NONE
 };
 
 struct CharacterState {
