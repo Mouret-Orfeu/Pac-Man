@@ -1,6 +1,9 @@
 #include "PacMan.h"
+#include "Character.h"
 
-PacMan::PacMan() {
+PacMan::PacMan(CharacterState state)
+:Character(state)
+{
     // Initialize PacMan-specific data here
 }
 
@@ -9,3 +12,7 @@ PacMan::~PacMan() {
 }
 
 // Implement PacMan-specific methods here
+void PacMan::updatePosition(int count) {
+    // Update the position based on the count value
+    (void)count;
+}

@@ -12,7 +12,7 @@ public:
 
     void draw();
 
-    void renderGhost(const Ghost& ghost);
+    void render(const Ghost& ghost);
 
 private:
     SDL_Surface* win_surf;

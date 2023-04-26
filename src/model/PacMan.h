@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Character.h"
 
-class PacMan : public GameObject {
+class PacMan : public Character {
 public:
-    PacMan();
+    PacMan(CharacterState state);
     ~PacMan();
 
-    // Add PacMan-specific methods and properties here
+    void updatePosition(int count) override;
 };

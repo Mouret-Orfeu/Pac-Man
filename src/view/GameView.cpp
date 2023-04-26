@@ -1,5 +1,6 @@
 #include "GameView.h"
 #include "model/GameModel.h"
+#include "model/Character.h"
 #include "model/Ghost.h"
 
 #include <SDL.h>
@@ -29,32 +30,32 @@ void GameView::draw() {
     SDL_SetColorKey(plancheSprites, false, 0);
     SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
-    renderGhost(gameModel.getGhost());
+    render(gameModel.getGhost());
 
 	SDL_UpdateWindowSurface(pWindow);
 }
 
 // Implement game view-related methods here
-void GameView::renderGhost(const Ghost& ghost) {
+void GameView::render(const Ghost& ghost) {
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite_in;
-    GhostState state = ghost.getState();
+    CharacterState state = ghost.getState();
     switch (state.direction) {
-        case GhostDirection::RIGHT:
+        case CharacterDirection::RIGHT:
             ghost_sprite_in = ghost.getSpriteR();
             break;
-        case GhostDirection::DOWN:
+        case CharacterDirection::DOWN:
             ghost_sprite_in = ghost.getSpriteD();
             break;
-        case GhostDirection::LEFT:
+        case CharacterDirection::LEFT:
             ghost_sprite_in = ghost.getSpriteL();
             break;
-        case GhostDirection::UP:
+        case CharacterDirection::UP:
             ghost_sprite_in = ghost.getSpriteU();
             break;
     }
 
-    // Update the position of the ghost sprite based on the GhostState
+    // Update the position of the ghost sprite based on the CharacterState
     SDL_Rect ghost_sprite({ state.position.x,state.position.y, 32,32 }); // ici scale x2
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
