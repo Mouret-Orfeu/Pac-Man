@@ -2,8 +2,8 @@
 #include "Character.h"
 
 PacMan::PacMan()
-:Character({CharacterDirection::RIGHT, {19, 89}}),
- intended_direction(CharacterDirection::RIGHT),
+:Character({CharacterDirection::UP, {322, 642}}),
+ intended_direction(CharacterDirection::UP),
  sprite_r({ 19,89, 16,16 }),
  sprite_l({ 46,89, 16,16 }),
  sprite_d({ 108,89, 16,16 }),
