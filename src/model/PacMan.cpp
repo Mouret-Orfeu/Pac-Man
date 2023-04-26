@@ -2,7 +2,7 @@
 #include "Character.h"
 
 PacMan::PacMan()
-:Character({CharacterDirection::RIGHT, {322, 642}}),
+:Character({CharacterDirection::RIGHT, {322, 643}}),
  intended_direction(CharacterDirection::RIGHT),
  sprite_r({ 19,89, 16,16 }),
  sprite_l({ 46,89, 16,16 }),
