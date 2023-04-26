@@ -40,31 +40,30 @@ int main(int argc, char** argv)
 			}
 		}
 
-        //Gestion des input au clavier
-        controller::check_escap(quit);
+       //Gestion des input au clavier
+        //controller::check_escap(quit);
+//
+		//controller::direction_t direction= controller::check_input();
+		//pacman.set_direction(direction);
 
-		controller::direction_t direction= controller::check_input();
+		int nbk;
+    	const Uint8* keys = SDL_GetKeyboardState(&nbk);
+
+		controller::direction_t direction=controller::none;
+
+		if (keys[SDL_SCANCODE_ESCAPE])
+        	quit = true;
+		if (keys[SDL_SCANCODE_LEFT])
+        	direction= controller::left;
+    	if (keys[SDL_SCANCODE_RIGHT])
+    	    direction= controller::right;
+    	if (keys[SDL_SCANCODE_UP])
+    	    direction= controller::up;
+    	if (keys[SDL_SCANCODE_DOWN])
+    	    direction= controller::down;
+
 		pacman.set_direction(direction);
 
-		//DEBUG
-		switch (direction)
-    	{
-    	    case controller::left:
-    	        cout<<"left"<<endl;
-    	        break;
-    	    case controller::right:
-    	        cout<<"right"<<endl;
-    	        break;
-    	    case controller::up:
-    	        cout<<"up"<<endl;
-    	        break;
-    	    case controller::down:
-    	        cout<<"down"<<endl;
-    	        break;
-    	    case controller::none:
-				cout<<"none"<<endl;
-    	        break;
-    	}
 
 		pacman.move();
 
