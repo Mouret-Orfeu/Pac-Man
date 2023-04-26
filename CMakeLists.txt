@@ -26,7 +26,7 @@ find_program(VALGRIND_EXECUTABLE valgrind)
 
 if(VALGRIND_EXECUTABLE)
     add_custom_target(valgrind
-        COMMAND ${VALGRIND_EXECUTABLE} --leak-check=full ./${PROJECT_NAME}
+        COMMAND ${VALGRIND_EXECUTABLE} --leak-check=full --show-leak-kinds=all ./${PROJECT_NAME}
         DEPENDS ${PROJECT_NAME}
         COMMENT "Running ${PROJECT_NAME} under Valgrind"
         VERBATIM

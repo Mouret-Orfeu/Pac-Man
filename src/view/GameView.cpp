@@ -19,10 +19,19 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
 	win_surf = SDL_GetWindowSurface(pWindow);
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
+    if (!plancheSprites) {
+        // Handle error loading bitmap
+        std::cerr << "Failed to load bitmap: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(pWindow);
+        SDL_Quit();
+        exit(1);
+    }
 }
 
 GameView::~GameView() {
     // Clean up game view related data here
+    SDL_FreeSurface(plancheSprites);
+    SDL_DestroyWindow(pWindow);
 }
 
 void GameView::draw() {
