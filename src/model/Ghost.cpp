@@ -45,3 +45,19 @@ GhostState Ghost::getState() const {
 void Ghost::setState(const GhostState& state) {
     this->state = state;
 }
+
+const SDL_Rect& Ghost::getSpriteR() const {
+    return sprite_r;
+}
+
+const SDL_Rect& Ghost::getSpriteL() const {
+    return sprite_l;
+}
+
+const SDL_Rect& Ghost::getSpriteD() const {
+    return sprite_d;
+}
+
+const SDL_Rect& Ghost::getSpriteU() const {
+    return sprite_u;
+}

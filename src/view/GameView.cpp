@@ -37,20 +37,20 @@ void GameView::draw() {
 // Implement game view-related methods here
 void GameView::renderGhost(const Ghost& ghost) {
     // petit truc pour faire tourner le fantome
-    const SDL_Rect* ghost_sprite_in;
+    SDL_Rect ghost_sprite_in;
     GhostState state = ghost.getState();
     switch (state.direction) {
         case GhostDirection::RIGHT:
-            ghost_sprite_in = &ghost.getSpriteR();
+            ghost_sprite_in = ghost.getSpriteR();
             break;
         case GhostDirection::DOWN:
-            ghost_sprite_in = &ghost.getSpriteD();
+            ghost_sprite_in = ghost.getSpriteD();
             break;
         case GhostDirection::LEFT:
-            ghost_sprite_in = &ghost.getSpriteL();
+            ghost_sprite_in = ghost.getSpriteL();
             break;
         case GhostDirection::UP:
-            ghost_sprite_in = &ghost.getSpriteU();
+            ghost_sprite_in = ghost.getSpriteU();
             break;
     }
 
@@ -58,13 +58,12 @@ void GameView::renderGhost(const Ghost& ghost) {
     SDL_Rect ghost_sprite({ state.position.x,state.position.y, 32,32 }); // ici scale x2
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
-    SDL_Rect ghost_sprite_in2 = *ghost_sprite_in;
     if ((gameModel.getCount() / 4) % 2) {
-        ghost_sprite_in2.x += 17;
+        ghost_sprite_in.x += 17;
     }
 
     // couleur transparente
     SDL_SetColorKey(plancheSprites, true, 0);
     // copie du sprite zoomé
-    SDL_BlitScaled(plancheSprites, &ghost_sprite_in2, win_surf, &ghost_sprite);
+    SDL_BlitScaled(plancheSprites, &ghost_sprite_in, win_surf, &ghost_sprite);
 }
