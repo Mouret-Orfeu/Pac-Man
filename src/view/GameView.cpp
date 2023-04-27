@@ -10,8 +10,23 @@ SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
+SDL_Point map_top_left={0,48};
+
 SDL_Rect src_bg = { 200,3, 168,216 }; // x,y, w,h (0,0) en haut a gauche
+SDL_Rect zero_sprite = { 3,52, 8,8 }; 
+SDL_Rect one_sprite = { 12,52, 7,8 };
+SDL_Rect U_sprite = { 43,68, 9,8 };  
+SDL_Rect P_sprite = { 3,68, 8,8 }; 
+
 SDL_Rect bg = { 0,48, MAP_WIDTH,MAP_HEIGHT }; 
+SDL_Rect first_score_number_pos = { 80,16, 15,15};
+SDL_Rect second_score_number_pos = { 96,16, 15,15};
+SDL_Rect one_up_one_pos = { 48,0, 15,15};
+SDL_Rect one_up_U_pos = { 64,0, 15,15};
+SDL_Rect one_up_P_pos = { 80,0, 15,15};
+
+
+
 
 GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     // Initialize game view related data here
@@ -38,6 +53,11 @@ void GameView::draw() {
     // Move the draw() function contents here
     SDL_SetColorKey(plancheSprites, false, 0);
     SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
+    SDL_BlitScaled(plancheSprites, &zero_sprite, win_surf, &first_score_number_pos);
+    SDL_BlitScaled(plancheSprites, &zero_sprite, win_surf, &second_score_number_pos);
+    SDL_BlitScaled(plancheSprites, &one_sprite, win_surf, &one_up_one_pos);
+    SDL_BlitScaled(plancheSprites, &U_sprite, win_surf, &one_up_U_pos);
+    SDL_BlitScaled(plancheSprites, &P_sprite, win_surf, &one_up_P_pos);
 
     render(gameModel.getGhost());
     render(gameModel.getPacMan());
