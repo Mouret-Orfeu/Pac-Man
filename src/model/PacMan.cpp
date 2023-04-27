@@ -2,19 +2,20 @@
 #include "Character.h"
 
 
-#define SIZE_PACMAN 16
+#define SIZE_PACMAN_SPRITE 16
+#define SIZE_PACMAN_RESIZED 32
 
 
-SDL_Point init_pos_up_left = { 24,72 };
-SDL_Point init_pos_center = { 24+SIZE_PACMAN/2, 72+SIZE_PACMAN/2 };
+SDL_Point init_pos_up_left_pacman = { 24,72 };
+SDL_Point init_pos_center_pacman = { 24+SIZE_PACMAN_RESIZED/2, 72+SIZE_PACMAN_RESIZED/2 };
 
 PacMan::PacMan()
-:Character({CharacterDirection::RIGHT, init_pos_up_left, init_pos_center}),
+:Character({CharacterDirection::RIGHT, init_pos_up_left_pacman, init_pos_center_pacman}),
  intended_direction(CharacterDirection::RIGHT),
- sprite_r({ 19,89, SIZE_PACMAN ,SIZE_PACMAN  }),
- sprite_l({ 46,89, SIZE_PACMAN ,SIZE_PACMAN  }),
- sprite_d({ 108,89, SIZE_PACMAN ,SIZE_PACMAN  }),
- sprite_u({ 74,89, SIZE_PACMAN ,SIZE_PACMAN  })
+ sprite_r({ 19,89, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  }),
+ sprite_l({ 46,89, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  }),
+ sprite_d({ 108,89, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  }),
+ sprite_u({ 74,89, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  })
 {
     // Initialize PacMan-specific data here
 }
