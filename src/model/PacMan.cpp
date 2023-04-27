@@ -17,7 +17,7 @@ PacMan::~PacMan() {
 }
 
 // Implement PacMan-specific methods here
-void PacMan::updatePosition(int count) {
+void PacMan::move(int count) {
     (void)count;
 
     // Update the direction based on the intended direction
@@ -25,22 +25,8 @@ void PacMan::updatePosition(int count) {
     //       i.e. it doesn't point to a wall
     state.direction = intended_direction;
 
-    switch (state.direction) {
-        case CharacterDirection::LEFT:
-            state.position.x--;
-            break;
-        case CharacterDirection::RIGHT:
-            state.position.x++;
-            break;
-        case CharacterDirection::UP:
-            state.position.y--;
-            break;
-        case CharacterDirection::DOWN:
-            state.position.y++;
-            break;
-        case CharacterDirection::NONE:
-            break;
-    }
+    //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
+    updatePosition ();
 }
 
 void PacMan::setIntendedDirection(CharacterDirection direction) {

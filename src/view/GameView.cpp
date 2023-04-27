@@ -18,15 +18,15 @@ SDL_Rect one_sprite = { 12,52, 7,8 };
 SDL_Rect U_sprite = { 43,68, 9,8 };  
 SDL_Rect P_sprite = { 3,68, 8,8 }; 
 
-SDL_Rect bg = { 0,48, MAP_WIDTH,MAP_HEIGHT }; 
-SDL_Rect first_score_number_pos = { 80,16, 15,15};
-SDL_Rect second_score_number_pos = { 96,16, 15,15};
-SDL_Rect one_up_one_pos = { 48,0, 15,15};
-SDL_Rect one_up_U_pos = { 64,0, 15,15};
-SDL_Rect one_up_P_pos = { 80,0, 15,15};
-SDL_Rect first_life_pos = { 32,544, 25,25};
-SDL_Rect second_life_pos = { 64,544, 25,25};
-SDL_Rect third_life_pos = { 96,544, 25,25};
+SDL_Rect bg = { 0,3*TILE_SIZE, MAP_WIDTH,MAP_HEIGHT }; 
+SDL_Rect first_score_number_pos = { 5*TILE_SIZE,TILE_SIZE, TILE_SIZE-2,TILE_SIZE-2};
+SDL_Rect second_score_number_pos = { 6*TILE_SIZE,TILE_SIZE, TILE_SIZE-2,TILE_SIZE-2};
+SDL_Rect one_up_one_pos = { 3*TILE_SIZE,0, TILE_SIZE-2,TILE_SIZE-2};
+SDL_Rect one_up_U_pos = { 4*TILE_SIZE,0, TILE_SIZE-2,TILE_SIZE-2};
+SDL_Rect one_up_P_pos = { 5*TILE_SIZE,0, TILE_SIZE-2,TILE_SIZE-2};
+SDL_Rect first_life_pos = { 2*TILE_SIZE,WINDOW_HEIGHT-2*TILE_SIZE, 2*TILE_SIZE-5,2*TILE_SIZE-5};
+SDL_Rect second_life_pos = { 4*TILE_SIZE,WINDOW_HEIGHT-2*TILE_SIZE, 2*TILE_SIZE-5,2*TILE_SIZE-5};
+SDL_Rect third_life_pos = { 6*TILE_SIZE,WINDOW_HEIGHT-2*TILE_SIZE, 2*TILE_SIZE-5,2*TILE_SIZE-5};
 
 
 
@@ -92,8 +92,8 @@ void GameView::render(const Ghost& ghost) {
             break;
     }
 
-    // Update the position of the ghost sprite based on the CharacterState
-    SDL_Rect ghost_sprite({ state.position.x,state.position.y, 32,32 }); // ici scale x2
+    // Update the top_left_position of the ghost sprite based on the CharacterState
+    SDL_Rect ghost_sprite({ state.top_left_position.x,state.top_left_position.y, 32,32 }); // ici scale x2
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
     if ((gameModel.getCount() / 4) % 2) {
@@ -129,8 +129,8 @@ void GameView::render(const PacMan& pacman) {
             break;
     }
 
-    // Update the position of the ghost sprite based on the CharacterState
-    SDL_Rect pacman_sprite({ state.position.x,state.position.y, 32,32 }); // ici scale x2
+    // Update the top_left_position of the ghost sprite based on the CharacterState
+    SDL_Rect pacman_sprite({ state.top_left_position.x,state.top_left_position.y, 32,32 }); // ici scale x2
 
     // // ici on change entre les 2 sprites sources pour une jolie animation.
     // if ((gameModel.getCount() / 4) % 2) {

@@ -9,7 +9,7 @@ public:
     Ghost();
     ~Ghost();
 
-    void updatePosition(int count) override;
+    void move(int count) override;
     const SDL_Rect& getSpriteR() const;
     const SDL_Rect& getSpriteL() const;
     const SDL_Rect& getSpriteD() const;

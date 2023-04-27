@@ -15,24 +15,24 @@ Ghost::~Ghost() {
     // Clean up Ghost-specific data here
 }
 
-void Ghost::updatePosition(int count) {
+void Ghost::move(int count) {
     // Update the direction based on the count value
     switch (count / 128) {
         case 0:
             state.direction = CharacterDirection::RIGHT;
-            state.position.x++;
+            state.top_left_position.x++;
             break;
         case 1:
             state.direction = CharacterDirection::DOWN;
-            state.position.y++;
+            state.top_left_position.y++;
             break;
         case 2:
             state.direction = CharacterDirection::LEFT;
-            state.position.x--;
+            state.top_left_position.x--;
             break;
         case 3:
             state.direction = CharacterDirection::UP;
-            state.position.y--;
+            state.top_left_position.y--;
             break;
     }
 }
