@@ -71,7 +71,15 @@ void GameController::run() {
 
         // AFFICHAGE
 		gameView.draw();
+
         // LIMITE A 60 FPS
-		SDL_Delay(16); // utiliser SDL_GetTicks64() pour plus de precisions
+        const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
+        Uint64 currentTime = SDL_GetTicks64();
+        Uint64 frameStartTime = currentTime;
+        Uint64 elapsedTime = currentTime - frameStartTime;
+        if (elapsedTime < desiredFrameTime) {
+            SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
+        }
+        frameStartTime = SDL_GetTicks64();
 	}
 }
