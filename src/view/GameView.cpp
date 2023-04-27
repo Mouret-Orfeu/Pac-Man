@@ -24,7 +24,9 @@ SDL_Rect second_score_number_pos = { 96,16, 15,15};
 SDL_Rect one_up_one_pos = { 48,0, 15,15};
 SDL_Rect one_up_U_pos = { 64,0, 15,15};
 SDL_Rect one_up_P_pos = { 80,0, 15,15};
-
+SDL_Rect first_life_pos = { 32,544, 25,25};
+SDL_Rect second_life_pos = { 64,544, 25,25};
+SDL_Rect third_life_pos = { 96,544, 25,25};
 
 
 
@@ -50,6 +52,9 @@ GameView::~GameView() {
 }
 
 void GameView::draw() {
+
+    SDL_Rect pacman_l_medium_sprite= gameModel.getPacMan().getSpriteL();
+
     // Move the draw() function contents here
     SDL_SetColorKey(plancheSprites, false, 0);
     SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
@@ -58,6 +63,9 @@ void GameView::draw() {
     SDL_BlitScaled(plancheSprites, &one_sprite, win_surf, &one_up_one_pos);
     SDL_BlitScaled(plancheSprites, &U_sprite, win_surf, &one_up_U_pos);
     SDL_BlitScaled(plancheSprites, &P_sprite, win_surf, &one_up_P_pos);
+    SDL_BlitScaled(plancheSprites, &pacman_l_medium_sprite, win_surf, &first_life_pos);
+    SDL_BlitScaled(plancheSprites, &pacman_l_medium_sprite, win_surf, &second_life_pos);
+    SDL_BlitScaled(plancheSprites, &pacman_l_medium_sprite, win_surf, &third_life_pos);
 
     render(gameModel.getGhost());
     render(gameModel.getPacMan());
