@@ -16,7 +16,15 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
 	spriteSheet_NES = SDL_LoadBMP("./assets/pacman_sprites_NES.bmp");
     spriteSheet_Namco = SDL_LoadBMP("./assets/pacman_sprites_Namco.bmp");
 
-    // spriteSheet_Namco_formatted = SDL_ConvertSurface(spriteSheet_Namco, win_surf->format, 0);
+    if ((!spriteSheet_NES) || (!spriteSheet_Namco)) {
+        // Handle error loading bitmap
+        std::cerr << "Failed to load bitmap: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(pWindow);
+        SDL_Quit();
+        exit(1);
+    }
+
+    spriteSheet_Namco_formatted = SDL_ConvertSurface(spriteSheet_Namco, win_surf->format, 0);
 
     // if (SDL_SaveBMP(spriteSheet_Namco_formatted, "pacman_sprites_Namco_formatted.bmp") != 0) {
     //     // handle error
@@ -25,9 +33,9 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     //     exit(1);
     // }
 
-    if ((!spriteSheet_NES) || (!spriteSheet_Namco)) {
-        // Handle error loading bitmap
-        std::cerr << "Failed to load bitmap: " << SDL_GetError() << std::endl;
+    if(!spriteSheet_Namco_formatted) {
+        // Handle error converting bitmap
+        std::cerr << "Failed to convert bitmap: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
         exit(1);
@@ -38,7 +46,7 @@ GameView::~GameView() {
     // Clean up game view related data here
     SDL_FreeSurface(spriteSheet_NES);
     SDL_FreeSurface(spriteSheet_Namco);
-    // SDL_FreeSurface(spriteSheet_Namco_formatted);
+    SDL_FreeSurface(spriteSheet_Namco_formatted);
     SDL_DestroyWindow(pWindow);
 }
 
@@ -81,9 +89,9 @@ void GameView::render(const Ghost& ghost) {
 
 
     // couleur transparente
-    SDL_SetColorKey(spriteSheet_Namco, true, 0);
+    SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
     // copie du sprite zoomé
-    SDL_BlitScaled(spriteSheet_Namco, &ghost_sprite_in, win_surf, &ghost_sprite);
+    SDL_BlitScaled(spriteSheet_Namco_formatted, &ghost_sprite_in, win_surf, &ghost_sprite);
 }
 
 void GameView::render(const PacMan& pacman) {
@@ -118,15 +126,15 @@ void GameView::render(const PacMan& pacman) {
     // }
 
     // couleur transparente
-    SDL_SetColorKey(spriteSheet_Namco, true, 0);
+    SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
     // copie du sprite zoomé
-    SDL_BlitScaled(spriteSheet_Namco, &pacman_sprite_in, win_surf, &pacman_sprite);
+    SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_sprite_in, win_surf, &pacman_sprite);
 }
 
 void GameView::renderMaze() {
-    SDL_SetColorKey(spriteSheet_Namco, false, 0);
+    SDL_SetColorKey(spriteSheet_Namco_formatted, false, 0);
 
-    if(SDL_BlitScaled(spriteSheet_Namco, &map_sprite_originale, win_surf, &bg)<0){
+    if(SDL_BlitScaled(spriteSheet_Namco_formatted, &map_sprite_originale, win_surf, &bg)<0){
         printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
     }
 }
@@ -144,7 +152,8 @@ void GameView::renderHUD() {
     SDL_BlitScaled(spriteSheet_NES, &P_sprite, win_surf, &one_up_P_pos);
 
     // Lives
-    SDL_BlitScaled(spriteSheet_Namco, &life_sprite, win_surf, &first_life_pos);
-    SDL_BlitScaled(spriteSheet_Namco, &life_sprite, win_surf, &second_life_pos);
-    SDL_BlitScaled(spriteSheet_Namco, &life_sprite, win_surf, &third_life_pos);
+    SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
+    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
+    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
+    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &third_life_pos);
 }

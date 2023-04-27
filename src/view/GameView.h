@@ -33,6 +33,7 @@ private:
     SDL_Surface* win_surf = nullptr;
     SDL_Surface* spriteSheet_NES = nullptr;
     SDL_Surface* spriteSheet_Namco = nullptr;
+    SDL_Surface* spriteSheet_Namco_formatted = nullptr;
 
 
     // Constants for the tile size and upscaling factor
