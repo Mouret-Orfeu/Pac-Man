@@ -76,7 +76,7 @@ void GameView::render(const Ghost& ghost) {
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
     if ((gameModel.getCount() / 4) % 2) {
-        ghost_sprite_in.x += 17;
+        ghost_sprite_in.x += 16;
     }
 
 

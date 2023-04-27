@@ -4,7 +4,7 @@
 #define SIZE_GHOST_RESIZED 42
 
 
-SDL_Point init_pos_up_left_Blinky = { 15,75 };
+SDL_Point init_pos_up_left_Blinky = { 15,86 };
 SDL_Point init_pos_center_Blinky = { 34+SIZE_GHOST_RESIZED/2, 34+SIZE_GHOST_RESIZED/2 };
 
 
