@@ -17,6 +17,7 @@ GameController::~GameController() {
 }
 
 bool GameController::init() {
+    
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError() << std::endl;
         return false;
