@@ -12,13 +12,13 @@ GameModel::~GameModel() {
 }
 
 void GameModel::update(CharacterDirection input_direction) {
-    // Update Ghost position
-    ghost.updatePosition(count);
+    // Update Ghost top_left_position
+    ghost.move(count);
 
-    // Update PacMan position
+    // Update PacMan top_left_position
     if (input_direction != CharacterDirection::NONE)
         pacman.setIntendedDirection(input_direction);
-    pacman.updatePosition(count);
+    pacman.move(count);
 
     // Update other game objects here
     count = (count + 1) % 512;

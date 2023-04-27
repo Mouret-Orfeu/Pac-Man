@@ -7,7 +7,7 @@ public:
     PacMan();
     ~PacMan();
 
-    void updatePosition(int count) override;
+    void move(int count) override;
     void setIntendedDirection(CharacterDirection direction);
     const SDL_Rect& getSpriteR() const;
     const SDL_Rect& getSpriteL() const;
