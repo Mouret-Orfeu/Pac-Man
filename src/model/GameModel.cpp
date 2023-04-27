@@ -5,7 +5,7 @@
 
 GameModel::GameModel()
 :count(0),
- blinky({15, 86}, {55, 55}),
+ blinky({15, 87}, {36, 108}),
  pacman({318, 615}, {43, 91})
 {
     // Initialize other game objects here

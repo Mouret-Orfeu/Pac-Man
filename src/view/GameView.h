@@ -66,8 +66,14 @@ private:
     static constexpr int SIZE_GHOST_SPRITE = 14;
     static constexpr int SIZE_GHOST_SPRITE_RESIZED = UPSCALING_FACTOR*SIZE_GHOST_SPRITE;
     // Blinky
-    static constexpr SDL_Point init_pos_up_left_Blinky = { 15,86 };
-    static constexpr SDL_Point init_pos_center_Blinky = { 34+SIZE_GHOST_SPRITE_RESIZED/2, 34+SIZE_GHOST_SPRITE_RESIZED/2 };
+    // WARNING: duplicate code, editing the initial position here has no effect.
+    // You need to also edit the initial position in the construct of GameModel
+    // TODO: fix this by separating between the model (conceptual positions) and
+    // the view (real, upscaled positions = conceptual positions * UPSCALING_FACTOR)
+    static constexpr SDL_Point init_pos_up_left_Blinky = { 5*UPSCALING_FACTOR,29*UPSCALING_FACTOR };
+    // The -1 is to choose the top left center pixel of the sprite. Indeed, since the
+    // sprite size is even, the center is not a pixel but a square of 4 pixels.
+    static constexpr SDL_Point init_pos_center_Blinky = { 5*UPSCALING_FACTOR+(SIZE_GHOST_SPRITE_RESIZED-1)/2, 29*UPSCALING_FACTOR+(SIZE_GHOST_SPRITE_RESIZED-1)/2 };
     static constexpr SDL_Rect Blinky_sprite_r = { 457,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_l = { 489,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_d = { 553,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
@@ -82,8 +88,14 @@ private:
     // PacMan sprites
     static constexpr int SIZE_PACMAN_SPRITE = 13;
     static constexpr int SIZE_PACMAN_SPRITE_RESIZED = UPSCALING_FACTOR*SIZE_PACMAN_SPRITE;
-    static constexpr SDL_Point init_pos_up_left_pacman = { 106*3,181*3+3*TILE_SIZE };
-    static constexpr SDL_Point init_pos_center_pacman = { 24+SIZE_PACMAN_SPRITE_RESIZED/2, 72+SIZE_PACMAN_SPRITE_RESIZED/2 };
+    // WARNING: duplicate code, editing the initial position here has no effect.
+    // You need to also edit the initial position in the construct of GameModel
+    // TODO: fix this by separating between the model (conceptual positions) and
+    // the view (real, upscaled positions = conceptual positions * UPSCALING_FACTOR)
+    static constexpr SDL_Point init_pos_up_left_pacman = { 106*UPSCALING_FACTOR,181*UPSCALING_FACTOR+3*TILE_SIZE };
+    // Contrary to the ghost, the -1 isn't strictly necessary since SIZE_PACMAN_SPRITE is odd.
+    // Still, it's better to keep it to prepare for future changes (refactoring, change of SIZE_PACMAN_SPRITE, reuse of the code, ...)
+    static constexpr SDL_Point init_pos_center_pacman = { 8*UPSCALING_FACTOR+(SIZE_PACMAN_SPRITE_RESIZED-1)/2, 24*UPSCALING_FACTOR+(SIZE_PACMAN_SPRITE_RESIZED-1)/2 };
     static constexpr SDL_Rect pacman_sprite_r = { 473,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_l = { 473,17, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_d = { 473,49, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };

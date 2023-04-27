@@ -27,8 +27,12 @@ SDL_Point Character::getTopLeftPosition() const{
 }
 
 void Character::setTopLeftPosition(int x, int y) {
+    // TODO: use attributes of Character
+    // when they are defined instead of hard-coded values
     state.top_left_position.x = x;
     state.top_left_position.y = y;
+    state.center_position.x = x + 6*3;
+    state.center_position.y = y + 6*3;
 }
 
 SDL_Point Character::getCenterPosition() const {
@@ -36,8 +40,12 @@ SDL_Point Character::getCenterPosition() const {
 }
 
 void Character::setCenterPosition(int x, int y) {
+    // TODO: use attributes of Character
+    // when they are defined instead of hard-coded values
     state.center_position.x = x;
     state.center_position.y = y;
+    state.top_left_position.x = x - 6*3;
+    state.top_left_position.y = y - 6*3;
 }
 
 SDL_Point Character::getTilePosition() const {
