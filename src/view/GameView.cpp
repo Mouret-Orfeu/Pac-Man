@@ -141,7 +141,7 @@ void GameView::renderHUD() {
     SDL_BlitScaled(plancheSprites_prof, &one_sprite, win_surf, &one_up_one_pos);
     SDL_BlitScaled(plancheSprites_prof, &U_sprite, win_surf, &one_up_U_pos);
     SDL_BlitScaled(plancheSprites_prof, &P_sprite, win_surf, &one_up_P_pos);
-    SDL_BlitScaled(plancheSprites_prof, &pacman_l_medium_sprite, win_surf, &first_life_pos);
-    SDL_BlitScaled(plancheSprites_prof, &pacman_l_medium_sprite, win_surf, &second_life_pos);
-    SDL_BlitScaled(plancheSprites_prof, &pacman_l_medium_sprite, win_surf, &third_life_pos);
+    SDL_BlitScaled(plancheSprites_originale_formatted, &life_sprite, win_surf, &first_life_pos);
+    SDL_BlitScaled(plancheSprites_originale_formatted, &life_sprite, win_surf, &second_life_pos);
+    SDL_BlitScaled(plancheSprites_originale_formatted, &life_sprite, win_surf, &third_life_pos);
 }

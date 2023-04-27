@@ -1,12 +1,12 @@
 #include "PacMan.h"
 #include "Character.h"
 
-
+#define TILE_SIZE 24
 #define SIZE_PACMAN_SPRITE 13
 #define SIZE_PACMAN_RESIZED 39
 
 
-SDL_Point init_pos_up_left_pacman = { 24,72 };
+SDL_Point init_pos_up_left_pacman = { 106*3,181*3+3*TILE_SIZE };
 SDL_Point init_pos_center_pacman = { 24+SIZE_PACMAN_RESIZED/2, 72+SIZE_PACMAN_RESIZED/2 };
 
 PacMan::PacMan()
