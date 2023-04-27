@@ -7,10 +7,6 @@
 
 
 //On veut une fenetre de 28*36 tile
-#define WINDOW_WIDTH  672
-#define WINDOW_HEIGHT 864
-#define MAP_WIDTH 672
-#define MAP_HEIGHT 744
 #define TILE_SIZE 24
 
 
@@ -34,7 +30,7 @@ public:
 
 private:
     SDL_Surface* win_surf;
-    SDL_Surface* plancheSprites;
+    SDL_Surface* plancheSprites_prof;
     GameModel& gameModel;
     // ... Other private members ...
     static constexpr int MAZE_ROWS = 31;
