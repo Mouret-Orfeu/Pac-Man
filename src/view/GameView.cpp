@@ -15,7 +15,7 @@ SDL_Rect bg = { 4,4, 672,864 }; // ici scale x4
 
 GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     // Initialize game view related data here
-	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 700, 900, SDL_WINDOW_SHOWN);
+	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH , WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 	win_surf = SDL_GetWindowSurface(pWindow);
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
