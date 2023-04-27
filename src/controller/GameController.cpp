@@ -50,8 +50,7 @@ void GameController::run() {
 		}
 
         // Gestion du clavier
-        int nbk;
-        const Uint8* keys = SDL_GetKeyboardState(&nbk);
+        const Uint8* keys = SDL_GetKeyboardState(nullptr);
 
         if (keys[SDL_SCANCODE_ESCAPE])
             quit = true;

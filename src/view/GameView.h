@@ -31,10 +31,9 @@ private:
     // SDL window and surfaces
     SDL_Window* pWindow = nullptr;
     SDL_Surface* win_surf = nullptr;
-    SDL_Surface* plancheSprites_prof = nullptr;
-    SDL_Surface* plancheSprites_originale = nullptr;
-    SDL_Surface* plancheSprites_originale_formatted = nullptr;
-    
+    SDL_Surface* spriteSheet_NES = nullptr;
+    SDL_Surface* spriteSheet_Namco = nullptr;
+
 
     // Constants for the tile size and upscaling factor
     static constexpr int UPSCALING_FACTOR = 3;
@@ -61,6 +60,33 @@ private:
     static constexpr SDL_Rect U_sprite = { 43,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
     static constexpr SDL_Rect P_sprite = { 3,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
     static constexpr SDL_Rect life_sprite = { 587,18, LIFE_SIZE_ORIGINALE,LIFE_SIZE_ORIGINALE};
+
+    // Ghost sprites
+    static constexpr int SIZE_GHOST_SPRITE = 14;
+    static constexpr int SIZE_GHOST_RESIZED = 42;
+    // Blinky
+    static constexpr SDL_Point init_pos_up_left_Blinky = { 15,86 };
+    static constexpr SDL_Point init_pos_center_Blinky = { 34+SIZE_GHOST_RESIZED/2, 34+SIZE_GHOST_RESIZED/2 };
+    static constexpr SDL_Rect Blinky_sprite_r = { 457,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_l = { 489,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_d = { 553,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_u = { 521,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    // Pinky
+    // ...
+    // Inky
+    // ...
+    // Clyde
+    // ...
+
+    // PacMan sprites
+    static constexpr int SIZE_PACMAN_SPRITE = 13;
+    static constexpr int SIZE_PACMAN_RESIZED = 39;
+    static constexpr SDL_Point init_pos_up_left_pacman = { 106*3,181*3+3*TILE_SIZE };
+    static constexpr SDL_Point init_pos_center_pacman = { 24+SIZE_PACMAN_RESIZED/2, 72+SIZE_PACMAN_RESIZED/2 };
+    static constexpr SDL_Rect pacman_sprite_r = { 473,1, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_l = { 473,17, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_d = { 473,49, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_u = { 473,33, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  };
 
     // SDL rectangles for maze and HUP elements
     SDL_Rect bg = { 0,3*TILE_SIZE, MAP_COLS*TILE_SIZE,MAZE_ROWS*TILE_SIZE };

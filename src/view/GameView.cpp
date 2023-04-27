@@ -13,22 +13,21 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
 	win_surf = SDL_GetWindowSurface(pWindow);
 
     //On utilise des sprites venant des ces 2 fichiers
-	plancheSprites_prof = SDL_LoadBMP("./assets/pacman_sprites.bmp");
-    plancheSprites_originale = SDL_LoadBMP("./assets/pacman_sprites_original.bmp");
+	spriteSheet_NES = SDL_LoadBMP("./assets/pacman_sprites_NES.bmp");
+    spriteSheet_Namco = SDL_LoadBMP("./assets/pacman_sprites_Namco.bmp");
 
-    plancheSprites_originale_formatted = SDL_ConvertSurface(plancheSprites_originale, win_surf->format, 0);
+    // spriteSheet_Namco_formatted = SDL_ConvertSurface(spriteSheet_Namco, win_surf->format, 0);
 
-    if ((!plancheSprites_prof) || (!plancheSprites_originale)) {
+    // if (SDL_SaveBMP(spriteSheet_Namco_formatted, "pacman_sprites_Namco_formatted.bmp") != 0) {
+    //     // handle error
+    //     std::cerr << "Failed to save bitmap: " << SDL_GetError() << std::endl;
+    //     SDL_Quit();
+    //     exit(1);
+    // }
+
+    if ((!spriteSheet_NES) || (!spriteSheet_Namco)) {
         // Handle error loading bitmap
         std::cerr << "Failed to load bitmap: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(pWindow);
-        SDL_Quit();
-        exit(1);
-    }
-
-    if(!plancheSprites_originale_formatted) {
-        // Handle error converting bitmap
-        std::cerr << "Failed to convert bitmap: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
         exit(1);
@@ -37,9 +36,9 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
 
 GameView::~GameView() {
     // Clean up game view related data here
-    SDL_FreeSurface(plancheSprites_prof);
-    SDL_FreeSurface(plancheSprites_originale);
-    SDL_FreeSurface(plancheSprites_originale_formatted);
+    SDL_FreeSurface(spriteSheet_NES);
+    SDL_FreeSurface(spriteSheet_Namco);
+    // SDL_FreeSurface(spriteSheet_Namco_formatted);
     SDL_DestroyWindow(pWindow);
 }
 
@@ -58,16 +57,16 @@ void GameView::render(const Ghost& ghost) {
     CharacterState state = ghost.getState();
     switch (state.direction) {
         case CharacterDirection::RIGHT:
-            ghost_sprite_in = ghost.getSpriteR();
+            ghost_sprite_in = Blinky_sprite_r;
             break;
         case CharacterDirection::DOWN:
-            ghost_sprite_in = ghost.getSpriteD();
+            ghost_sprite_in = Blinky_sprite_d;
             break;
         case CharacterDirection::LEFT:
-            ghost_sprite_in = ghost.getSpriteL();
+            ghost_sprite_in = Blinky_sprite_l;
             break;
         case CharacterDirection::UP:
-            ghost_sprite_in = ghost.getSpriteU();
+            ghost_sprite_in = Blinky_sprite_u;
             break;
     }
 
@@ -82,9 +81,9 @@ void GameView::render(const Ghost& ghost) {
 
 
     // couleur transparente
-    SDL_SetColorKey(plancheSprites_originale_formatted, true, 0);
+    SDL_SetColorKey(spriteSheet_Namco, true, 0);
     // copie du sprite zoomé
-    SDL_BlitScaled(plancheSprites_originale_formatted, &ghost_sprite_in, win_surf, &ghost_sprite);
+    SDL_BlitScaled(spriteSheet_Namco, &ghost_sprite_in, win_surf, &ghost_sprite);
 }
 
 void GameView::render(const PacMan& pacman) {
@@ -93,20 +92,20 @@ void GameView::render(const PacMan& pacman) {
     CharacterState state = pacman.getState();
     switch (state.direction) {
         case CharacterDirection::RIGHT:
-            pacman_sprite_in = pacman.getSpriteR();
+            pacman_sprite_in = pacman_sprite_r;
             break;
         case CharacterDirection::DOWN:
-            pacman_sprite_in = pacman.getSpriteD();
+            pacman_sprite_in = pacman_sprite_d;
             break;
         case CharacterDirection::LEFT:
-            pacman_sprite_in = pacman.getSpriteL();
+            pacman_sprite_in = pacman_sprite_l;
             break;
         case CharacterDirection::UP:
-            pacman_sprite_in = pacman.getSpriteU();
+            pacman_sprite_in = pacman_sprite_u;
             break;
         case CharacterDirection::NONE:
             // TODO: set sprite to round sprite
-            pacman_sprite_in = pacman.getSpriteR();
+            pacman_sprite_in = pacman_sprite_r;
             break;
     }
 
@@ -119,29 +118,33 @@ void GameView::render(const PacMan& pacman) {
     // }
 
     // couleur transparente
-    SDL_SetColorKey(plancheSprites_originale_formatted, true, 0);
+    SDL_SetColorKey(spriteSheet_Namco, true, 0);
     // copie du sprite zoomé
-    SDL_BlitScaled(plancheSprites_originale_formatted, &pacman_sprite_in, win_surf, &pacman_sprite);
+    SDL_BlitScaled(spriteSheet_Namco, &pacman_sprite_in, win_surf, &pacman_sprite);
 }
 
 void GameView::renderMaze() {
-    SDL_SetColorKey(plancheSprites_originale_formatted, false, 0);
+    SDL_SetColorKey(spriteSheet_Namco, false, 0);
 
-    if(SDL_BlitScaled(plancheSprites_originale_formatted, &map_sprite_originale, win_surf, &bg)<0){
+    if(SDL_BlitScaled(spriteSheet_Namco, &map_sprite_originale, win_surf, &bg)<0){
         printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
     }
 }
 
 void GameView::renderHUD() {
-    SDL_Rect pacman_l_medium_sprite= gameModel.getPacMan().getSpriteL();
+    SDL_SetColorKey(spriteSheet_NES, true, 0);
 
-    SDL_SetColorKey(plancheSprites_prof, true, 0);
-    SDL_BlitScaled(plancheSprites_prof, &zero_sprite, win_surf, &first_score_number_pos);
-    SDL_BlitScaled(plancheSprites_prof, &zero_sprite, win_surf, &second_score_number_pos);
-    SDL_BlitScaled(plancheSprites_prof, &one_sprite, win_surf, &one_up_one_pos);
-    SDL_BlitScaled(plancheSprites_prof, &U_sprite, win_surf, &one_up_U_pos);
-    SDL_BlitScaled(plancheSprites_prof, &P_sprite, win_surf, &one_up_P_pos);
-    SDL_BlitScaled(plancheSprites_originale_formatted, &life_sprite, win_surf, &first_life_pos);
-    SDL_BlitScaled(plancheSprites_originale_formatted, &life_sprite, win_surf, &second_life_pos);
-    SDL_BlitScaled(plancheSprites_originale_formatted, &life_sprite, win_surf, &third_life_pos);
+    // Score
+    SDL_BlitScaled(spriteSheet_NES, &zero_sprite, win_surf, &first_score_number_pos);
+    SDL_BlitScaled(spriteSheet_NES, &zero_sprite, win_surf, &second_score_number_pos);
+
+    // 1UP
+    SDL_BlitScaled(spriteSheet_NES, &one_sprite, win_surf, &one_up_one_pos);
+    SDL_BlitScaled(spriteSheet_NES, &U_sprite, win_surf, &one_up_U_pos);
+    SDL_BlitScaled(spriteSheet_NES, &P_sprite, win_surf, &one_up_P_pos);
+
+    // Lives
+    SDL_BlitScaled(spriteSheet_Namco, &life_sprite, win_surf, &first_life_pos);
+    SDL_BlitScaled(spriteSheet_Namco, &life_sprite, win_surf, &second_life_pos);
+    SDL_BlitScaled(spriteSheet_Namco, &life_sprite, win_surf, &third_life_pos);
 }

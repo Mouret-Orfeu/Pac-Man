@@ -3,7 +3,11 @@
 
 #include <iostream>
 
-GameModel::GameModel() : count(0) {
+GameModel::GameModel()
+:count(0),
+ blinky({15, 86}, {55, 55}),
+ pacman({318, 615}, {43, 91})
+{
     // Initialize other game objects here
 }
 
@@ -13,7 +17,7 @@ GameModel::~GameModel() {
 
 void GameModel::update(CharacterDirection input_direction) {
     // Update Ghost top_left_position
-    ghost.move(count);
+    blinky.move(count);
 
     // Update PacMan top_left_position
     if (input_direction != CharacterDirection::NONE)
@@ -25,7 +29,7 @@ void GameModel::update(CharacterDirection input_direction) {
 }
 
 Ghost& GameModel::getGhost() {
-    return ghost;
+    return blinky;
 }
 
 PacMan& GameModel::getPacMan() {

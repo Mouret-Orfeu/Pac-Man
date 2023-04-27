@@ -6,17 +6,8 @@
 
 class Ghost : public Character {
 public:
-    Ghost();
+    Ghost(SDL_Point init_pos_up_left_ghost, SDL_Point init_pos_center_ghost);
     ~Ghost();
 
     void move(int count) override;
-    const SDL_Rect& getSpriteR() const;
-    const SDL_Rect& getSpriteL() const;
-    const SDL_Rect& getSpriteD() const;
-    const SDL_Rect& getSpriteU() const;
-private:
-    const SDL_Rect sprite_r;
-    const SDL_Rect sprite_l;
-    const SDL_Rect sprite_d;
-    const SDL_Rect sprite_u;
 };

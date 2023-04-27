@@ -1,21 +1,11 @@
 #include "PacMan.h"
 #include "Character.h"
 
-#define TILE_SIZE 24
-#define SIZE_PACMAN_SPRITE 13
-#define SIZE_PACMAN_RESIZED 39
+#include <SDL.h>
 
-
-SDL_Point init_pos_up_left_pacman = { 106*3,181*3+3*TILE_SIZE };
-SDL_Point init_pos_center_pacman = { 24+SIZE_PACMAN_RESIZED/2, 72+SIZE_PACMAN_RESIZED/2 };
-
-PacMan::PacMan()
+PacMan::PacMan(SDL_Point init_pos_up_left_pacman, SDL_Point init_pos_center_pacman)
 :Character({CharacterDirection::RIGHT, init_pos_up_left_pacman, init_pos_center_pacman}),
- intended_direction(CharacterDirection::RIGHT),
- sprite_r({ 473,1, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  }),
- sprite_l({ 473,17, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  }),
- sprite_d({ 473,49, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  }),
- sprite_u({ 473,33, SIZE_PACMAN_SPRITE ,SIZE_PACMAN_SPRITE  })
+ intended_direction(CharacterDirection::RIGHT)
 {
     // Initialize PacMan-specific data here
 }
@@ -40,20 +30,4 @@ void PacMan::move(int count) {
 void PacMan::setIntendedDirection(CharacterDirection direction) {
     // Update the direction
     intended_direction = direction;
-}
-
-const SDL_Rect& PacMan::getSpriteR() const {
-    return sprite_r;
-}
-
-const SDL_Rect& PacMan::getSpriteL() const {
-    return sprite_l;
-}
-
-const SDL_Rect& PacMan::getSpriteD() const {
-    return sprite_d;
-}
-
-const SDL_Rect& PacMan::getSpriteU() const {
-    return sprite_u;
 }

@@ -17,7 +17,7 @@ public:
     void setCount(int count);
 
 private:
-    Ghost ghost;
+    Ghost blinky;
     PacMan pacman;
     int count;
 };
