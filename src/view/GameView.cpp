@@ -43,8 +43,8 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
 	win_surf = SDL_GetWindowSurface(pWindow);
 
     //On utilise des sprites venant des ces 2 fichiers
-	plancheSprites_prof = SDL_LoadBMP("./pacman_sprites.bmp");
-    plancheSprites_originale = SDL_LoadBMP("./pacman_sprites_original.bmp");
+	plancheSprites_prof = SDL_LoadBMP("./assets/pacman_sprites.bmp");
+    plancheSprites_originale = SDL_LoadBMP("./assets/pacman_sprites_original.bmp");
 
     if ((!plancheSprites_prof) || (!plancheSprites_originale)) {
         // Handle error loading bitmap
