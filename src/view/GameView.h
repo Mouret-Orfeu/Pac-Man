@@ -33,6 +33,8 @@ private:
     SDL_Surface* win_surf = nullptr;
     SDL_Surface* plancheSprites_prof = nullptr;
     SDL_Surface* plancheSprites_originale = nullptr;
+    SDL_Surface* plancheSprites_originale_formatted = nullptr;
+    
 
     // Constants for the tile size and upscaling factor
     static constexpr int UPSCALING_FACTOR = 3;

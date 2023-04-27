@@ -1,7 +1,7 @@
 #include "Ghost.h"
 
-#define SIZE_GHOST_SPRITE 16
-#define SIZE_GHOST_RESIZED 32
+#define SIZE_GHOST_SPRITE 14
+#define SIZE_GHOST_RESIZED 42
 
 
 SDL_Point init_pos_up_left_Blinky = { 15,75 };
@@ -10,10 +10,10 @@ SDL_Point init_pos_center_Blinky = { 34+SIZE_GHOST_RESIZED/2, 34+SIZE_GHOST_RESI
 
 Ghost::Ghost()
 :Character({CharacterDirection::RIGHT, init_pos_up_left_Blinky, init_pos_center_Blinky}),
- sprite_r({ 3,123, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE }),
- sprite_l({ 37,123, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE }),
- sprite_d({ 105,123, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE }),
- sprite_u({ 71,123, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE })
+ sprite_r({ 457,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE }),
+ sprite_l({ 489,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE }),
+ sprite_d({ 553,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE }),
+ sprite_u({ 521,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE })
 {
     // Initialize Ghost-specific data here
 }

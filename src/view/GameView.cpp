@@ -16,9 +16,19 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
 	plancheSprites_prof = SDL_LoadBMP("./assets/pacman_sprites.bmp");
     plancheSprites_originale = SDL_LoadBMP("./assets/pacman_sprites_original.bmp");
 
+    plancheSprites_originale_formatted = SDL_ConvertSurface(plancheSprites_originale, win_surf->format, 0);
+
     if ((!plancheSprites_prof) || (!plancheSprites_originale)) {
         // Handle error loading bitmap
         std::cerr << "Failed to load bitmap: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(pWindow);
+        SDL_Quit();
+        exit(1);
+    }
+
+    if(!plancheSprites_originale_formatted) {
+        // Handle error converting bitmap
+        std::cerr << "Failed to convert bitmap: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
         exit(1);
@@ -29,6 +39,7 @@ GameView::~GameView() {
     // Clean up game view related data here
     SDL_FreeSurface(plancheSprites_prof);
     SDL_FreeSurface(plancheSprites_originale);
+    SDL_FreeSurface(plancheSprites_originale_formatted);
     SDL_DestroyWindow(pWindow);
 }
 
@@ -61,17 +72,19 @@ void GameView::render(const Ghost& ghost) {
     }
 
     // Update the top_left_position of the ghost sprite based on the CharacterState
-    SDL_Rect ghost_sprite({ state.top_left_position.x,state.top_left_position.y, 32,32 }); // ici scale x2
+    SDL_Rect ghost_sprite({ state.top_left_position.x,state.top_left_position.y, 42,42 }); // ici scale x2
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
     if ((gameModel.getCount() / 4) % 2) {
         ghost_sprite_in.x += 17;
     }
 
+
+
     // couleur transparente
-    SDL_SetColorKey(plancheSprites_prof, true, 0);
+    SDL_SetColorKey(plancheSprites_originale_formatted, true, 0);
     // copie du sprite zoomé
-    SDL_BlitScaled(plancheSprites_prof, &ghost_sprite_in, win_surf, &ghost_sprite);
+    SDL_BlitScaled(plancheSprites_originale_formatted, &ghost_sprite_in, win_surf, &ghost_sprite);
 }
 
 void GameView::render(const PacMan& pacman) {
@@ -98,7 +111,7 @@ void GameView::render(const PacMan& pacman) {
     }
 
     // Update the top_left_position of the ghost sprite based on the CharacterState
-    SDL_Rect pacman_sprite({ state.top_left_position.x,state.top_left_position.y, 32,32 }); // ici scale x2
+    SDL_Rect pacman_sprite({ state.top_left_position.x,state.top_left_position.y, 39,39 }); // ici scale x2
 
     // // ici on change entre les 2 sprites sources pour une jolie animation.
     // if ((gameModel.getCount() / 4) % 2) {
@@ -106,15 +119,14 @@ void GameView::render(const PacMan& pacman) {
     // }
 
     // couleur transparente
-    SDL_SetColorKey(plancheSprites_prof, true, 0);
+    SDL_SetColorKey(plancheSprites_originale_formatted, true, 0);
     // copie du sprite zoomé
-    SDL_BlitScaled(plancheSprites_prof, &pacman_sprite_in, win_surf, &pacman_sprite);
+    SDL_BlitScaled(plancheSprites_originale_formatted, &pacman_sprite_in, win_surf, &pacman_sprite);
 }
 
 void GameView::renderMaze() {
-    SDL_SetColorKey(plancheSprites_originale, false, 0);
+    SDL_SetColorKey(plancheSprites_originale_formatted, false, 0);
 
-    SDL_Surface*  plancheSprites_originale_formatted= SDL_ConvertSurface(plancheSprites_originale, win_surf->format, 0);
     if(SDL_BlitScaled(plancheSprites_originale_formatted, &map_sprite_originale, win_surf, &bg)<0){
         printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
     }
