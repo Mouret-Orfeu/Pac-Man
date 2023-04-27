@@ -28,11 +28,13 @@ public:
 private:
     GameModel& gameModel;
 
+    // SDL window and surfaces
     SDL_Window* pWindow = nullptr;
     SDL_Surface* win_surf = nullptr;
     SDL_Surface* plancheSprites_prof = nullptr;
     SDL_Surface* plancheSprites_originale = nullptr;
 
+    // Constants for the tile size and window/maze dimensions
     static constexpr int TILE_SIZE = 24;
     static constexpr int WINDOW_WIDTH  = 28*TILE_SIZE,
                          WINDOW_HEIGHT = 36*TILE_SIZE;
@@ -41,8 +43,8 @@ private:
     static constexpr int MAZE_WIDTH  = MAZE_COLS*TILE_SIZE,
                          MAZE_HEIGHT = MAZE_ROWS*TILE_SIZE;
 
+    // Constants for the top left corner of the maze and various sprites
     static constexpr SDL_Point map_top_left = {0,48};
-
     static constexpr SDL_Rect map_sprite_originale = { 0,0, 224,248 }; // x,y, w,h (0,0) en haut a gauche
     static constexpr SDL_Rect map_sprite_prof = { 200,3, 168,216 };
     static constexpr SDL_Rect zero_sprite = { 3,52, 8,8 };
@@ -50,6 +52,7 @@ private:
     static constexpr SDL_Rect U_sprite = { 43,68, 9,8 };
     static constexpr SDL_Rect P_sprite = { 3,68, 8,8 };
 
+    // SDL rectangles for maze and HUP elements
     SDL_Rect bg = { 0,3*TILE_SIZE, 224*3,248*3 };
     SDL_Rect first_score_number_pos = { 5*TILE_SIZE,TILE_SIZE, TILE_SIZE-2,TILE_SIZE-2};
     SDL_Rect second_score_number_pos = { 6*TILE_SIZE,TILE_SIZE, TILE_SIZE-2,TILE_SIZE-2};
