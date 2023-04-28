@@ -55,15 +55,15 @@ void GameController::run() {
         if (keys[SDL_SCANCODE_ESCAPE])
             quit = true;
 
-        CharacterDirection input_direction = CharacterDirection::NONE;
+        Character::Direction input_direction = Character::Direction::NONE;
         if (keys[SDL_SCANCODE_LEFT])
-            input_direction = CharacterDirection::LEFT;
+            input_direction = Character::Direction::LEFT;
         if (keys[SDL_SCANCODE_RIGHT])
-            input_direction = CharacterDirection::RIGHT;
+            input_direction = Character::Direction::RIGHT;
         if (keys[SDL_SCANCODE_UP])
-            input_direction = CharacterDirection::UP;
+            input_direction = Character::Direction::UP;
         if (keys[SDL_SCANCODE_DOWN])
-            input_direction = CharacterDirection::DOWN;
+            input_direction = Character::Direction::DOWN;
 
         //là dedans y'a move pourtous les persos
         gameModel.update(input_direction);

@@ -12,14 +12,14 @@ public:
     PacMan();
 
     /*
-    * @brief Constructeur qui permet de faire spawn pacman à une autre position 
+    * @brief Constructeur qui permet de faire spawn pacman à une autre position
     */
-    PacMan(SDL_Point init_pos_up_left_pacman);
-    
+    PacMan(SDL_Point pos_center);
+
     ~PacMan();
 
     void move(int count) override;
-    void setIntendedDirection(CharacterDirection direction);
+    void setIntendedDirection(Direction direction);
 private:
-    CharacterDirection intended_direction;
+    Direction intended_direction;
 };

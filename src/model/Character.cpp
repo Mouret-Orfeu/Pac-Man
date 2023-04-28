@@ -1,39 +1,26 @@
 #include "Character.h"
 #include "view/GameView.h"
 
-Character::Character(CharacterState state)
+Character::Character(State state)
 : state(state)
 {}
 
 Character::~Character() {}
 
-CharacterState Character::getState() const {
+Character::State Character::getState() const {
     return state;
 }
 
-void Character::setState(const CharacterState& state) {
+void Character::setState(const State& state) {
     this->state = state;
 }
 
-CharacterDirection Character::getDirection() const {
+Character::Direction Character::getDirection() const {
     return state.direction;
 }
 
-void Character::setDirection(CharacterDirection direction) {
+void Character::setDirection(Direction direction) {
     state.direction = direction;
-}
-
-SDL_Point Character::getTopLeftPosition() const{
-    return state.top_left_position;
-}
-
-void Character::setTopLeftPosition(int x, int y) {
-    // TODO: use attributes of Character
-    // when they are defined instead of hard-coded values
-    state.top_left_position.x = x;
-    state.top_left_position.y = y;
-    state.center_position.x = x + 6*3;
-    state.center_position.y = y + 6*3;
 }
 
 SDL_Point Character::getCenterPosition() const {
@@ -41,12 +28,14 @@ SDL_Point Character::getCenterPosition() const {
 }
 
 void Character::setCenterPosition(int x, int y) {
-    // TODO: use attributes of Character
-    // when they are defined instead of hard-coded values
     state.center_position.x = x;
     state.center_position.y = y;
-    state.top_left_position.x = x - 6*3;
-    state.top_left_position.y = y - 6*3;
+    state.tile_position.x = state.center_position.x/8;
+    state.tile_position.y = state.center_position.y/8;
+}
+
+SDL_Point Character::computeTilePosition(SDL_Point center_position) {
+    return {center_position.x/8, center_position.y/8};
 }
 
 SDL_Point Character::getTilePosition() const {
@@ -56,56 +45,57 @@ SDL_Point Character::getTilePosition() const {
 void Character::setTilePosition(int x, int y) {
     state.tile_position.x = x;
     state.tile_position.y = y;
+    // TODO: update center_position
 }
 
 void Character::updatePosition () {
     switch (state.direction) {
-        case CharacterDirection::UP:
-            state.top_left_position.y -= 1;
+        case Direction::UP:
             state.center_position.y -= 1;
             break;
-        case CharacterDirection::DOWN:
-            state.top_left_position.y += 1;
+        case Direction::DOWN:
             state.center_position.y += 1;
             break;
-        case CharacterDirection::LEFT:
-            state.top_left_position.x -= 1;
+        case Direction::LEFT:
             state.center_position.x -= 1;
             break;
-        case CharacterDirection::RIGHT:
-            state.top_left_position.x += 1;
+        case Direction::RIGHT:
             state.center_position.x += 1;
             break;
         default:
             break;
     }
 
-    state.tile_position.x = state.center_position.x/24;
-    state.tile_position.y = state.center_position.y/24;
+    state.tile_position.x = state.center_position.x/8;
+    state.tile_position.y = state.center_position.y/8;
+}
+
+SDL_Point Character::getCoordCenterTile(SDL_Point tile_pos) {
+    return {tile_pos.x*8+4, tile_pos.y*8+4};
 }
 
 bool Character::isTileLegal (const SDL_Point& tile) const
 {
-    if(GameViewConstants::MAP[tile.x][tile.y]!=-1)
+    if(GameViewConstants::TILES[tile.x][tile.y]!=-1)
         return true;
     else
         return false;
 }
 
-SDL_Point Character::getNextTile(const SDL_Point& curent_tile, const CharacterDirection& direction) const
+SDL_Point Character::getNextTile(const SDL_Point& curent_tile, const Direction& direction) const
 {
     SDL_Point next_tile = curent_tile;
     switch (direction) {
-        case CharacterDirection::UP:
+        case Direction::UP:
             next_tile.y -= 1;
             break;
-        case CharacterDirection::DOWN:
+        case Direction::DOWN:
             next_tile.y += 1;
             break;
-        case CharacterDirection::LEFT:
+        case Direction::LEFT:
             next_tile.x -= 1;
             break;
-        case CharacterDirection::RIGHT:
+        case Direction::RIGHT:
             next_tile.x += 1;
             break;
         default:
@@ -114,10 +104,6 @@ SDL_Point Character::getNextTile(const SDL_Point& curent_tile, const CharacterDi
     return next_tile;
 }
 
-bool Character::isCenteredOnTile() const
-{
-    if(state.center_position.x%24==0 && state.center_position.y%24==0)
-        return true;
-    else
-        return false;
+bool Character::isCenteredOnTile() const {
+    return state.center_position.x%8==0 && state.center_position.y%8==0;
 }

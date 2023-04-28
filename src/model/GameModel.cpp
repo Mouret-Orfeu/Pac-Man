@@ -5,7 +5,7 @@
 
 GameModel::GameModel()
 :count(0),
- blinky({15, 87}, {33, 105}),
+ blinky(),
  pacman()
 {
     // Initialize other game objects here
@@ -15,12 +15,12 @@ GameModel::~GameModel() {
     // Clean up if necessary
 }
 
-void GameModel::update(CharacterDirection input_direction) {
+void GameModel::update(Character::Direction input_direction) {
     // Update Ghost top_left_position
     blinky.move(count);
 
     // Update PacMan top_left_position
-    if (input_direction != CharacterDirection::NONE)
+    if (input_direction != Character::Direction::NONE)
         pacman.setIntendedDirection(input_direction);
     pacman.move(count);
 

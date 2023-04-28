@@ -8,7 +8,7 @@ public:
     GameModel();
     ~GameModel();
 
-    void update(CharacterDirection input_direction);
+    void update(Character::Direction input_direction);
 
     Ghost& getGhost();
     PacMan& getPacMan();

@@ -6,43 +6,6 @@
 #include <SDL.h>
 #include <iostream>
 
-//DEBUG
-void TileOutline(SDL_Surface* win_surf, int x, int y)
-{
-    // Create a new surface with the square outline
-    SDL_Surface* squareOutline = SDL_CreateRGBSurface(0, 24, 24, 32, 0, 0, 0, 0);
-    SDL_FillRect(squareOutline, NULL, SDL_MapRGB(squareOutline->format, 255, 0, 0));
-    SDL_Rect outlineRect = { 2, 2, 20, 20 };
-    SDL_FillRect(squareOutline, &outlineRect, SDL_MapRGB(squareOutline->format, 0, 0, 0));
-
-    // Copy the square outline onto the main surface
-    SDL_Rect destRect = { x, y, 24, 24 };
-    SDL_SetColorKey(squareOutline, true, 0);
-    SDL_BlitSurface(squareOutline, NULL, win_surf, &destRect);
-
-    // Free the temporary surface
-    SDL_FreeSurface(squareOutline);
-}
-
-//DEBUG
-void drawAllTileOuline(SDL_Surface* win_surf)
-{
-    int x = 0;
-    int y = 0;
-    for(int i = 0; i < 28; i++)
-    {
-        for (int j = 0; j < 36; j++)
-        {
-            x=i*24;
-            y=j*24;
-            TileOutline(win_surf, x, y);
-        }
-        
-    }
-
-}
-
-
 
 GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     // Initialize game view related data here
@@ -81,8 +44,6 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     //DEBUG
     //grid_surface = SDL_CreateRGBSurface(0, WINDOW_WIDTH, WINDOW_HEIGHT, 32, 0, 0, 0, 0);
     //SDL_FillRect(grid_surface, NULL, SDL_MapRGB(grid_surface->format, 255, 0, 0)); // fill grid surface with red color
-
-    
 }
 
 GameView::~GameView() {
@@ -104,120 +65,144 @@ void GameView::draw() {
 
 void GameView::render(const Ghost& ghost) {
     // petit truc pour faire tourner le fantome
-    SDL_Rect ghost_sprite_in;
-    CharacterState state = ghost.getState();
+    SDL_Rect ghost_sprite;
+    Ghost::State state = ghost.getState();
     switch (state.direction) {
-        case CharacterDirection::RIGHT:
-            ghost_sprite_in = Blinky_sprite_r;
+        case Ghost::Direction::RIGHT:
+            ghost_sprite = Blinky_sprite_r;
             break;
-        case CharacterDirection::DOWN:
-            ghost_sprite_in = Blinky_sprite_d;
+        case Ghost::Direction::DOWN:
+            ghost_sprite = Blinky_sprite_d;
             break;
-        case CharacterDirection::LEFT:
-            ghost_sprite_in = Blinky_sprite_l;
+        case Ghost::Direction::LEFT:
+            ghost_sprite = Blinky_sprite_l;
             break;
-        case CharacterDirection::UP:
-            ghost_sprite_in = Blinky_sprite_u;
+        case Ghost::Direction::UP:
+            ghost_sprite = Blinky_sprite_u;
             break;
     }
-
-    // Update the top_left_position of the ghost sprite based on the CharacterState
-    SDL_Rect ghost_sprite({ state.top_left_position.x,state.top_left_position.y, 42,42 }); // ici scale x2
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
     if ((gameModel.getCount() / 4) % 2) {
-        ghost_sprite_in.x += 16;
+        ghost_sprite.x += 16;
     }
 
-
-
-    // couleur transparente
-    SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
-    // copie du sprite zoomé
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &ghost_sprite_in, win_surf, &ghost_sprite);
+    renderSprite(spriteSheet_Namco_formatted, &ghost_sprite, getTopLeftPosition(state.center_position, SIZE_GHOST_SPRITE), true);
 }
 
 void GameView::render(const PacMan& pacman) {
     // petit truc pour faire tourner le fantome
     SDL_Rect pacman_sprite_in;
-    CharacterState state = pacman.getState();
+    PacMan::State state = pacman.getState();
     switch (state.direction) {
-        case CharacterDirection::RIGHT:
+        case PacMan::Direction::RIGHT:
             pacman_sprite_in = pacman_sprite_r;
             break;
-        case CharacterDirection::DOWN:
+        case PacMan::Direction::DOWN:
             pacman_sprite_in = pacman_sprite_d;
             break;
-        case CharacterDirection::LEFT:
+        case PacMan::Direction::LEFT:
             pacman_sprite_in = pacman_sprite_l;
             break;
-        case CharacterDirection::UP:
+        case PacMan::Direction::UP:
             pacman_sprite_in = pacman_sprite_u;
             break;
-        case CharacterDirection::NONE:
+        case PacMan::Direction::NONE:
             // TODO: set sprite to round sprite
             pacman_sprite_in = pacman_sprite_r;
             break;
     }
-
-    // Update the top_left_position of the ghost sprite based on the CharacterState
-    SDL_Rect pacman_sprite({ state.top_left_position.x,state.top_left_position.y, 39,39 }); // ici scale x2
 
     // // ici on change entre les 2 sprites sources pour une jolie animation.
     // if ((gameModel.getCount() / 4) % 2) {
     //     pacman_sprite_in.x += 17;
     // }
 
-    // couleur transparente
-    SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
-    // copie du sprite zoomé
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_sprite_in, win_surf, &pacman_sprite);
+    renderSprite(spriteSheet_Namco_formatted, &pacman_sprite_in, getTopLeftPosition(state.center_position, SIZE_PACMAN_SPRITE), true);
 
-    TileOutline(win_surf, state.tile_position.x*GameViewConstants::TILE_SIZE, state.tile_position.y*TILE_SIZE);
+    TileOutline(win_surf, state.tile_position);
 }
 
 void GameView::renderMaze() {
-    SDL_SetColorKey(spriteSheet_Namco_formatted, false, 0);
+    renderSprite(spriteSheet_Namco_formatted, &map_sprite_originale, {0,3*TILE_SIZE}, false);
+}
 
-    if(SDL_BlitScaled(spriteSheet_Namco_formatted, &map_sprite_originale, win_surf, &bg)<0){
+void GameView::renderHUD() {
+    // Score
+    renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({5*TILE_SIZE,TILE_SIZE}), true);
+    renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({6*TILE_SIZE,TILE_SIZE}), true);
+
+    // 1UP
+    renderSprite(spriteSheet_NES, &one_sprite, SDL_Point({3*TILE_SIZE,0}), true);
+    renderSprite(spriteSheet_NES, &U_sprite, SDL_Point({4*TILE_SIZE,0}), true);
+    renderSprite(spriteSheet_NES, &P_sprite, SDL_Point({5*TILE_SIZE,0}), true);
+
+    // Lives
+    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,HEIGHT-2*TILE_SIZE+2}), true);
+    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({4*TILE_SIZE+3,HEIGHT-2*TILE_SIZE+2}), true);
+    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({6*TILE_SIZE+3,HEIGHT-2*TILE_SIZE+2}), true);
+}
+
+
+void GameView::renderSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency) {
+    // Set the black pixels transparency
+    SDL_SetColorKey(sprite_sheet, transparency, 0);
+    // Create an upscaled sprite at the right position
+    int w, h;
+    if (sprite != NULL) {
+        w = sprite->w;
+        h = sprite->h;
+    } else {
+        w = sprite_sheet->w;
+        h = sprite_sheet->h;
+    }
+    SDL_Rect sprite_out = {UPSCALING_FACTOR*top_left_position.x, UPSCALING_FACTOR*top_left_position.y, UPSCALING_FACTOR*w, UPSCALING_FACTOR*h};
+    // Copy the upscaled sprite to the window surface
+    if(SDL_BlitScaled(sprite_sheet, sprite, win_surf, &sprite_out)<0){
         printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
     }
 }
 
-void GameView::renderHUD() {
-    SDL_SetColorKey(spriteSheet_NES, true, 0);
-
-    // Score
-    SDL_BlitScaled(spriteSheet_NES, &zero_sprite, win_surf, &first_score_number_pos);
-    SDL_BlitScaled(spriteSheet_NES, &zero_sprite, win_surf, &second_score_number_pos);
-
-    // 1UP
-    SDL_BlitScaled(spriteSheet_NES, &one_sprite, win_surf, &one_up_one_pos);
-    SDL_BlitScaled(spriteSheet_NES, &U_sprite, win_surf, &one_up_U_pos);
-    SDL_BlitScaled(spriteSheet_NES, &P_sprite, win_surf, &one_up_P_pos);
-
-    // Lives
-    SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &third_life_pos);
-    
-            
-            
-
+SDL_Point GameView::computeCenterPosition(SDL_Point top_left_position, int size) {
+    return {top_left_position.x+(size-1)/2, top_left_position.y+(size-1)/2};
 }
 
-SDL_Point computeCenterPosition(SDL_Point top_left_position, int size) {
-    return {top_left_position.x+size/2, top_left_position.y+size/2};
-}
-
-SDL_Point computeTilePosition(SDL_Point top_left_position, int size) {
+SDL_Point GameView::computeTilePosition(SDL_Point top_left_position, int size) {
     SDL_Point center_position = computeCenterPosition(top_left_position, size);
-    return {center_position.x/24, center_position.y/24};
+    return {center_position.x/8, center_position.y/8};
 }
 
-SDL_Point getCoordCenterTile(SDL_Point tile_pos)
-{
-    return {tile_pos.x*24+12, tile_pos.y*24+12};
+SDL_Point GameView::getCoordCenterTile(SDL_Point tile_pos) {
+    return {tile_pos.x*8+4, tile_pos.y*8+4};
 }
 
+SDL_Point GameView::getTopLeftPosition(SDL_Point position, int size) {
+    return {position.x-(size-1)/2, position.y-(size-1)/2};
+}
+
+//DEBUG
+void GameView::TileOutline(SDL_Surface* win_surf, SDL_Point tile_position) {
+    int x = tile_position.x*TILE_SIZE,
+        y = tile_position.y*TILE_SIZE;
+    // Create a new surface with the square outline
+    SDL_Surface* redSquare = SDL_CreateRGBSurface(0, 8, 8, 32, 0, 0, 0, 0);
+    SDL_FillRect(redSquare, NULL, SDL_MapRGB(redSquare->format, 255, 0, 0));
+    SDL_Rect blackSquare = { 1,1, 6,6 };
+    SDL_FillRect(redSquare, &blackSquare, SDL_MapRGB(redSquare->format, 0, 0, 0));
+
+    // Copy the square outline onto the main surface
+    // SDL_Rect destRect = { x,y, 8,8 };
+    SDL_SetColorKey(redSquare, true, 0);
+    renderSprite(redSquare, NULL, {x,y}, true);
+    // SDL_BlitSurface(redSquare, NULL, win_surf, &destRect);
+
+    // Free the temporary surface
+    SDL_FreeSurface(redSquare);
+}
+
+//DEBUG
+void GameView::drawAllTileOutlines() {
+    for(int i = 0; i < 28; i++)
+        for (int j = 0; j < 36; j++)
+            TileOutline(win_surf, {i,j});
+}

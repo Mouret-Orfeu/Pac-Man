@@ -6,16 +6,16 @@
 
 
 
-PacMan::PacMan(SDL_Point pos_up_left)
-:Character({CharacterDirection::RIGHT, pos_up_left, computeCenterPosition(pos_up_left, GameViewConstants::SIZE_PACMAN_SPRITE_RESIZED),  computeTilePosition(pos_up_left, GameViewConstants::SIZE_PACMAN_SPRITE_RESIZED)}),
-intended_direction(CharacterDirection::RIGHT)
+PacMan::PacMan(SDL_Point pos_center)
+:Character({Direction::RIGHT, pos_center, computeTilePosition(pos_center)}),
+intended_direction(Direction::RIGHT)
 {
     // Initialize PacMan-specific data here
 }
 
 PacMan::PacMan()
-:Character({CharacterDirection::RIGHT, GameViewConstants::init_pos_up_left_pacman, GameViewConstants::init_pos_center_pacman, GameViewConstants::init_pos_tile_pacman}),
- intended_direction(CharacterDirection::RIGHT) 
+:Character({Direction::RIGHT, GameViewConstants::init_pos_center_pacman, computeTilePosition(init_pos_center_pacman)}),
+ intended_direction(Direction::RIGHT)
 {
     // Initialize PacMan-specific data here
 }
@@ -41,14 +41,14 @@ void PacMan::move(int count) {
         //}
 
         state.direction = intended_direction;
-        
+
     }
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
     updatePosition ();
 }
 
-void PacMan::setIntendedDirection(CharacterDirection direction) {
+void PacMan::setIntendedDirection(Direction direction) {
     // Update the direction
     intended_direction = direction;
 }

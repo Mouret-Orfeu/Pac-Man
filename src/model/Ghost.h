@@ -6,7 +6,8 @@
 
 class Ghost : public Character {
 public:
-    Ghost(SDL_Point init_pos_up_left_ghost, SDL_Point init_pos_center_ghost);
+    Ghost(SDL_Point init_pos_center_ghost);
+    Ghost();
     ~Ghost();
 
     void move(int count) override;
