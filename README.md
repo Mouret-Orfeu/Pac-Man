@@ -21,3 +21,8 @@ cmake --build ./
 ```
 
 Alternatively, you can use `cmake --build ./ -j8` to enable cmake to use 8 cores for parallel compilation (change 8 to whatever the number of cores you want to use).
+
+# Details
+
+Le nombre de points maximum prévu est 1 000 000
+
