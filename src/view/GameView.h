@@ -121,6 +121,8 @@ public:
     void renderHUD();
     void renderMaze();
 
+    SDL_Surface* getPrintableScore(int score);
+
 private:
     GameModel& gameModel;
 
@@ -135,28 +137,66 @@ private:
    
 
     // Constants for the top left corner of the maze and various sprites
+    static constexpr int MAX_SCORE_DIGITS = 7;
     static constexpr int SIZE_LIFE_SPRITE = 11;
     static constexpr int SIZE_LIFE_SPRITE_RESIZED = UPSCALING_FACTOR*SIZE_LIFE_SPRITE;
+
     static constexpr SDL_Point map_top_left = {0,3*TILE_SIZE};
     static constexpr SDL_Rect map_sprite_originale = { 0,0, MAZE_COLS*ORIGINAL_TILE_SIZE,MAZE_ROWS*ORIGINAL_TILE_SIZE }; // x,y, w,h (0,0) en haut a gauche
     static constexpr SDL_Rect map_sprite_prof = { 200,3, 168,216 };
-    static constexpr SDL_Rect zero_sprite = { 3,52, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect one_sprite = { 11,52, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect U_sprite = { 43,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect P_sprite = { 3,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    
+    static constexpr SDL_Rect zero_sprite = { 3,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect one_sprite = { 12,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect two_sprite = { 19,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect three_sprite = { 27,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect four_sprite = { 35,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect five_sprite = { 43,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect six_sprite = { 51,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect seven_sprite = { 59,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect eight_sprite = { 67,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect nine_sprite = { 75,53, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };   
+
+
+    static constexpr SDL_Rect U_sprite = { 44,69, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect P_sprite = { 4,69, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect H_sprite = { 67,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect I_sprite = { 76,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect G_sprite = { 59,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect C_sprite = { 27,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect O_sprite = { 123,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect E_sprite = { 43,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect R_sprite = { 19,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect S_sprite = { 27,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+
+
     static constexpr SDL_Rect life_sprite = { 587,18, SIZE_LIFE_SPRITE,SIZE_LIFE_SPRITE};
+
 
     
     static constexpr SDL_Rect Blinky_sprite_r = { 457,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_l = { 489,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_d = { 553,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_u = { 521,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    
     // Pinky
-    // ...
+    static constexpr SDL_Rect Pinky_sprite_r = { 457,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_l = { 489,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_d = { 553,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_u = { 521,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    
     // Inky
-    // ...
+    static constexpr SDL_Rect Inky_sprite_r = { 457,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_l = { 489,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_d = { 553,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_u = { 521,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+
+
     // Clyde
-    // ...
+    static constexpr SDL_Rect Clyde_sprite_r = { 457,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_l = { 489,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_d = { 553,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_u = { 521,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+
 
     // PacMan sprites
     static constexpr SDL_Rect pacman_sprite_r = { 473,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
@@ -166,11 +206,24 @@ private:
 
     // SDL rectangles for maze and HUP elements
     SDL_Rect bg = { 0,3*TILE_SIZE, MAZE_COLS*TILE_SIZE,MAZE_ROWS*TILE_SIZE };
+
     SDL_Rect first_score_number_pos = { 5*TILE_SIZE,TILE_SIZE, TILE_SIZE,TILE_SIZE };
     SDL_Rect second_score_number_pos = { 6*TILE_SIZE,TILE_SIZE, TILE_SIZE,TILE_SIZE };
+
     SDL_Rect one_up_one_pos = { 3*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
     SDL_Rect one_up_U_pos = { 4*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
     SDL_Rect one_up_P_pos = { 5*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+
+    SDL_Rect H1_high_score_pos = { 10*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect I_high_score_pos = { 11*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect G_high_score_pos = { 12*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect H2_high_score_pos = { 13*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect S_high_score_pos = { 15*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect C_high_score_pos = { 16*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect O_high_score_pos = { 17*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect R_high_score_pos = { 18*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+    SDL_Rect E_high_score_pos = { 19*TILE_SIZE,0, TILE_SIZE,TILE_SIZE };
+
     SDL_Rect first_life_pos = { 2*TILE_SIZE+UPSCALING_FACTOR*3,WINDOW_HEIGHT-2*TILE_SIZE+UPSCALING_FACTOR*2, SIZE_LIFE_SPRITE_RESIZED,SIZE_LIFE_SPRITE_RESIZED};
     SDL_Rect second_life_pos = { 4*TILE_SIZE+UPSCALING_FACTOR*3,WINDOW_HEIGHT-2*TILE_SIZE+UPSCALING_FACTOR*2, SIZE_LIFE_SPRITE_RESIZED,SIZE_LIFE_SPRITE_RESIZED };
     SDL_Rect third_life_pos = { 6*TILE_SIZE+UPSCALING_FACTOR*3,WINDOW_HEIGHT-2*TILE_SIZE+UPSCALING_FACTOR*2, SIZE_LIFE_SPRITE_RESIZED,SIZE_LIFE_SPRITE_RESIZED };

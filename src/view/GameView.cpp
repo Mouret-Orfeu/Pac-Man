@@ -188,8 +188,22 @@ void GameView::renderHUD() {
     SDL_SetColorKey(spriteSheet_NES, true, 0);
 
     // Score
-    SDL_BlitScaled(spriteSheet_NES, &zero_sprite, win_surf, &first_score_number_pos);
-    SDL_BlitScaled(spriteSheet_NES, &zero_sprite, win_surf, &second_score_number_pos);
+    int score = gameModel.getScore();
+    SDL_Surface* score_surf= getPrintableScore(score);
+    SDL_Rect score_pos = { 0, TILE_SIZE, 7*TILE_SIZE, TILE_SIZE};
+    SDL_BlitScaled(score_surf, NULL, win_surf, &score_pos);
+
+    // "High Score" 
+    SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H1_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &I_sprite, win_surf, &I_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &G_sprite, win_surf, &G_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H2_high_score_pos);
+    
+    SDL_BlitScaled(spriteSheet_NES, &S_sprite, win_surf, &S_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &C_sprite, win_surf, &C_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &O_sprite, win_surf, &O_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &R_sprite, win_surf, &R_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &E_sprite, win_surf, &E_high_score_pos);   
 
     // 1UP
     SDL_BlitScaled(spriteSheet_NES, &one_sprite, win_surf, &one_up_one_pos);
@@ -219,5 +233,85 @@ SDL_Point computeTilePosition(SDL_Point top_left_position, int size) {
 SDL_Point getCoordCenterTile(SDL_Point tile_pos)
 {
     return {tile_pos.x*24+12, tile_pos.y*24+12};
+}
+
+
+SDL_Surface* GameView::getPrintableScore(int score)
+{
+
+    // Create a new surface to contain the score images
+    SDL_Surface* scoreSurface = SDL_CreateRGBSurface(0, ORIGINAL_TILE_SIZE*7, ORIGINAL_TILE_SIZE, 32, 0, 0, 0, 0);
+
+    if(score==0)
+    {   
+        //si le score est 0 j'affiche 00 
+        SDL_Rect dest1 = { 6*ORIGINAL_TILE_SIZE, 0, ORIGINAL_TILE_SIZE, ORIGINAL_TILE_SIZE };
+        SDL_BlitScaled(spriteSheet_NES, &zero_sprite, scoreSurface, &dest1);
+        SDL_Rect dest2 = { 5*ORIGINAL_TILE_SIZE, 0, ORIGINAL_TILE_SIZE, ORIGINAL_TILE_SIZE };
+        SDL_BlitScaled(spriteSheet_NES, &zero_sprite, scoreSurface, &dest2);
+        
+        return scoreSurface;
+    }
+
+    // Convert the score to a string
+    std::string scoreString = std::to_string(score);
+    
+    //position en nombre de tile du nombre
+    int pos=MAX_SCORE_DIGITS-1;
+
+    // Loop through the characters in the score string
+    for (int i = scoreString.length()-1; i>-1 ; i--)
+    {
+        // Get the sprite for the current digit
+        SDL_Rect sprite;
+        switch (scoreString[i])
+        {
+            case '0':
+                sprite = zero_sprite;
+                break;
+            case '1':
+                sprite = one_sprite;
+                break;
+            case '2':
+                sprite = two_sprite;
+                break;
+            case '3':
+                sprite = three_sprite;
+                break;
+            case '4':
+                sprite = four_sprite;
+                break;
+            case '5':
+                sprite = five_sprite;
+                break;
+            case '6':
+                sprite = six_sprite;
+                break;
+            case '7':
+                sprite = seven_sprite;
+                break;
+            case '8':
+                sprite = eight_sprite;
+                break;
+            case '9':
+                sprite = nine_sprite;
+                break;
+            default:
+                sprite = zero_sprite;
+                break;
+        }
+
+        
+
+        // Copy the sprite to the score surface
+        SDL_Rect dest = { pos*ORIGINAL_TILE_SIZE, 0, ORIGINAL_TILE_SIZE, ORIGINAL_TILE_SIZE };
+
+        SDL_BlitSurface(spriteSheet_NES, &sprite, scoreSurface, &dest);
+
+        pos--;
+    }
+
+    // Return the score surface
+    return scoreSurface;
 }
 

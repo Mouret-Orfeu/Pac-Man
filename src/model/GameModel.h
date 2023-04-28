@@ -16,8 +16,12 @@ public:
     int getCount() const;
     void setCount(int count);
 
+    int getScore() const;
+    void setScore(int score);
+
 private:
     Ghost blinky;
     PacMan pacman;
     int count;
+    int score=0;
 };

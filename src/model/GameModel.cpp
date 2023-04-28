@@ -43,3 +43,11 @@ int GameModel::getCount() const {
 void GameModel::setCount(int count) {
     this->count = count;
 }
+
+int GameModel::getScore() const {
+    return score;
+}
+
+void GameModel::setScore(int score) {
+    this->score = score;
+}
