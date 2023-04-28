@@ -5,13 +5,6 @@
 
 #include <SDL.h>
 
-enum class Cell {
-    WALL = -1,
-    EMPTY = 0,
-    DOT = 1,
-    POWER_PELLET = 2,
-    // FRUIT = 3,
-};
 
 class GameView {
 public:
@@ -19,29 +12,32 @@ public:
     ~GameView();
 
     void draw();
-    void draw_death(int death_sprite_count);
+    void drawDeathAnimation(int death_sprite_count);
 
-    void render(const Ghost& ghost);
-    void render(const PacMan& pacman);
-    void renderHUD();
-    void renderMaze();
+    void drawGhost(const Ghost& ghost);
+    void drawPacMan(const PacMan& pacman);
+
+    void drawHUD();
+    void drawMaze();
 
     void drawScore(int score, bool highscore);
     void drawText();
     void drawLives(int lives);
 
-    void displayPacmanDeath(int death_frame);
-
-    void renderSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency);
+    void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency);
+    // DEBUG
+    void drawSpriteAlpha(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency, Uint8 alpha);
 
     SDL_Point getTopLeftPosition(SDL_Point position, int size);
     SDL_Point computeCenterPosition(SDL_Point top_left_position, int size);
     SDL_Point computeTilePosition(SDL_Point top_left_position, int size);
-    SDL_Point getCoordCenterTile(SDL_Point tile_pos);
+    SDL_Point getCoordCenterTile(SDL_Point tile_position);
 
     // DEBUG
-    void TileOutline(SDL_Surface* win_surf, SDL_Point tile_position);
+    void drawTileOutline(SDL_Point tile_position);
     void drawAllTileOutlines();
+    // void drawColoredTile(SDL_Point tile_position);
+    void drawAllColoredTiles();
 
 private:
     GameModel& gameModel;
@@ -50,8 +46,9 @@ private:
     SDL_Window* pWindow = nullptr;
     SDL_Surface* win_surf = nullptr;
     SDL_Surface* spriteSheet_NES = nullptr;
+    SDL_Surface* spriteSheet_Namco_before_conversion = nullptr;
     SDL_Surface* spriteSheet_Namco = nullptr;
-    SDL_Surface* spriteSheet_Namco_formatted = nullptr;
+    // SDL_Renderer* renderer; // DEBUG
 
     // Upscaling factor
     static constexpr int UPSCALING_FACTOR = 3;
@@ -73,16 +70,18 @@ private:
     // HUP sprites
     static constexpr int SIZE_LIFE_SPRITE = 11;
     static constexpr SDL_Rect life_sprite = { 587,18, SIZE_LIFE_SPRITE,SIZE_LIFE_SPRITE};
-    static constexpr SDL_Rect zero_sprite = { 3,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect one_sprite = { 12,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect two_sprite = { 19,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect three_sprite = { 27,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect four_sprite = { 35,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect five_sprite = { 43,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect six_sprite = { 51,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect seven_sprite = { 59,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect eight_sprite = { 67,53, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect nine_sprite = { 75,53, TILE_SIZE,TILE_SIZE };
+    static constexpr SDL_Rect num_sprites[10] = {
+        { 3,53, TILE_SIZE,TILE_SIZE },  // 0
+        { 12,53, TILE_SIZE,TILE_SIZE }, // 1
+        { 19,53, TILE_SIZE,TILE_SIZE }, // 2
+        { 27,53, TILE_SIZE,TILE_SIZE }, // 3
+        { 35,53, TILE_SIZE,TILE_SIZE }, // 4
+        { 43,53, TILE_SIZE,TILE_SIZE }, // 5
+        { 51,53, TILE_SIZE,TILE_SIZE }, // 6
+        { 59,53, TILE_SIZE,TILE_SIZE }, // 7
+        { 67,53, TILE_SIZE,TILE_SIZE }, // 8
+        { 75,53, TILE_SIZE,TILE_SIZE }  // 9
+    };
 
 
     static constexpr SDL_Rect U_sprite = { 44,69, TILE_SIZE,TILE_SIZE };
@@ -90,16 +89,14 @@ private:
     static constexpr SDL_Rect H_sprite = { 67,61, TILE_SIZE,TILE_SIZE };
     static constexpr SDL_Rect I_sprite = { 76,61, TILE_SIZE,TILE_SIZE };
     static constexpr SDL_Rect G_sprite = { 59,61, TILE_SIZE,TILE_SIZE };
+    static constexpr SDL_Rect S_sprite = { 27,69, TILE_SIZE,TILE_SIZE };
     static constexpr SDL_Rect C_sprite = { 27,61, TILE_SIZE,TILE_SIZE };
     static constexpr SDL_Rect O_sprite = { 123,61, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect E_sprite = { 43,61, TILE_SIZE,TILE_SIZE };
     static constexpr SDL_Rect R_sprite = { 19,69, TILE_SIZE,TILE_SIZE };
-    static constexpr SDL_Rect S_sprite = { 27,69, TILE_SIZE,TILE_SIZE };
+    static constexpr SDL_Rect E_sprite = { 43,61, TILE_SIZE,TILE_SIZE };
 
-
-
-    static constexpr int SIZE_GHOST_SPRITE = 14;
     // Ghost sprites
+    static constexpr int SIZE_GHOST_SPRITE = 14;
     // Blinky
     static constexpr SDL_Rect Blinky_sprite_r = { 457,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_l = { 489,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
@@ -123,22 +120,24 @@ private:
 
     // PacMan sprites
     static constexpr int SIZE_PACMAN_SPRITE = 13;
+    // Directional sprites
     static constexpr SDL_Rect pacman_sprite_r = { 473,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_l = { 473,17, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_d = { 473,49, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_u = { 473,33, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_full = { 489,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-
-    // PacMan death sprites
-    static constexpr SDL_Rect pacman_death_sprite_1 = { 503,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_2 = { 520,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_3 = { 536,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_4 = { 552,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_5 = { 568,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_6 = { 584,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_7 = { 600,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_8 = { 616,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_9 = { 632,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_10 = { 648,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_death_sprite_11 = { 664,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    // Death sprites
+    static constexpr SDL_Rect pacman_death_sprites[11] = {
+        { 503,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 520,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 536,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 552,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 568,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 584,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 600,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 616,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 632,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 648,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
+        { 664,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE }
+    };
 };

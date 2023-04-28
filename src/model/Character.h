@@ -52,7 +52,7 @@ public:
     SDL_Point getTopLeftPosition() const;
     void setTopLeftPosition(int x, int y);
 
-    SDL_Point getCenterPosition() const;
+    SDL_Point getPosition() const;
     void setCenterPosition(int x, int y);
 
     SDL_Point computeTilePosition(SDL_Point center_position);

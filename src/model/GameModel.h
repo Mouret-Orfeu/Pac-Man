@@ -41,6 +41,15 @@ public:
     static constexpr int WIDTH  = COLS*TILE_SIZE,
                          HEIGHT = ROWS*TILE_SIZE;
 
+    // Maze cells
+    enum class Cell {
+        WALL = -1,
+        EMPTY = 0,
+        DOT = 1,
+        POWER_PELLET = 2,
+        // FRUIT = 3,
+    };
+
     // Maze layout
     static constexpr int TILES[ROWS][COLS] = {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -80,7 +89,6 @@ public:
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
-
 private:
     Ghost blinky;
     PacMan pacman;

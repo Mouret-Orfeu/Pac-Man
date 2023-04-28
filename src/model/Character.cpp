@@ -23,7 +23,7 @@ void Character::setDirection(Direction direction) {
     state.direction = direction;
 }
 
-SDL_Point Character::getCenterPosition() const {
+SDL_Point Character::getPosition() const {
     return state.center_position;
 }
 
