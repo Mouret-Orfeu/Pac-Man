@@ -1,5 +1,5 @@
 #include "Character.h"
-#include "view/GameView.h"
+#include "GameModel.h"
 
 Character::Character(State state)
 : state(state)
@@ -76,7 +76,7 @@ SDL_Point Character::getCoordCenterTile(SDL_Point tile_pos) {
 
 bool Character::isTileLegal (const SDL_Point& tile) const
 {
-    if(GameViewConstants::TILES[tile.x][tile.y]!=-1)
+    if(GameModel::TILES[tile.x][tile.y]!=-1)
         return true;
     else
         return false;

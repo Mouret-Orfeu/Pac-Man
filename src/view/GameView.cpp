@@ -124,7 +124,7 @@ void GameView::render(const PacMan& pacman) {
 }
 
 void GameView::renderMaze() {
-    renderSprite(spriteSheet_Namco_formatted, &map_sprite_originale, {0,3*TILE_SIZE}, false);
+    renderSprite(spriteSheet_Namco_formatted, &maze_Namco, {0,3*TILE_SIZE}, false);
 }
 
 void GameView::renderHUD() {
@@ -138,9 +138,9 @@ void GameView::renderHUD() {
     renderSprite(spriteSheet_NES, &P_sprite, SDL_Point({5*TILE_SIZE,0}), true);
 
     // Lives
-    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,HEIGHT-2*TILE_SIZE+2}), true);
-    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({4*TILE_SIZE+3,HEIGHT-2*TILE_SIZE+2}), true);
-    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({6*TILE_SIZE+3,HEIGHT-2*TILE_SIZE+2}), true);
+    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({4*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({6*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
 }
 
 

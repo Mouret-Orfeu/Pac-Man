@@ -1,9 +1,9 @@
 #include "Ghost.h"
 
-#include "view/GameView.h"
+#include "GameModel.h"
 
 Ghost::Ghost()
-:Character({Direction::RIGHT, GameViewConstants::init_pos_center_Blinky, computeTilePosition(GameViewConstants::init_pos_center_Blinky)})
+:Character({Direction::RIGHT, GameModel::init_pos_center_Blinky, computeTilePosition(GameModel::init_pos_center_Blinky)})
 {
     // Initialize Ghost-specific data here
 }
