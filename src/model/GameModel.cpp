@@ -43,3 +43,36 @@ int GameModel::getCount() const {
 void GameModel::setCount(int count) {
     this->count = count;
 }
+
+int GameModel::getScore() const {
+    return score;
+}
+
+void GameModel::setScore(int score) {
+    this->score = score;
+}
+
+int GameModel::getHighScore() const {
+    return highscore;
+}
+
+void GameModel::setHighScore(int highscore) {
+    this->highscore = highscore;
+}
+
+int GameModel::getLives() const {
+    return lives;
+}
+
+void GameModel::setLives(int lives) {
+    this->lives = lives;
+}
+
+bool GameModel::getDeath() const {
+    return death;
+}
+
+void GameModel::setDeath(bool death) {
+    this->death = death;
+}
+

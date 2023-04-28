@@ -63,6 +63,58 @@ void GameView::draw() {
 	SDL_UpdateWindowSurface(pWindow);
 }
 
+void GameView::draw_death(int death_sprite_count) {
+    renderMaze();
+    renderHUD();
+
+    switch (death_sprite_count)
+    {
+        case 0:
+            displayPacmanDeath(0);
+            break;
+        case 1:
+            displayPacmanDeath(1);
+            break;
+        case 2:
+            displayPacmanDeath(2);
+            break;
+        case 3:
+            displayPacmanDeath(3);
+            break;
+        case 4:
+            displayPacmanDeath(4);
+            break;
+        case 5:
+            break;
+            displayPacmanDeath(5);
+        case 6:
+            displayPacmanDeath(6);
+            break;
+        case 7:
+            displayPacmanDeath(7);
+            break;
+        case 8:
+            displayPacmanDeath(8);
+            break;
+        case 9:
+            displayPacmanDeath(9);
+            break;
+        case 10:
+            displayPacmanDeath(10);
+            break;
+        case 11:
+            displayPacmanDeath(11);
+            break;
+        default:
+            break;
+    }
+
+
+
+
+	SDL_UpdateWindowSurface(pWindow);
+}
+
 void GameView::render(const Ghost& ghost) {
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite;
@@ -127,20 +179,33 @@ void GameView::renderMaze() {
     renderSprite(spriteSheet_Namco_formatted, &maze_Namco, {0,3*TILE_SIZE}, false);
 }
 
+// void GameView::renderHUD() {
+//     // Score
+//     renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({5*TILE_SIZE,TILE_SIZE}), true);
+//     renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({6*TILE_SIZE,TILE_SIZE}), true);
+
+//     // 1UP
+//     renderSprite(spriteSheet_NES, &one_sprite, SDL_Point({3*TILE_SIZE,0}), true);
+//     renderSprite(spriteSheet_NES, &U_sprite, SDL_Point({4*TILE_SIZE,0}), true);
+//     renderSprite(spriteSheet_NES, &P_sprite, SDL_Point({5*TILE_SIZE,0}), true);
+
+//     // Lives
+//     renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+//     renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({4*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+//     renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({6*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+// }
+
 void GameView::renderHUD() {
+    SDL_SetColorKey(spriteSheet_NES, true, 0);
+
     // Score
-    renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({5*TILE_SIZE,TILE_SIZE}), true);
-    renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({6*TILE_SIZE,TILE_SIZE}), true);
-
-    // 1UP
-    renderSprite(spriteSheet_NES, &one_sprite, SDL_Point({3*TILE_SIZE,0}), true);
-    renderSprite(spriteSheet_NES, &U_sprite, SDL_Point({4*TILE_SIZE,0}), true);
-    renderSprite(spriteSheet_NES, &P_sprite, SDL_Point({5*TILE_SIZE,0}), true);
-
-    // Lives
-    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
-    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({4*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
-    renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({6*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+    int score = gameModel.getScore();
+    int highscore = gameModel.getHighScore();
+    int lives = gameModel.getLives();
+    drawScore(score, false);
+    drawScore(highscore, true);
+    drawLives(lives);
+    drawText();
 }
 
 
@@ -205,4 +270,198 @@ void GameView::drawAllTileOutlines() {
     for(int i = 0; i < 28; i++)
         for (int j = 0; j < 36; j++)
             TileOutline(win_surf, {i,j});
+}
+
+void GameView::drawScore(int score, bool highscore)
+{
+    if (score==0) {
+        if (highscore) {
+            return;
+        } else {
+            //si le score est 0 j'affiche 00
+            renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({6*TILE_SIZE,1*TILE_SIZE}), true);
+            renderSprite(spriteSheet_NES, &zero_sprite, SDL_Point({5*TILE_SIZE,1*TILE_SIZE}), true);
+        }
+    }
+
+    // Convert the score to a string
+    std::string scoreString = std::to_string(score);
+
+    //position en nombre de tile du nombre
+    int pos=MAX_SCORE_DIGITS-1;
+
+    if (highscore)
+        pos+=11;
+
+    // Loop through the characters in the score string
+    for (int i = scoreString.length()-1; i>-1 ; i--)
+    {
+        // Get the sprite for the current digit
+        SDL_Rect sprite;
+        switch (scoreString[i])
+        {
+            case '0':
+                sprite = zero_sprite;
+                break;
+            case '1':
+                sprite = one_sprite;
+                break;
+            case '2':
+                sprite = two_sprite;
+                break;
+            case '3':
+                sprite = three_sprite;
+                break;
+            case '4':
+                sprite = four_sprite;
+                break;
+            case '5':
+                sprite = five_sprite;
+                break;
+            case '6':
+                sprite = six_sprite;
+                break;
+            case '7':
+                sprite = seven_sprite;
+                break;
+            case '8':
+                sprite = eight_sprite;
+                break;
+            case '9':
+                sprite = nine_sprite;
+                break;
+            default:
+                sprite = zero_sprite;
+                break;
+        }
+
+        renderSprite(spriteSheet_NES, &sprite, SDL_Point({pos*TILE_SIZE,1*TILE_SIZE}), true);
+
+        pos--;
+    }
+}
+
+void GameView::drawText()
+{
+    // "High Score"
+    // SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H1_high_score_pos);
+    renderSprite(spriteSheet_NES, &H_sprite, SDL_Point({10*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &I_sprite, win_surf, &I_high_score_pos);
+    renderSprite(spriteSheet_NES, &I_sprite, SDL_Point({11*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &G_sprite, win_surf, &G_high_score_pos);
+    renderSprite(spriteSheet_NES, &G_sprite, SDL_Point({12*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H2_high_score_pos);
+    renderSprite(spriteSheet_NES, &H_sprite, SDL_Point({13*TILE_SIZE, 0}), true);
+
+    // SDL_BlitScaled(spriteSheet_NES, &S_sprite, win_surf, &S_high_score_pos);
+    renderSprite(spriteSheet_NES, &S_sprite, SDL_Point({15*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &C_sprite, win_surf, &C_high_score_pos);
+    renderSprite(spriteSheet_NES, &C_sprite, SDL_Point({16*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &O_sprite, win_surf, &O_high_score_pos);
+    renderSprite(spriteSheet_NES, &O_sprite, SDL_Point({17*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &R_sprite, win_surf, &R_high_score_pos);
+    renderSprite(spriteSheet_NES, &R_sprite, SDL_Point({18*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &E_sprite, win_surf, &E_high_score_pos);
+    renderSprite(spriteSheet_NES, &E_sprite, SDL_Point({19*TILE_SIZE, 0}), true);
+
+    // 1UP
+    // SDL_BlitScaled(spriteSheet_NES, &one_sprite, win_surf, &one_up_one_pos);
+    renderSprite(spriteSheet_NES, &one_sprite, SDL_Point({3*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &U_sprite, win_surf, &one_up_U_pos);
+    renderSprite(spriteSheet_NES, &U_sprite, SDL_Point({4*TILE_SIZE, 0}), true);
+    // SDL_BlitScaled(spriteSheet_NES, &P_sprite, win_surf, &one_up_P_pos);
+    renderSprite(spriteSheet_NES, &P_sprite, SDL_Point({5*TILE_SIZE, 0}), true);
+}
+
+void GameView::drawLives(int lives)
+{
+    switch (lives)
+    {
+        case 3:
+            // SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
+            renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+            // SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
+            renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({4*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+            // SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &third_life_pos);
+            renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({6*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+            break;
+        case 2:
+            // SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
+            renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+            // SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
+            renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({4*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+            break;
+        case 1:
+            // SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
+            renderSprite(spriteSheet_Namco_formatted, &life_sprite, SDL_Point({2*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+            break;
+        case 0:
+            break;
+        default:
+            break;
+
+    }
+}
+
+void GameView::displayPacmanDeath(int death_frame)
+{
+
+    SDL_Point position = getTopLeftPosition(gameModel.getPacMan().getCenterPosition(), SIZE_PACMAN_SPRITE);
+    // SDL_Rect dest = { position.x, position.y, SIZE_PACMAN_SPRITE_RESIZED, SIZE_PACMAN_SPRITE_RESIZED };
+
+   switch (death_frame) {
+    case 1:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_1, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_1, position, true);
+        break;
+    case 2:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_2, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_2, position, true);
+        break;
+    case 3:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_3, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_3, position, true);
+        break;
+    case 4:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_4, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_4, position, true);
+        break;
+    case 5:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_5, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_5, position, true);
+        break;
+    case 6:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_6, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_6, position, true);
+        break;
+    case 7:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_7, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_7, position, true);
+        break;
+    case 8:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_8, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_8, position, true);
+        break;
+    case 9:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_9, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_9, position, true);
+        break;
+    case 10:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_10, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_10, position, true);
+        break;
+    case 11:
+        // SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_11, win_surf, &dest);
+        renderSprite(spriteSheet_Namco_formatted, &pacman_death_sprite_11, position, true);
+        break;
+    case 12:
+        break;
+    default:
+        std::cout<<"Error: invalid death frame"<<std::endl;
+        break;
+    }
+
+    SDL_UpdateWindowSurface(pWindow);
+    SDL_Delay(100);
+
 }

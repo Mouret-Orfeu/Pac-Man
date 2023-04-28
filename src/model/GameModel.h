@@ -16,6 +16,20 @@ public:
     int getCount() const;
     void setCount(int count);
 
+
+    int getScore() const;
+    void setScore(int score);
+
+    int getHighScore() const;
+    void setHighScore(int highscore);
+
+    int getLives() const;
+    void setLives(int lives);
+
+    bool getDeath() const;
+    void setDeath(bool death);
+
+
     // Tile size
     static constexpr int TILE_SIZE = 8;
 
@@ -71,4 +85,8 @@ private:
     Ghost blinky;
     PacMan pacman;
     int count;
+    int score = 33203;
+    int highscore = 1323422;
+    int lives = 3;
+    bool death = false;
 };
