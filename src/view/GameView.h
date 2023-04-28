@@ -14,8 +14,8 @@ public:
     void draw();
     void drawDeathAnimation(int death_sprite_count);
 
-    void drawGhost(const Ghost& ghost);
-    void drawPacMan(const PacMan& pacman);
+    void drawGhost();
+    void drawPacMan();
 
     void drawHUD();
     void drawMaze();
@@ -26,7 +26,7 @@ public:
 
     void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency);
     // DEBUG
-    void drawSpriteAlpha(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency, Uint8 alpha);
+    // void drawSpriteAlpha(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency, Uint8 alpha);
 
     SDL_Point getTopLeftPosition(SDL_Point position, int size);
     SDL_Point computeCenterPosition(SDL_Point top_left_position, int size);
@@ -38,6 +38,7 @@ public:
     void drawAllTileOutlines();
     // void drawColoredTile(SDL_Point tile_position);
     void drawAllColoredTiles();
+    void drawPacmanPosition();
 
 private:
     GameModel& gameModel;

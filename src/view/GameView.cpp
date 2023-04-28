@@ -65,8 +65,8 @@ GameView::~GameView() {
 void GameView::draw() {
     drawMaze();
     drawHUD();
-    drawGhost(gameModel.getGhost());
-    drawPacMan(gameModel.getPacMan());
+    drawGhost();
+    drawPacMan();
 
     // drawAllTileOutlines();
     // drawAllColoredTiles();
@@ -85,7 +85,8 @@ void GameView::drawDeathAnimation(int death_sprite_count) {
     SDL_UpdateWindowSurface(pWindow);
 }
 
-void GameView::drawGhost(const Ghost& ghost) {
+void GameView::drawGhost() {
+    const Ghost& ghost = gameModel.getGhost();
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite;
     Ghost::State state = ghost.getState();
@@ -112,7 +113,8 @@ void GameView::drawGhost(const Ghost& ghost) {
     drawSprite(spriteSheet_Namco, &ghost_sprite, getTopLeftPosition(state.center_position, SIZE_GHOST_SPRITE), true);
 }
 
-void GameView::drawPacMan(const PacMan& pacman) {
+void GameView::drawPacMan() {
+    const PacMan& pacman = gameModel.getPacMan();
     // petit truc pour faire tourner le fantome
     SDL_Rect pacman_sprite_in;
     PacMan::State state = pacman.getState();
@@ -143,6 +145,7 @@ void GameView::drawPacMan(const PacMan& pacman) {
     drawSprite(spriteSheet_Namco, &pacman_sprite_in, getTopLeftPosition(state.center_position, SIZE_PACMAN_SPRITE), true);
 
     drawTileOutline(state.tile_position);
+    drawPacmanPosition(); // DEBUG
 }
 
 void GameView::drawMaze() {
@@ -228,6 +231,26 @@ void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL
 //     // Destroy the texture
 //     SDL_DestroyTexture(texture);
 // }
+
+// DEBUG
+void GameView::drawPacmanPosition() {
+    // Get Pac-Man's center position
+    SDL_Point pacmanCenter = gameModel.getPacMan().getState().center_position;
+
+    // Create a new surface with a green pixel
+    SDL_Surface* greenPixel = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
+    SDL_FillRect(greenPixel, NULL, SDL_MapRGB(greenPixel->format, 0, 255, 0));
+
+    // Draw a green cross centered on Pac-Man's position
+    int crossSize = 5; // You can adjust the size of the cross if necessary
+    for (int i = -crossSize; i <= crossSize; ++i) {
+        drawSprite(greenPixel, NULL, {pacmanCenter.x + i, pacmanCenter.y}, true);
+        drawSprite(greenPixel, NULL, {pacmanCenter.x, pacmanCenter.y + i}, true);
+    }
+
+    // Free the temporary surface
+    SDL_FreeSurface(greenPixel);
+}
 
 SDL_Point GameView::computeCenterPosition(SDL_Point top_left_position, int size) {
     return {top_left_position.x+(size-1)/2, top_left_position.y+(size-1)/2};
