@@ -6,6 +6,43 @@
 #include <SDL.h>
 #include <iostream>
 
+//DEBUG
+void TileOutline(SDL_Surface* win_surf, int x, int y)
+{
+    // Create a new surface with the square outline
+    SDL_Surface* squareOutline = SDL_CreateRGBSurface(0, 24, 24, 32, 0, 0, 0, 0);
+    SDL_FillRect(squareOutline, NULL, SDL_MapRGB(squareOutline->format, 255, 0, 0));
+    SDL_Rect outlineRect = { 2, 2, 20, 20 };
+    SDL_FillRect(squareOutline, &outlineRect, SDL_MapRGB(squareOutline->format, 0, 0, 0));
+
+    // Copy the square outline onto the main surface
+    SDL_Rect destRect = { x, y, 24, 24 };
+    SDL_SetColorKey(squareOutline, true, 0);
+    SDL_BlitSurface(squareOutline, NULL, win_surf, &destRect);
+
+    // Free the temporary surface
+    SDL_FreeSurface(squareOutline);
+}
+
+//DEBUG
+void drawAllTileOuline(SDL_Surface* win_surf)
+{
+    int x = 0;
+    int y = 0;
+    for(int i = 0; i < 28; i++)
+    {
+        for (int j = 0; j < 36; j++)
+        {
+            x=i*24;
+            y=j*24;
+            TileOutline(win_surf, x, y);
+        }
+        
+    }
+
+}
+
+
 
 GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     // Initialize game view related data here
@@ -40,6 +77,12 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
         SDL_Quit();
         exit(1);
     }
+
+    //DEBUG
+    //grid_surface = SDL_CreateRGBSurface(0, WINDOW_WIDTH, WINDOW_HEIGHT, 32, 0, 0, 0, 0);
+    //SDL_FillRect(grid_surface, NULL, SDL_MapRGB(grid_surface->format, 255, 0, 0)); // fill grid surface with red color
+
+    
 }
 
 GameView::~GameView() {
@@ -156,4 +199,8 @@ void GameView::renderHUD() {
     SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
     SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
     SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &third_life_pos);
+    
+            
+            
+
 }
