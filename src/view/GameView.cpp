@@ -102,6 +102,58 @@ void GameView::draw() {
 	SDL_UpdateWindowSurface(pWindow);
 }
 
+void GameView::draw_death(int death_sprite_count) {
+    renderMaze();
+    renderHUD();
+
+    switch (death_sprite_count)
+    {
+        case 0:
+            displayPacmanDeath(0);
+            break;
+        case 1:
+            displayPacmanDeath(1);
+            break;
+        case 2:
+            displayPacmanDeath(2);
+            break;    
+        case 3:
+            displayPacmanDeath(3);
+            break;
+        case 4:
+            displayPacmanDeath(4);
+            break;
+        case 5:
+            break;
+            displayPacmanDeath(5);
+        case 6:
+            displayPacmanDeath(6);
+            break;
+        case 7:
+            displayPacmanDeath(7);
+            break;
+        case 8:
+            displayPacmanDeath(8);
+            break;
+        case 9:
+            displayPacmanDeath(9);
+            break;
+        case 10:
+            displayPacmanDeath(10);
+            break;
+        case 11:
+            displayPacmanDeath(11);
+            break;
+        default:
+            break;
+    }
+
+
+    
+
+	SDL_UpdateWindowSurface(pWindow);
+}
+
 void GameView::render(const Ghost& ghost) {
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite_in;
@@ -161,7 +213,7 @@ void GameView::render(const PacMan& pacman) {
     }
 
     // Update the top_left_position of the ghost sprite based on the CharacterState
-    SDL_Rect pacman_sprite({ state.top_left_position.x,state.top_left_position.y, 39,39 }); // ici scale x2
+    SDL_Rect pacman_sprite({ state.top_left_position.x,state.top_left_position.y, SIZE_PACMAN_SPRITE_RESIZED,SIZE_PACMAN_SPRITE_RESIZED }); // ici scale x2
 
     // // ici on change entre les 2 sprites sources pour une jolie animation.
     // if ((gameModel.getCount() / 4) % 2) {
@@ -189,36 +241,11 @@ void GameView::renderHUD() {
 
     // Score
     int score = gameModel.getScore();
-    SDL_Surface* score_surf= getPrintableScore(score);
-    SDL_Rect score_pos = { 0, TILE_SIZE, 7*TILE_SIZE, TILE_SIZE};
-    SDL_BlitScaled(score_surf, NULL, win_surf, &score_pos);
-
-    // "High Score" 
-    SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H1_high_score_pos);
-    SDL_BlitScaled(spriteSheet_NES, &I_sprite, win_surf, &I_high_score_pos);
-    SDL_BlitScaled(spriteSheet_NES, &G_sprite, win_surf, &G_high_score_pos);
-    SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H2_high_score_pos);
-    
-    SDL_BlitScaled(spriteSheet_NES, &S_sprite, win_surf, &S_high_score_pos);
-    SDL_BlitScaled(spriteSheet_NES, &C_sprite, win_surf, &C_high_score_pos);
-    SDL_BlitScaled(spriteSheet_NES, &O_sprite, win_surf, &O_high_score_pos);
-    SDL_BlitScaled(spriteSheet_NES, &R_sprite, win_surf, &R_high_score_pos);
-    SDL_BlitScaled(spriteSheet_NES, &E_sprite, win_surf, &E_high_score_pos);   
-
-    // 1UP
-    SDL_BlitScaled(spriteSheet_NES, &one_sprite, win_surf, &one_up_one_pos);
-    SDL_BlitScaled(spriteSheet_NES, &U_sprite, win_surf, &one_up_U_pos);
-    SDL_BlitScaled(spriteSheet_NES, &P_sprite, win_surf, &one_up_P_pos);
-
-    // Lives
-    SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
-    SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &third_life_pos);
-    
-            
-            
-
+    int lives = gameModel.getLives();
+    displayScore(score);
+    dilplayHighScore(score);
+    displayLives(lives);
+    displayText();      
 }
 
 SDL_Point computeCenterPosition(SDL_Point top_left_position, int size) {
@@ -315,3 +342,115 @@ SDL_Surface* GameView::getPrintableScore(int score)
     return scoreSurface;
 }
 
+void GameView::displayScore(int score)
+{
+    SDL_Surface* score_surf= getPrintableScore(score);
+    SDL_Rect score_pos = { 0, TILE_SIZE, 7*TILE_SIZE, TILE_SIZE};
+    SDL_BlitScaled(score_surf, NULL, win_surf, &score_pos);
+}
+
+void GameView::displayText()
+{
+    // "High Score" 
+    SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H1_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &I_sprite, win_surf, &I_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &G_sprite, win_surf, &G_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &H_sprite, win_surf, &H2_high_score_pos);
+    
+    SDL_BlitScaled(spriteSheet_NES, &S_sprite, win_surf, &S_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &C_sprite, win_surf, &C_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &O_sprite, win_surf, &O_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &R_sprite, win_surf, &R_high_score_pos);
+    SDL_BlitScaled(spriteSheet_NES, &E_sprite, win_surf, &E_high_score_pos);   
+
+    // 1UP
+    SDL_BlitScaled(spriteSheet_NES, &one_sprite, win_surf, &one_up_one_pos);
+    SDL_BlitScaled(spriteSheet_NES, &U_sprite, win_surf, &one_up_U_pos);
+    SDL_BlitScaled(spriteSheet_NES, &P_sprite, win_surf, &one_up_P_pos);
+}
+
+void GameView::dilplayHighScore(int highscore)
+{
+    if(highscore==0)
+    {
+        return;
+    }
+    SDL_Surface* score_surf= getPrintableScore(highscore);
+    SDL_Rect score_pos = { 11*TILE_SIZE, TILE_SIZE, 7*TILE_SIZE, TILE_SIZE};
+    SDL_BlitScaled(score_surf, NULL, win_surf, &score_pos);
+}
+
+void GameView::displayLives(int lives)
+{
+    switch (lives)
+    {
+        case 3:
+            SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
+            SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
+            SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &third_life_pos);
+            break;
+        case 2:
+            SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
+            SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &second_life_pos);
+            break;
+        case 1:
+            SDL_BlitScaled(spriteSheet_Namco_formatted, &life_sprite, win_surf, &first_life_pos);
+            break;
+        case 0:
+            break;
+        default:
+            break;
+    
+    }
+}
+
+void GameView::displayPacmanDeath(int death_frame)
+{
+    SDL_Point position= gameModel.getPacMan().getTopLeftPosition();
+    SDL_Rect dest = { position.x, position.y, SIZE_PACMAN_SPRITE_RESIZED, SIZE_PACMAN_SPRITE_RESIZED };
+
+   switch (death_frame) {
+    case 1:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_1, win_surf, &dest);
+        break;
+    case 2:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_2, win_surf, &dest);
+        break;
+    case 3:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_3, win_surf, &dest);
+        break;
+    case 4:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_4, win_surf, &dest);
+        break;
+    case 5:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_5, win_surf, &dest);
+        break;
+    case 6:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_6, win_surf, &dest);
+        break;
+    case 7:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_7, win_surf, &dest);
+        break;
+    case 8:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_8, win_surf, &dest);
+        break;
+    case 9:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_9, win_surf, &dest);
+        break;
+    case 10:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_10, win_surf, &dest);
+        break;
+    case 11:
+        SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_death_sprite_11, win_surf, &dest);
+        break;
+    case 12:
+        break;
+    default:
+        std::cout<<"Error: invalid death frame"<<std::endl;
+        break;
+    }
+
+    SDL_UpdateWindowSurface(pWindow);
+    SDL_Delay(100);
+
+}

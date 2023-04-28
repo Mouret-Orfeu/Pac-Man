@@ -35,11 +35,9 @@ void GameController::run() {
 
     // Main game loop
 	bool quit = false;
-	while (!quit)
-	{
+	while (!quit) {
 		SDL_Event event;
-		while (!quit && SDL_PollEvent(&event))
-		{
+		while (!quit && SDL_PollEvent(&event)) {
 			switch (event.type)
 			{
 			case SDL_QUIT:
@@ -71,6 +69,51 @@ void GameController::run() {
         // AFFICHAGE
 		gameView.draw();
 
+        //SDL_Delay(5000);
+
+        //Animation de la mort
+        if (gameModel.getDeath()) {
+            int death_sprite_count = 0;
+            while (gameModel.getDeath())
+	        {
+                SDL_Event event;
+	        	while (!quit && SDL_PollEvent(&event))
+	        	{
+	        		switch (event.type)
+	        		{
+	        		case SDL_QUIT:
+	        			quit = true;
+	        			break;
+	        		default: break;
+	        		}
+	        	}
+
+                // AFFICHAGE
+	        	gameView.draw_death(death_sprite_count);
+
+                // LIMITE A 60 FPS
+                const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
+                Uint64 currentTime = SDL_GetTicks64();
+                Uint64 frameStartTime = currentTime;
+                Uint64 elapsedTime = currentTime - frameStartTime;
+                if (elapsedTime < desiredFrameTime) {
+                    SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
+                }
+                frameStartTime = SDL_GetTicks64();
+
+                if(death_sprite_count==11){
+                    gameModel.setDeath(false);
+                }
+
+                death_sprite_count++;
+            
+
+            }
+
+        }
+
+    
+
         // LIMITE A 60 FPS
         const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
         Uint64 currentTime = SDL_GetTicks64();
@@ -81,4 +124,5 @@ void GameController::run() {
         }
         frameStartTime = SDL_GetTicks64();
 	}
-}
+
+}   

@@ -19,9 +19,18 @@ public:
     int getScore() const;
     void setScore(int score);
 
+    int getLives() const;
+    void setLives(int lives);
+
+    bool getDeath() const;
+    void setDeath(bool death);
+
 private:
     Ghost blinky;
     PacMan pacman;
     int count;
     int score=0;
+    int highscore;
+    int lives=3;
+    bool death=false;
 };

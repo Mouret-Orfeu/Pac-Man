@@ -51,3 +51,20 @@ int GameModel::getScore() const {
 void GameModel::setScore(int score) {
     this->score = score;
 }
+
+int GameModel::getLives() const {
+    return lives;
+}
+
+void GameModel::setLives(int lives) {
+    this->lives = lives;
+}
+
+bool GameModel::getDeath() const {
+    return death;
+}
+
+void GameModel::setDeath(bool death) {
+    this->death = death;
+}
+

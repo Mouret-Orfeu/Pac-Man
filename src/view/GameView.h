@@ -115,6 +115,7 @@ public:
     ~GameView();
 
     void draw();
+    void draw_death(int death_sprite_count);
 
     void render(const Ghost& ghost);
     void render(const PacMan& pacman);
@@ -122,7 +123,12 @@ public:
     void renderMaze();
 
     SDL_Surface* getPrintableScore(int score);
+    void displayScore(int score);
+    void displayText();
+    void dilplayHighScore(int highScore);
+    void displayLives(int lives);
 
+    void displayPacmanDeath(int death_frame);
 private:
     GameModel& gameModel;
 
@@ -159,14 +165,14 @@ private:
 
     static constexpr SDL_Rect U_sprite = { 44,69, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
     static constexpr SDL_Rect P_sprite = { 4,69, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect H_sprite = { 67,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect I_sprite = { 76,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect G_sprite = { 59,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect C_sprite = { 27,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect O_sprite = { 123,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect E_sprite = { 43,60, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect R_sprite = { 19,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
-    static constexpr SDL_Rect S_sprite = { 27,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect H_sprite = { 67,61, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect I_sprite = { 76,61, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect G_sprite = { 59,61, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect C_sprite = { 27,61, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect O_sprite = { 123,61, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect E_sprite = { 43,61, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect R_sprite = { 19,69, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
+    static constexpr SDL_Rect S_sprite = { 27,69, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
 
 
     static constexpr SDL_Rect life_sprite = { 587,18, SIZE_LIFE_SPRITE,SIZE_LIFE_SPRITE};
@@ -203,6 +209,21 @@ private:
     static constexpr SDL_Rect pacman_sprite_l = { 473,17, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_d = { 473,49, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_u = { 473,33, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_full = { 489,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
+
+    // PacMan death sprites
+    static constexpr SDL_Rect pacman_death_sprite_1 = { 503,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_2 = { 520,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_3 = { 536,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_4 = { 552,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_5 = { 568,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_6 = { 584,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_7 = { 600,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_8 = { 616,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_9 = { 632,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_10 = { 648,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_death_sprite_11 = { 664,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE  };
+
 
     // SDL rectangles for maze and HUP elements
     SDL_Rect bg = { 0,3*TILE_SIZE, MAZE_COLS*TILE_SIZE,MAZE_ROWS*TILE_SIZE };
