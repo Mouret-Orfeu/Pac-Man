@@ -49,7 +49,12 @@ void Character::setCenterPosition(int x, int y) {
 }
 
 SDL_Point Character::getTilePosition() const {
-    return { state.center_position.x/24, state.center_position.y/24+3 };
+    return state.tile_position;
+}
+
+void Character::setTilePosition(int x, int y) {
+    state.tile_position.x = x;
+    state.tile_position.y = y;
 }
 
 void Character::updatePosition () {
@@ -73,4 +78,7 @@ void Character::updatePosition () {
         default:
             break;
     }
+
+    state.tile_position.x = state.center_position.x/24;
+    state.tile_position.y = state.center_position.y/24;
 }

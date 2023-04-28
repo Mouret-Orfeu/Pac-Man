@@ -1,11 +1,21 @@
 #include "PacMan.h"
 #include "Character.h"
 
-#include <SDL.h>
+#include "view/GameView.h"
 
-PacMan::PacMan(SDL_Point init_pos_up_left_pacman, SDL_Point init_pos_center_pacman)
-:Character({CharacterDirection::RIGHT, init_pos_up_left_pacman, init_pos_center_pacman}),
- intended_direction(CharacterDirection::RIGHT)
+
+
+
+PacMan::PacMan(SDL_Point pos_up_left)
+:Character({CharacterDirection::RIGHT, pos_up_left, computeCenterPosition(pos_up_left, GameViewConstants::SIZE_PACMAN_SPRITE_RESIZED),  computeTilePosition(pos_up_left, GameViewConstants::SIZE_PACMAN_SPRITE_RESIZED)}),
+intended_direction(CharacterDirection::RIGHT)
+{
+    // Initialize PacMan-specific data here
+}
+
+PacMan::PacMan()
+:Character({CharacterDirection::RIGHT, GameViewConstants::init_pos_up_left_pacman, GameViewConstants::init_pos_center_pacman, GameViewConstants::init_pos_tile_pacman}),
+ intended_direction(CharacterDirection::RIGHT) 
 {
     // Initialize PacMan-specific data here
 }

@@ -16,6 +16,7 @@ struct CharacterState {
     CharacterDirection direction;
     SDL_Point top_left_position;
     SDL_Point center_position;
+    SDL_Point tile_position;
 };
 
 class Character : public GameObject {
@@ -51,6 +52,9 @@ public:
 
     SDL_Point getTilePosition() const;
     void setTilePosition(int x, int y);
+
+    SDL_Point getTilePositionFromCenter() const;
+    void setTilePositionFromCenter(int x, int y);
 
 
 

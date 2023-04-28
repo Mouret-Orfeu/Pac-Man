@@ -172,6 +172,8 @@ void GameView::render(const PacMan& pacman) {
     SDL_SetColorKey(spriteSheet_Namco_formatted, true, 0);
     // copie du sprite zoomé
     SDL_BlitScaled(spriteSheet_Namco_formatted, &pacman_sprite_in, win_surf, &pacman_sprite);
+
+    TileOutline(win_surf, state.tile_position.x*GameViewConstants::TILE_SIZE, state.tile_position.y*TILE_SIZE);
 }
 
 void GameView::renderMaze() {
@@ -204,3 +206,13 @@ void GameView::renderHUD() {
             
 
 }
+
+SDL_Point computeCenterPosition(SDL_Point top_left_position, int size) {
+    return {top_left_position.x+size/2, top_left_position.y+size/2};
+}
+
+SDL_Point computeTilePosition(SDL_Point top_left_position, int size) {
+    SDL_Point center_position = computeCenterPosition(top_left_position, size);
+    return {center_position.x/24, center_position.y/24};
+}
+

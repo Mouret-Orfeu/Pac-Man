@@ -13,6 +13,58 @@ enum class Cell {
     // FRUIT = 3,
 };
 
+namespace GameViewConstants {
+    
+    // Constants for the tile size and upscaling factor
+    static constexpr int UPSCALING_FACTOR = 3;
+    static constexpr int ORIGINAL_TILE_SIZE = 8;
+    static constexpr int TILE_SIZE = UPSCALING_FACTOR*ORIGINAL_TILE_SIZE;
+
+    // Constants for the window/maze dimensions
+    static constexpr int MAP_COLS = 28,
+                         MAP_ROWS = 36;
+    static constexpr int MAZE_COLS = 28,
+                         MAZE_ROWS = 31;
+    static constexpr int WINDOW_WIDTH  = MAP_COLS*TILE_SIZE,
+                         WINDOW_HEIGHT = MAP_ROWS*TILE_SIZE;
+    static constexpr int MAZE_WIDTH  = MAZE_COLS*TILE_SIZE,
+                         MAZE_HEIGHT = MAZE_ROWS*TILE_SIZE;
+
+    // Ghost sprites
+    static constexpr int SIZE_GHOST_SPRITE = 14;
+    static constexpr int SIZE_GHOST_SPRITE_RESIZED = UPSCALING_FACTOR*SIZE_GHOST_SPRITE;
+    // Blinky
+    // WARNING: duplicate code, editing the initial position here has no effect.
+    // You need to also edit the initial position in the construct of GameModel
+    // TODO: fix this by separating between the model (conceptual positions) and
+    // the view (real, upscaled positions = conceptual positions * UPSCALING_FACTOR)
+    static constexpr SDL_Point init_pos_up_left_Blinky = { 5*UPSCALING_FACTOR,29*UPSCALING_FACTOR };
+    // The -1 is to choose the top left center pixel of the sprite. Indeed, since the
+    // sprite size is even, the center is not a pixel but a square of 4 pixels.
+    static constexpr SDL_Point init_pos_center_Blinky = { 5*UPSCALING_FACTOR+(SIZE_GHOST_SPRITE-1)/2*UPSCALING_FACTOR, 29*UPSCALING_FACTOR+(SIZE_GHOST_SPRITE-1)/2*UPSCALING_FACTOR };
+
+    // PacMan sprites
+    static constexpr int SIZE_PACMAN_SPRITE = 13;
+    static constexpr int SIZE_PACMAN_SPRITE_RESIZED = UPSCALING_FACTOR*SIZE_PACMAN_SPRITE;
+    // WARNING: duplicate code, editing the initial position here has no effect.
+    // You need to also edit the initial position in the construct of GameModel
+    // TODO: fix this by separating between the model (conceptual positions) and
+    // the view (real, upscaled positions = conceptual positions * UPSCALING_FACTOR)
+    static constexpr SDL_Point init_pos_up_left_pacman = { 106*UPSCALING_FACTOR,(3+22)*TILE_SIZE+5*UPSCALING_FACTOR };
+    // Contrary to the ghost, the -1 isn't strictly necessary since SIZE_PACMAN_SPRITE is odd.
+    // Still, it's better to keep it to prepare for future changes (refactoring, change of SIZE_PACMAN_SPRITE, reuse of the code, ...)
+    static constexpr SDL_Point init_pos_center_pacman = { 106*UPSCALING_FACTOR+(SIZE_PACMAN_SPRITE-1)/2*UPSCALING_FACTOR, (3+22)*TILE_SIZE+5*UPSCALING_FACTOR+(SIZE_PACMAN_SPRITE-1)/2*UPSCALING_FACTOR };
+    static constexpr SDL_Point init_pos_tile_pacman = { init_pos_center_pacman.x/24, init_pos_center_pacman.y/24};
+
+
+}
+
+using namespace GameViewConstants;
+
+SDL_Point computeCenterPosition(SDL_Point top_left_position, int size);
+
+SDL_Point computeTilePosition(SDL_Point top_left_position, int size);  
+
 class GameView {
 public:
     GameView(GameModel& gameModel);
@@ -36,20 +88,7 @@ private:
     SDL_Surface* spriteSheet_Namco_formatted = nullptr;
 
 
-    // Constants for the tile size and upscaling factor
-    static constexpr int UPSCALING_FACTOR = 3;
-    static constexpr int ORIGINAL_TILE_SIZE = 8;
-    static constexpr int TILE_SIZE = UPSCALING_FACTOR*ORIGINAL_TILE_SIZE;
-
-    // Constants for the window/maze dimensions
-    static constexpr int MAP_COLS = 28,
-                         MAP_ROWS = 36;
-    static constexpr int MAZE_COLS = 28,
-                         MAZE_ROWS = 31;
-    static constexpr int WINDOW_WIDTH  = MAP_COLS*TILE_SIZE,
-                         WINDOW_HEIGHT = MAP_ROWS*TILE_SIZE;
-    static constexpr int MAZE_WIDTH  = MAZE_COLS*TILE_SIZE,
-                         MAZE_HEIGHT = MAZE_ROWS*TILE_SIZE;
+   
 
     // Constants for the top left corner of the maze and various sprites
     static constexpr int SIZE_LIFE_SPRITE = 11;
@@ -63,18 +102,7 @@ private:
     static constexpr SDL_Rect P_sprite = { 3,68, ORIGINAL_TILE_SIZE,ORIGINAL_TILE_SIZE };
     static constexpr SDL_Rect life_sprite = { 587,18, SIZE_LIFE_SPRITE,SIZE_LIFE_SPRITE};
 
-    // Ghost sprites
-    static constexpr int SIZE_GHOST_SPRITE = 14;
-    static constexpr int SIZE_GHOST_SPRITE_RESIZED = UPSCALING_FACTOR*SIZE_GHOST_SPRITE;
-    // Blinky
-    // WARNING: duplicate code, editing the initial position here has no effect.
-    // You need to also edit the initial position in the construct of GameModel
-    // TODO: fix this by separating between the model (conceptual positions) and
-    // the view (real, upscaled positions = conceptual positions * UPSCALING_FACTOR)
-    static constexpr SDL_Point init_pos_up_left_Blinky = { 5*UPSCALING_FACTOR,29*UPSCALING_FACTOR };
-    // The -1 is to choose the top left center pixel of the sprite. Indeed, since the
-    // sprite size is even, the center is not a pixel but a square of 4 pixels.
-    static constexpr SDL_Point init_pos_center_Blinky = { 5*UPSCALING_FACTOR+(SIZE_GHOST_SPRITE-1)/2*UPSCALING_FACTOR, 29*UPSCALING_FACTOR+(SIZE_GHOST_SPRITE-1)/2*UPSCALING_FACTOR };
+    
     static constexpr SDL_Rect Blinky_sprite_r = { 457,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_l = { 489,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     static constexpr SDL_Rect Blinky_sprite_d = { 553,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
@@ -87,16 +115,6 @@ private:
     // ...
 
     // PacMan sprites
-    static constexpr int SIZE_PACMAN_SPRITE = 13;
-    static constexpr int SIZE_PACMAN_SPRITE_RESIZED = UPSCALING_FACTOR*SIZE_PACMAN_SPRITE;
-    // WARNING: duplicate code, editing the initial position here has no effect.
-    // You need to also edit the initial position in the construct of GameModel
-    // TODO: fix this by separating between the model (conceptual positions) and
-    // the view (real, upscaled positions = conceptual positions * UPSCALING_FACTOR)
-    static constexpr SDL_Point init_pos_up_left_pacman = { 106*UPSCALING_FACTOR,(3+22)*TILE_SIZE+5*UPSCALING_FACTOR };
-    // Contrary to the ghost, the -1 isn't strictly necessary since SIZE_PACMAN_SPRITE is odd.
-    // Still, it's better to keep it to prepare for future changes (refactoring, change of SIZE_PACMAN_SPRITE, reuse of the code, ...)
-    static constexpr SDL_Point init_pos_center_pacman = { 106*UPSCALING_FACTOR+(SIZE_PACMAN_SPRITE-1)/2*UPSCALING_FACTOR, (3+22)*TILE_SIZE+5*UPSCALING_FACTOR+(SIZE_PACMAN_SPRITE-1)/2*UPSCALING_FACTOR };
     static constexpr SDL_Rect pacman_sprite_r = { 473,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_l = { 473,17, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
     static constexpr SDL_Rect pacman_sprite_d = { 473,49, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
