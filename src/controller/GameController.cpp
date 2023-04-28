@@ -65,6 +65,7 @@ void GameController::run() {
         if (keys[SDL_SCANCODE_DOWN])
             input_direction = CharacterDirection::DOWN;
 
+        //là dedans y'a move pourtous les persos
         gameModel.update(input_direction);
 
         // AFFICHAGE

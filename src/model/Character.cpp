@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "view/GameView.h"
 
 Character::Character(CharacterState state)
 : state(state)
@@ -81,4 +82,42 @@ void Character::updatePosition () {
 
     state.tile_position.x = state.center_position.x/24;
     state.tile_position.y = state.center_position.y/24;
+}
+
+bool Character::isTileLegal (const SDL_Point& tile) const
+{
+    if(GameViewConstants::MAP[tile.x][tile.y]!=-1)
+        return true;
+    else
+        return false;
+}
+
+SDL_Point Character::getNextTile(const SDL_Point& curent_tile, const CharacterDirection& direction) const
+{
+    SDL_Point next_tile = curent_tile;
+    switch (direction) {
+        case CharacterDirection::UP:
+            next_tile.y -= 1;
+            break;
+        case CharacterDirection::DOWN:
+            next_tile.y += 1;
+            break;
+        case CharacterDirection::LEFT:
+            next_tile.x -= 1;
+            break;
+        case CharacterDirection::RIGHT:
+            next_tile.x += 1;
+            break;
+        default:
+            break;
+    }
+    return next_tile;
+}
+
+bool Character::isCenteredOnTile() const
+{
+    if(state.center_position.x%24==0 && state.center_position.y%24==0)
+        return true;
+    else
+        return false;
 }

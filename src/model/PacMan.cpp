@@ -31,7 +31,18 @@ void PacMan::move(int count) {
     // Update the direction based on the intended direction
     // TODO: Check if the intended direction is valid,
     //       i.e. it doesn't point to a wall
-    state.direction = intended_direction;
+    SDL_Point next_tile_intended = getNextTile(state.tile_position, intended_direction);
+
+    if(isTileLegal(next_tile_intended))
+    {
+        //if(isCenteredOnTile())
+        //{
+        //    state.direction = intended_direction;
+        //}
+
+        state.direction = intended_direction;
+        
+    }
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
     updatePosition ();

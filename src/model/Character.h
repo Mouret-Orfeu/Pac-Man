@@ -38,6 +38,12 @@ public:
     */
     void updatePosition ();
 
+    bool isTileLegal (const SDL_Point& tile) const;
+
+    bool isCenteredOnTile() const;
+
+    SDL_Point getNextTile(const SDL_Point& curent_tile, const CharacterDirection& direction) const;
+
     CharacterState getState() const;
     void setState(const CharacterState& state);
 

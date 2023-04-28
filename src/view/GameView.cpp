@@ -216,3 +216,8 @@ SDL_Point computeTilePosition(SDL_Point top_left_position, int size) {
     return {center_position.x/24, center_position.y/24};
 }
 
+SDL_Point getCoordCenterTile(SDL_Point tile_pos)
+{
+    return {tile_pos.x*24+12, tile_pos.y*24+12};
+}
+
