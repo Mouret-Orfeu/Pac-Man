@@ -3,7 +3,7 @@
 #include "GameModel.h"
 
 Ghost::Ghost()
-:Character({Direction::RIGHT, GameModel::init_pos_center_Blinky, computeTilePosition(GameModel::init_pos_center_Blinky)})
+:Character({Direction::RIGHT, init_pos_center_Blinky, computeTilePosition(init_pos_center_Blinky)})
 {
     // Initialize Ghost-specific data here
 }

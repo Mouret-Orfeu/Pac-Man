@@ -22,4 +22,6 @@ public:
     void setIntendedDirection(Direction direction);
 private:
     Direction intended_direction;
+
+    static constexpr SDL_Point init_pos_center_pacman = { 112, 211 };
 };

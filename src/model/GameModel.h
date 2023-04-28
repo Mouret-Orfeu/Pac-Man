@@ -27,17 +27,6 @@ public:
     static constexpr int WIDTH  = COLS*TILE_SIZE,
                          HEIGHT = ROWS*TILE_SIZE;
 
-    // Ghost sprites
-    // Blinky
-    // The -1 is to choose the top left center pixel of the sprite. Indeed, since the
-    // sprite size is even, the center is not a pixel but a square of 4 pixels.
-    static constexpr SDL_Point init_pos_center_Blinky = { 11,35 };
-
-    // PacMan sprites
-    // Contrary to the ghost, the -1 isn't strictly necessary since SIZE_PACMAN_SPRITE is odd.
-    // Still, it's better to keep it to prepare for future changes (refactoring, change of SIZE_PACMAN_SPRITE, reuse of the code, ...)
-    static constexpr SDL_Point init_pos_center_pacman = { 112, 211 };
-
     // Maze layout
     static constexpr int TILES[ROWS][COLS] = {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

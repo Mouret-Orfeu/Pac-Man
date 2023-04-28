@@ -14,7 +14,7 @@ intended_direction(Direction::RIGHT)
 }
 
 PacMan::PacMan()
-:Character({Direction::RIGHT, GameModel::init_pos_center_pacman, computeTilePosition(GameModel::init_pos_center_pacman)}),
+:Character({Direction::RIGHT, init_pos_center_pacman, computeTilePosition(init_pos_center_pacman)}),
  intended_direction(Direction::RIGHT)
 {
     // Initialize PacMan-specific data here
