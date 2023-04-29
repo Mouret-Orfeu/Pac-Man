@@ -16,6 +16,7 @@ public:
 
     struct State {
         Direction direction;
+        Direction sprite_direction;
         SDL_Point center_position;
         SDL_Point tile_position;
     };
@@ -48,6 +49,9 @@ public:
 
     Direction getDirection() const;
     void setDirection(Direction direction);
+
+    Direction getSpriteDirection() const;
+    void setSpriteDirection(Direction direction);
 
     SDL_Point getTopLeftPosition() const;
     void setTopLeftPosition(int x, int y);

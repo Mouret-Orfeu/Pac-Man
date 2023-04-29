@@ -90,7 +90,7 @@ void GameView::drawGhost() {
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite;
     Ghost::State state = ghost.getState();
-    switch (state.direction) {
+    switch (state.sprite_direction) {
         case Ghost::Direction::RIGHT:
             ghost_sprite = Blinky_sprite_r;
             break;
@@ -118,7 +118,7 @@ void GameView::drawPacMan() {
     // petit truc pour faire tourner le fantome
     SDL_Rect pacman_sprite_in;
     PacMan::State state = pacman.getState();
-    switch (state.direction) {
+    switch (state.sprite_direction) {
         case PacMan::Direction::RIGHT:
             pacman_sprite_in = pacman_sprite_r;
             break;

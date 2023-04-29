@@ -6,15 +6,8 @@
 #include <iostream>
 
 
-PacMan::PacMan(SDL_Point pos_center)
-:Character({Direction::RIGHT, pos_center, computeTilePosition(pos_center)}),
-intended_direction(Direction::RIGHT)
-{
-    // Initialize PacMan-specific data here
-}
-
 PacMan::PacMan()
-:Character({Direction::RIGHT, init_pos_center_pacman, computeTilePosition(init_pos_center_pacman)}),
+:Character({Direction::RIGHT, Direction::RIGHT, init_pos_center_pacman, computeTilePosition(init_pos_center_pacman)}),
  intended_direction(Direction::RIGHT)
 {
     // Initialize PacMan-specific data here
@@ -39,8 +32,10 @@ void PacMan::move(int count) {
     // std::cout << "next_tile_intended: (" << next_tile_intended.y << ", " << next_tile_intended.x << ")" << std::endl;
     // std::cout << "next_tile_intended: " << static_cast<int>(GameModel::TILES[next_tile_intended.y][next_tile_intended.x]) << std::endl;
 
-    if(isTileLegal(next_tile_intended) && isCenteredOnTile())
+    if(isTileLegal(next_tile_intended) && isCenteredOnTile()) {
         state.direction = intended_direction;
+        state.sprite_direction = intended_direction;
+    }
 
     SDL_Point next_tile = getNextTile(state.tile_position, state.direction);
     if(!isTileLegal(next_tile) && isCenteredOnTile())

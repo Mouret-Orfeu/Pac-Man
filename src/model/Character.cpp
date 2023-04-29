@@ -19,6 +19,14 @@ Character::Direction Character::getDirection() const {
     return state.direction;
 }
 
+Character::Direction Character::getSpriteDirection() const {
+    return state.sprite_direction;
+}
+
+void Character::setSpriteDirection(Direction sprite_direction) {
+    state.sprite_direction = sprite_direction;
+}
+
 void Character::setDirection(Direction direction) {
     state.direction = direction;
 }
