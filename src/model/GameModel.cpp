@@ -22,6 +22,7 @@ void GameModel::update(Character::Direction input_direction) {
     // Update PacMan top_left_position
     if (input_direction != Character::Direction::NONE)
         pacman.setIntendedDirection(input_direction);
+        
     pacman.move(count);
 
     // Update other game objects here

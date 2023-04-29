@@ -1,7 +1,9 @@
+#include <iostream>
+
 #include "Character.h"
 #include "GameModel.h"
 
-Character::Character(State state)
+Character::Character(State state, Direction sprite_direction )
 : state(state)
 {}
 
@@ -74,9 +76,14 @@ SDL_Point Character::getCoordCenterTile(SDL_Point tile_pos) {
     return {tile_pos.x*8+4, tile_pos.y*8+4};
 }
 
+
 bool Character::isTileLegal (const SDL_Point& tile) const
 {
-    if(GameModel::TILES[tile.x][tile.y]!=-1)
+    //DEBUG
+    //std::cout << "coord Tile tested: " << tile.x << " " << tile.y << std::endl;
+    //std::cout << "value tile tested: " <<GameModel::TILES[tile.x][tile.y] << std::endl;
+
+    if(GameModel::TILES[tile.y][tile.x]!=-1)
         return true;
     else
         return false;
@@ -101,9 +108,21 @@ SDL_Point Character::getNextTile(const SDL_Point& curent_tile, const Direction& 
         default:
             break;
     }
+
+    //std::cout
     return next_tile;
 }
 
 bool Character::isCenteredOnTile() const {
     return state.center_position.x%8==0 && state.center_position.y%8==0;
+}
+
+Character::Direction Character::getSpriteDirection() const
+{
+    return state.direction;
+}
+
+void Character::setSpriteDirection(Direction direction)
+{
+    state.direction = direction;
 }

@@ -272,6 +272,30 @@ void GameView::drawAllTileOutlines() {
             TileOutline(win_surf, {i,j});
 }
 
+//DEBUG
+void GameView::isTileLegalAllTiles()
+{
+    int mat_tiles_tested[28][36];
+
+    for(int i=0; i<36; i++)
+    {
+        for(int j=0; j<28; j++)
+        {
+            mat_tiles_tested[i][j] = gameModel.getPacMan().isTileLegal({i,j});
+        }
+    }
+
+    //print mat_tiles_tested in terminal 
+    for(int i=0; i<36; i++)
+    {
+        for(int j=0; j<28; j++)
+        {
+            std::cout << mat_tiles_tested[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 void GameView::drawScore(int score, bool highscore)
 {
     if (score==0) {

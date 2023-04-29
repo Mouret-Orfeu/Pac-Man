@@ -20,7 +20,7 @@ public:
         SDL_Point tile_position;
     };
 
-    Character(State state);
+    Character(State state, Direction sprite_direction);
     virtual ~Character();
 
     /**
@@ -65,7 +65,12 @@ public:
 
     SDL_Point getCoordCenterTile(SDL_Point tile_pos);
 
+    Direction getSpriteDirection() const;
+    void setSpriteDirection(Direction direction);
+
 
 protected:
     State state;
+    Direction sprite_direction;
+    
 };

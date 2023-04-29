@@ -15,6 +15,7 @@ enum class Cell {
 
 class GameView {
 public:
+
     GameView(GameModel& gameModel);
     ~GameView();
 
@@ -42,6 +43,7 @@ public:
     // DEBUG
     void TileOutline(SDL_Surface* win_surf, SDL_Point tile_position);
     void drawAllTileOutlines();
+    void isTileLegalAllTiles();
 
 private:
     GameModel& gameModel;

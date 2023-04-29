@@ -33,6 +33,10 @@ void GameController::run() {
     GameModel gameModel;
     GameView gameView(gameModel);
 
+    //DEBUG
+    //gameView.isTileLegalAllTiles();
+    //return;
+
     // Main game loop
 	bool quit = false;
 	while (!quit) {
@@ -69,7 +73,8 @@ void GameController::run() {
         // AFFICHAGE
 		gameView.draw();
 
-        //SDL_Delay(5000);
+        //DEBUG
+        //SDL_Delay(100);
 
         //Animation de la mort
         if (gameModel.getDeath()) {
