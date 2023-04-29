@@ -12,6 +12,4 @@ public:
     ~Ghost();
 
     void move(int count) override;
-private:
-    static constexpr SDL_Point initial_position_Blinky = { 11,35 };
 };

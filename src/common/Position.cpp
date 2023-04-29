@@ -52,6 +52,18 @@ Position& Position::operator-=(const SDL_Point& point) {
     return *this;
 }
 
+Position Position::operator+(const SDL_Point& point) const {
+    Position result(*this);
+    result += point;
+    return result;
+}
+
+Position Position::operator-(const SDL_Point& point) const {
+    Position result(*this);
+    result -= point;
+    return result;
+}
+
 void Position::incrementX(int value) {
     setX(getX() + value);
 }

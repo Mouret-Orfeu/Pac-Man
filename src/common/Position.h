@@ -28,6 +28,9 @@ public:
     Position& operator+=(const SDL_Point& point);
     Position& operator-=(const SDL_Point& point);
 
+    Position operator+(const SDL_Point& point) const;
+    Position operator-(const SDL_Point& point) const;
+
     void incrementX(int value);
     void incrementY(int value);
 
@@ -41,3 +44,5 @@ public:
 private:
     SDL_Point centerPosition;
 };
+
+Position operator+(const Position& pos, const SDL_Point& point);

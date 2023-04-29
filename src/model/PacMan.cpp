@@ -4,12 +4,13 @@
 #include "GameModel.h"
 #include "common/Position.h"
 #include "common/Direction.h"
+#include "common/GameDimensions.h"
 
 #include <iostream>
 
 
 PacMan::PacMan()
-:Character(Position(init_pos_center_pacman), Direction::RIGHT),
+:Character(Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2), Direction::RIGHT),
  intended_direction(Direction::RIGHT)
 {
     // Initialize PacMan-specific data here

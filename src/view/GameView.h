@@ -49,7 +49,7 @@ private:
     // SDL_Renderer* renderer; // DEBUG
 
     // Upscaling factor
-    static constexpr int UPSCALING_FACTOR = 4;
+    static constexpr int UPSCALING_FACTOR = 3;
 
     // Window dimensions
     static constexpr int UPSCALED_WINDOW_WIDTH  = UPSCALING_FACTOR*WINDOW_WIDTH,

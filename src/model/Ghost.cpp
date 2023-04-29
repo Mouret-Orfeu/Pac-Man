@@ -4,7 +4,7 @@
 #include "common/Direction.h"
 
 Ghost::Ghost()
-:Character(Position(initial_position_Blinky), Direction::RIGHT)
+:Character(Position(Tile({4,1})), Direction::RIGHT)
 {
     // Initialize Ghost-specific data here
 }
