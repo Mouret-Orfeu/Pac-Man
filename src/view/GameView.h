@@ -49,7 +49,7 @@ private:
     // SDL_Renderer* renderer; // DEBUG
 
     // Upscaling factor
-    static constexpr int UPSCALING_FACTOR = 3;
+    static constexpr int UPSCALING_FACTOR = 4;
 
     // Window dimensions
     static constexpr int UPSCALED_WINDOW_WIDTH  = UPSCALING_FACTOR*WINDOW_WIDTH,
@@ -89,47 +89,72 @@ private:
     static constexpr SDL_Rect R_sprite = { 19,69, TILE_SIZE,TILE_SIZE };
     static constexpr SDL_Rect E_sprite = { 43,61, TILE_SIZE,TILE_SIZE };
 
+    // Coordinates of the top left corner of the character sprite grid
+    // in the Namco sprite sheet
+    static constexpr int GRID_ORIGIN = 456;
+
     // Ghost sprites
     // Blinky
-    static constexpr SDL_Rect Blinky_sprite_r = { 456,64, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Blinky_sprite_l = { 488,64, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Blinky_sprite_d = { 552,64, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Blinky_sprite_u = { 520,64, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Blinky_sprite_r = { GRID_ORIGIN,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Blinky_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Blinky_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Blinky_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
     // Pinky
-    static constexpr SDL_Rect Pinky_sprite_r = { 456,80, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Pinky_sprite_l = { 488,80, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Pinky_sprite_d = { 552,80, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Pinky_sprite_u = { 520,80, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Pinky_sprite_r = { GRID_ORIGIN,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Pinky_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Pinky_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Pinky_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
     // Inky
-    static constexpr SDL_Rect Inky_sprite_r = { 456,96, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Inky_sprite_l = { 488,96, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Inky_sprite_d = { 552,96, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Inky_sprite_u = { 520,96, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Inky_sprite_r = { GRID_ORIGIN,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Inky_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Inky_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Inky_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
     // Clyde
-    static constexpr SDL_Rect Clyde_sprite_r = { 456,112, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Clyde_sprite_l = { 488,112, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Clyde_sprite_d = { 552,112, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Clyde_sprite_u = { 520,112, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Clyde_sprite_r = { GRID_ORIGIN,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Clyde_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Clyde_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Clyde_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
 
     // PacMan sprites
     // Directional sprites
-    static constexpr SDL_Rect pacman_sprite_r = { 472,0, SPRITE_SIZE,SPRITE_SIZE  };
-    static constexpr SDL_Rect pacman_sprite_l = { 472,16, SPRITE_SIZE,SPRITE_SIZE  };
-    static constexpr SDL_Rect pacman_sprite_u = { 472,32, SPRITE_SIZE,SPRITE_SIZE  };
-    static constexpr SDL_Rect pacman_sprite_d = { 472,48, SPRITE_SIZE,SPRITE_SIZE  };
-    static constexpr SDL_Rect pacman_sprite_full = { 488,0, SPRITE_SIZE,SPRITE_SIZE  };
+    static constexpr SDL_Rect pacman_sprite_full = { GRID_ORIGIN+2*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE };
+
+    static constexpr SDL_Rect pacman_sprites_r[4] = {
+        { GRID_ORIGIN+2*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE }, // Full
+        { GRID_ORIGIN+SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE }, // Slighly open
+        { GRID_ORIGIN,0, SPRITE_SIZE,SPRITE_SIZE }, // Wide open
+        { GRID_ORIGIN+SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE } // Slighly open
+    };
+    static constexpr SDL_Rect pacman_sprites_l[4] = {
+        { GRID_ORIGIN+2*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE }, // Full
+        { GRID_ORIGIN+SPRITE_SIZE,SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE }, // Slightly open
+        { GRID_ORIGIN,SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE }, // Wide open
+        { GRID_ORIGIN+SPRITE_SIZE,SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE } // Slightly open
+    };
+    static constexpr SDL_Rect pacman_sprites_u[4] = {
+        { GRID_ORIGIN+2*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE }, // Full
+        { GRID_ORIGIN+SPRITE_SIZE,2*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE }, // Slightly open
+        { GRID_ORIGIN,2*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE }, // Wide open
+        { GRID_ORIGIN+SPRITE_SIZE,2*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE } // Slightly open
+    };
+    static constexpr SDL_Rect pacman_sprites_d[4] = {
+        { GRID_ORIGIN+2*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE }, // Full
+        { GRID_ORIGIN+SPRITE_SIZE,3*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE }, // Slightly open
+        { GRID_ORIGIN,3*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE }, // Wide open
+        { GRID_ORIGIN+SPRITE_SIZE,3*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE } // Slightly open
+    };
     // Death sprites
     static constexpr SDL_Rect pacman_death_sprites[11] = {
-        { 503,3, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 520,3, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 536,3, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 552,3, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 568,3, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 584,5, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 600,5, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 616,5, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 632,5, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 648,5, SPRITE_SIZE,SPRITE_SIZE-3 },
-        { 664,5, SPRITE_SIZE,SPRITE_SIZE-3 }
+        { GRID_ORIGIN+3*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+4*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+5*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+6*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+7*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+8*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+9*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+10*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+11*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+12*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
+        { GRID_ORIGIN+13*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE }
     };
 };

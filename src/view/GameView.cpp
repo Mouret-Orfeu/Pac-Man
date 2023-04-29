@@ -3,7 +3,7 @@
 #include "model/Character.h"
 #include "model/Ghost.h"
 #include "common/Direction.h"
-// #include "common/GameDimensions.h"
+#include "common/GameDimensions.h"
 
 #include <SDL.h>
 #include <iostream>
@@ -76,13 +76,13 @@ void GameView::draw() {
 	SDL_UpdateWindowSurface(pWindow);
 }
 
-void GameView::drawDeathAnimation(int death_sprite_count) {
+void GameView::drawDeathAnimation(int death_sprite_num) {
     drawMaze();
     drawHUD();
 
     SDL_Point position = gameModel.getPacMan().getPosition().toTopLeft();
 
-    drawSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_count], position, true);
+    drawSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_num], position, true);
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -117,37 +117,35 @@ void GameView::drawGhost() {
 
 void GameView::drawPacMan() {
     const PacMan& pacman = gameModel.getPacMan();
-    // petit truc pour faire tourner le fantome
+
+    // ici on change entre les 2 sprites sources pour une jolie animation.
+    int sprite_num = (gameModel.getCount() / 4) % 4;
+
     SDL_Rect pacman_sprite_in;
     Direction sprite_orientation = pacman.getSpriteOrientation();
     switch (sprite_orientation) {
         case Direction::RIGHT:
-            pacman_sprite_in = pacman_sprite_r;
+            pacman_sprite_in = pacman_sprites_r[sprite_num];
             break;
         case Direction::DOWN:
-            pacman_sprite_in = pacman_sprite_d;
+            pacman_sprite_in = pacman_sprites_d[sprite_num];
             break;
         case Direction::LEFT:
-            pacman_sprite_in = pacman_sprite_l;
+            pacman_sprite_in = pacman_sprites_l[sprite_num];
             break;
         case Direction::UP:
-            pacman_sprite_in = pacman_sprite_u;
+            pacman_sprite_in = pacman_sprites_u[sprite_num];
             break;
         case Direction::NONE:
             // TODO: set sprite to round sprite
-            pacman_sprite_in = pacman_sprite_r;
+            pacman_sprite_in = pacman_sprite_full;
             break;
     }
-
-    // // ici on change entre les 2 sprites sources pour une jolie animation.
-    // if ((gameModel.getCount() / 4) % 2) {
-    //     pacman_sprite_in.x += 17;
-    // }
 
     drawSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition().toTopLeft(), true);
 
     // DEBUG
-    drawTileOutline(pacman.getPosition().toTile());
+    // drawTileOutline(pacman.getPosition().toTile());
     // drawPacmanPosition();
 }
 

@@ -74,7 +74,7 @@ void GameController::run() {
 
         //Animation de la mort
         if (gameModel.getDeath()) {
-            for (int death_sprite_count = 0; death_sprite_count < 11; death_sprite_count++) {
+            for (int death_sprite_num = 0; death_sprite_num < 11; death_sprite_num++) {
                 SDL_Event event;
 	        	while (!quit && SDL_PollEvent(&event))
 	        	{
@@ -88,7 +88,7 @@ void GameController::run() {
 	        	}
 
                 // AFFICHAGE
-	        	gameView.drawDeathAnimation(death_sprite_count);
+	        	gameView.drawDeathAnimation(death_sprite_num);
                 SDL_Delay(100);
 
                 // LIMITE A 60 FPS
