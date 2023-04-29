@@ -43,7 +43,7 @@ void PacMan::move(int count) {
         state.direction = intended_direction;
 
     SDL_Point next_tile = getNextTile(state.tile_position, state.direction);
-    if(!isTileLegal(next_tile_intended) && isCenteredOnTile())
+    if(!isTileLegal(next_tile) && isCenteredOnTile())
         state.direction = Direction::NONE;
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
