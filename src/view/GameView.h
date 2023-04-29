@@ -55,9 +55,6 @@ private:
     // Upscaling factor
     static constexpr int UPSCALING_FACTOR = 3;
 
-    // Tile size
-    static constexpr int TILE_SIZE = TILE_SIZE;
-
     // Window dimensions
     static constexpr int UPSCALED_WINDOW_WIDTH  = UPSCALING_FACTOR*WINDOW_WIDTH,
                          UPSCALED_WINDOW_HEIGHT = UPSCALING_FACTOR*WINDOW_HEIGHT;
