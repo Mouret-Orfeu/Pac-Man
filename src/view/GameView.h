@@ -21,9 +21,11 @@ public:
     void drawHUD();
     void drawMaze();
 
-    void drawScore(int score, bool highscore);
+    void drawScoreHelper(int score, bool highscore);
+    void drawScore();
+    void drawHighScore();
     void drawText();
-    void drawLives(int lives);
+    void drawLives();
 
     void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency);
     // DEBUG
@@ -67,8 +69,7 @@ private:
     static constexpr int MAX_SCORE_DIGITS = 7;
 
     // HUP sprites
-    static constexpr int SIZE_LIFE_SPRITE = 11;
-    static constexpr SDL_Rect life_sprite = { 587,18, SIZE_LIFE_SPRITE,SIZE_LIFE_SPRITE};
+    static constexpr SDL_Rect life_sprite = { 584,16, SPRITE_SIZE,SPRITE_SIZE};
     static constexpr SDL_Rect num_sprites[10] = {
         { 3,53, TILE_SIZE,TILE_SIZE },  // 0
         { 12,53, TILE_SIZE,TILE_SIZE }, // 1
@@ -95,48 +96,46 @@ private:
     static constexpr SDL_Rect E_sprite = { 43,61, TILE_SIZE,TILE_SIZE };
 
     // Ghost sprites
-    static constexpr int SIZE_GHOST_SPRITE = 16;
     // Blinky
-    static constexpr SDL_Rect Blinky_sprite_r = { 456,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Blinky_sprite_l = { 488,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Blinky_sprite_d = { 552,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Blinky_sprite_u = { 520,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_r = { 456,64, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Blinky_sprite_l = { 488,64, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Blinky_sprite_d = { 552,64, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Blinky_sprite_u = { 520,64, SPRITE_SIZE,SPRITE_SIZE };
     // Pinky
-    static constexpr SDL_Rect Pinky_sprite_r = { 456,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Pinky_sprite_l = { 488,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Pinky_sprite_d = { 552,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Pinky_sprite_u = { 520,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_r = { 456,80, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Pinky_sprite_l = { 488,80, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Pinky_sprite_d = { 552,80, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Pinky_sprite_u = { 520,80, SPRITE_SIZE,SPRITE_SIZE };
     // Inky
-    static constexpr SDL_Rect Inky_sprite_r = { 456,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Inky_sprite_l = { 488,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Inky_sprite_d = { 552,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Inky_sprite_u = { 520,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_r = { 456,96, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Inky_sprite_l = { 488,96, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Inky_sprite_d = { 552,96, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Inky_sprite_u = { 520,96, SPRITE_SIZE,SPRITE_SIZE };
     // Clyde
-    static constexpr SDL_Rect Clyde_sprite_r = { 456,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Clyde_sprite_l = { 488,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Clyde_sprite_d = { 552,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Clyde_sprite_u = { 520,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_r = { 456,112, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Clyde_sprite_l = { 488,112, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Clyde_sprite_d = { 552,112, SPRITE_SIZE,SPRITE_SIZE };
+    static constexpr SDL_Rect Clyde_sprite_u = { 520,112, SPRITE_SIZE,SPRITE_SIZE };
 
     // PacMan sprites
-    static constexpr int SIZE_PACMAN_SPRITE = 16;
     // Directional sprites
-    static constexpr SDL_Rect pacman_sprite_r = { 472,0, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_l = { 472,16, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_u = { 472,32, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_d = { 472,48, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_full = { 488,0, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    // Death sprites$
+    static constexpr SDL_Rect pacman_sprite_r = { 472,0, SPRITE_SIZE,SPRITE_SIZE  };
+    static constexpr SDL_Rect pacman_sprite_l = { 472,16, SPRITE_SIZE,SPRITE_SIZE  };
+    static constexpr SDL_Rect pacman_sprite_u = { 472,32, SPRITE_SIZE,SPRITE_SIZE  };
+    static constexpr SDL_Rect pacman_sprite_d = { 472,48, SPRITE_SIZE,SPRITE_SIZE  };
+    static constexpr SDL_Rect pacman_sprite_full = { 488,0, SPRITE_SIZE,SPRITE_SIZE  };
+    // Death sprites
     static constexpr SDL_Rect pacman_death_sprites[11] = {
-        { 503,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 520,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 536,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 552,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 568,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 584,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 600,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 616,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 632,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 648,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
-        { 664,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 }
+        { 503,3, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 520,3, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 536,3, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 552,3, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 568,3, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 584,5, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 600,5, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 616,5, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 632,5, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 648,5, SPRITE_SIZE,SPRITE_SIZE-3 },
+        { 664,5, SPRITE_SIZE,SPRITE_SIZE-3 }
     };
 };

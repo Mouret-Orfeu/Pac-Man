@@ -79,7 +79,7 @@ void GameView::drawDeathAnimation(int death_sprite_count) {
     drawMaze();
     drawHUD();
 
-    SDL_Point position = getTopLeftPosition(gameModel.getPacMan().getPosition(), SIZE_PACMAN_SPRITE);
+    SDL_Point position = getTopLeftPosition(gameModel.getPacMan().getPosition(), SPRITE_SIZE);
 
     drawSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_count], position, true);
 
@@ -111,7 +111,7 @@ void GameView::drawGhost() {
         ghost_sprite.x += 16;
     }
 
-    drawSprite(spriteSheet_Namco, &ghost_sprite, getTopLeftPosition(state.center_position, SIZE_GHOST_SPRITE), true);
+    drawSprite(spriteSheet_Namco, &ghost_sprite, getTopLeftPosition(state.center_position, SPRITE_SIZE), true);
 }
 
 void GameView::drawPacMan() {
@@ -143,7 +143,7 @@ void GameView::drawPacMan() {
     //     pacman_sprite_in.x += 17;
     // }
 
-    drawSprite(spriteSheet_Namco, &pacman_sprite_in, getTopLeftPosition(state.center_position, SIZE_PACMAN_SPRITE), true);
+    drawSprite(spriteSheet_Namco, &pacman_sprite_in, getTopLeftPosition(state.center_position, SPRITE_SIZE), true);
 
     // DEBUG
     // drawTileOutline(state.tile_position);
@@ -155,20 +155,10 @@ void GameView::drawMaze() {
 }
 
 void GameView::drawHUD() {
-    // Score
-    int score = gameModel.getScore();
-    drawScore(score, false);
-
-    // Highscore
-    int highscore = gameModel.getHighScore();
-    drawScore(highscore, true);
-
-    // Lives
-    int lives = gameModel.getLives();
-    drawLives(lives);
-
-    // Text ("1UP" and "HIGH SCORE")
-    drawText();
+    drawScore();
+    drawHighScore();
+    drawLives();
+    drawText(); // "1UP" and "HIGH SCORE"
 }
 
 void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency) {
@@ -337,7 +327,17 @@ void GameView::drawAllColoredTiles() {
     }
 }
 
-void GameView::drawScore(int score, bool highscore) {
+void GameView::drawScore() {
+    int score = gameModel.getScore();
+    drawScoreHelper(score, false);
+}
+
+void GameView::drawHighScore() {
+    int highscore = gameModel.getHighScore();
+    drawScoreHelper(highscore, true);
+}
+
+void GameView::drawScoreHelper(int score, bool highscore) {
     // Convert the score to a string
     std::string scoreString = std::to_string(score);
 
@@ -390,7 +390,8 @@ void GameView::drawText() {
     drawSprite(spriteSheet_NES, &E_sprite, SDL_Point({19*TILE_SIZE, 0}), true);
 }
 
-void GameView::drawLives(int lives) {
+void GameView::drawLives() {
+    int lives = gameModel.getLives();
     for (int i = 1; i <= lives; i++)
         drawSprite(spriteSheet_Namco, &life_sprite, SDL_Point({2*i*TILE_SIZE+3,WINDOW_HEIGHT-2*TILE_SIZE+2}), true);
 }
