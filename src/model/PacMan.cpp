@@ -2,12 +2,14 @@
 #include "Character.h"
 
 #include "GameModel.h"
+#include "common/Position.h"
+#include "common/Direction.h"
 
 #include <iostream>
 
 
 PacMan::PacMan()
-:Character({Direction::RIGHT, Direction::RIGHT, init_pos_center_pacman, computeTilePosition(init_pos_center_pacman)}),
+:Character(Position(init_pos_center_pacman), Direction::RIGHT),
  intended_direction(Direction::RIGHT)
 {
     // Initialize PacMan-specific data here
@@ -24,22 +26,22 @@ void PacMan::move(int count) {
     // Update the direction based on the intended direction
     // TODO: Check if the intended direction is valid,
     //       i.e. it doesn't point to a wall
-    SDL_Point next_tile_intended = getNextTile(state.tile_position, intended_direction);
+    Tile next_tile_intended = position.getNextTile(intended_direction);
 
     // DEBUG
-    // std::cout << "state.tile_position: (" << state.tile_position.y << ", " << state.tile_position.x << ")" << std::endl;
-    // std::cout << "state.tile_position: " << static_cast<int>(TILES_MATRIX[state.tile_position.y][state.tile_position.x]) << std::endl;
-    // std::cout << "next_tile_intended: (" << next_tile_intended.y << ", " << next_tile_intended.x << ")" << std::endl;
-    // std::cout << "next_tile_intended: " << static_cast<int>(TILES_MATRIX[next_tile_intended.y][next_tile_intended.x]) << std::endl;
+    // std::cout << "state.tile_position: (" << position.toTile().i << ", " << position.toTile().j << ")" << std::endl;
+    // std::cout << "state.tile_position: " << static_cast<int>(GameModel::TILES_MATRIX[position.toTile().i][position.toTile().j]) << std::endl;
+    // std::cout << "next_tile_intended: (" << next_tile_intended.i << ", " << next_tile_intended.j << ")" << std::endl;
+    // std::cout << "next_tile_intended: " << static_cast<int>(GameModel::TILES_MATRIX[next_tile_intended.i][next_tile_intended.j]) << std::endl;
 
-    if(isTileLegal(next_tile_intended) && isCenteredOnTile()) {
-        state.direction = intended_direction;
-        state.sprite_direction = intended_direction;
+    if(Position::isTileLegal(next_tile_intended) && position.isCenteredOnTile()) {
+        direction = intended_direction;
+        sprite_orientation = intended_direction;
     }
 
-    SDL_Point next_tile = getNextTile(state.tile_position, state.direction);
-    if(!isTileLegal(next_tile) && isCenteredOnTile())
-        state.direction = Direction::NONE;
+    Tile next_tile = position.getNextTile(direction);
+    if(!Position::isTileLegal(next_tile) && position.isCenteredOnTile())
+        direction = Direction::NONE;
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
     updatePosition();

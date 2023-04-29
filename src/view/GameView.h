@@ -31,15 +31,9 @@ public:
     // DEBUG
     // void drawSpriteAlpha(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency, Uint8 alpha);
 
-    SDL_Point getTopLeftPosition(SDL_Point position, int size);
-    SDL_Point computeCenterPosition(SDL_Point top_left_position, int size);
-    SDL_Point computeTilePosition(SDL_Point top_left_position, int size);
-    SDL_Point getCoordCenterTile(SDL_Point tile_position);
-
     // DEBUG
-    void drawTileOutline(SDL_Point tile_position);
+    void drawTileOutline(Tile tile);
     void drawAllTileOutlines();
-    // void drawColoredTile(SDL_Point tile_position);
     void drawAllColoredTiles();
     void drawPacmanPosition();
 

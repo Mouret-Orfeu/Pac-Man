@@ -4,13 +4,14 @@
 #include "PacMan.h"
 
 #include "common/GameDimensions.h"
+#include "common/Direction.h"
 
 class GameModel {
 public:
     GameModel();
     ~GameModel();
 
-    void update(Character::Direction input_direction);
+    void update(Direction input_direction);
 
     Ghost& getGhost();
     PacMan& getPacMan();

@@ -1,9 +1,10 @@
 #include "Ghost.h"
-
 #include "GameModel.h"
+#include "common/Position.h"
+#include "common/Direction.h"
 
 Ghost::Ghost()
-:Character({Direction::RIGHT, Direction::RIGHT, init_pos_center_Blinky, computeTilePosition(init_pos_center_Blinky)})
+:Character(Position(initial_position_Blinky), Direction::RIGHT)
 {
     // Initialize Ghost-specific data here
 }
@@ -16,24 +17,24 @@ void Ghost::move(int count) {
     // Update the direction based on the count value
     switch (count / 128) {
         case 0:
-            state.direction = Direction::RIGHT;
-            state.sprite_direction = Direction::RIGHT;
-            state.center_position.x++;
+            direction = Direction::RIGHT;
+            sprite_orientation = Direction::RIGHT;
+            position.incrementX(1);
             break;
         case 1:
-            state.direction = Direction::DOWN;
-            state.sprite_direction = Direction::DOWN;
-            state.center_position.y++;
+            direction = Direction::DOWN;
+            sprite_orientation = Direction::DOWN;
+            position.incrementY(1);
             break;
         case 2:
-            state.direction = Direction::LEFT;
-            state.sprite_direction = Direction::LEFT;
-            state.center_position.x--;
+            direction = Direction::LEFT;
+            sprite_orientation = Direction::LEFT;
+            position.incrementX(-1);
             break;
         case 3:
-            state.direction = Direction::UP;
-            state.sprite_direction = Direction::UP;
-            state.center_position.y--;
+            direction = Direction::UP;
+            sprite_orientation = Direction::UP;
+            position.incrementY(-1);
             break;
     }
 }

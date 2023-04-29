@@ -1,5 +1,6 @@
 #include "GameModel.h"
 #include "Character.h"
+#include "common/Direction.h"
 
 #include <iostream>
 
@@ -15,12 +16,12 @@ GameModel::~GameModel() {
     // Clean up if necessary
 }
 
-void GameModel::update(Character::Direction input_direction) {
+void GameModel::update(Direction input_direction) {
     // Update Ghost top_left_position
     blinky.move(count);
 
     // Update PacMan top_left_position
-    if (input_direction != Character::Direction::NONE)
+    if (input_direction != Direction::NONE)
         pacman.setIntendedDirection(input_direction);
     pacman.move(count);
 

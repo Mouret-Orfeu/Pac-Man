@@ -4,6 +4,7 @@
 #include "model/Ghost.h"
 #include "model/PacMan.h"
 #include "model/Character.h"
+#include "common/Direction.h"
 
 #include <SDL.h>
 #include <iostream>
@@ -53,15 +54,15 @@ void GameController::run() {
         if (keys[SDL_SCANCODE_ESCAPE])
             quit = true;
 
-        Character::Direction input_direction = Character::Direction::NONE;
+        Direction input_direction = Direction::NONE;
         if (keys[SDL_SCANCODE_LEFT])
-            input_direction = Character::Direction::LEFT;
+            input_direction = Direction::LEFT;
         if (keys[SDL_SCANCODE_RIGHT])
-            input_direction = Character::Direction::RIGHT;
+            input_direction = Direction::RIGHT;
         if (keys[SDL_SCANCODE_UP])
-            input_direction = Character::Direction::UP;
+            input_direction = Direction::UP;
         if (keys[SDL_SCANCODE_DOWN])
-            input_direction = Character::Direction::DOWN;
+            input_direction = Direction::DOWN;
 
         //là dedans y'a move pourtous les persos
         gameModel.update(input_direction);

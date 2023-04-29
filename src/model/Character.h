@@ -1,27 +1,15 @@
 #pragma once
 
 #include "GameObject.h"
+#include "common/Position.h"
+#include "common/Direction.h"
 
 #include <SDL.h>
 
 class Character : public GameObject {
 public:
-    enum class Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        NONE
-    };
-
-    struct State {
-        Direction direction;
-        Direction sprite_direction;
-        SDL_Point center_position;
-        SDL_Point tile_position;
-    };
-
-    Character(State state);
+    Character(Position position, Direction direction, Direction sprite_orientation);
+    Character(Position position, Direction direction);
     virtual ~Character();
 
     /**
@@ -36,40 +24,20 @@ public:
     *
     *
     */
-    void updatePosition ();
+    void updatePosition();
 
-    bool isTileLegal (const SDL_Point& tile) const;
 
-    bool isCenteredOnTile() const;
-
-    SDL_Point getNextTile(const SDL_Point& curent_tile, const Direction& direction) const;
-
-    State getState() const;
-    void setState(const State& state);
+    Position getPosition() const;
+    void setPosition(Position position);
 
     Direction getDirection() const;
     void setDirection(Direction direction);
 
-    Direction getSpriteDirection() const;
-    void setSpriteDirection(Direction direction);
-
-    SDL_Point getTopLeftPosition() const;
-    void setTopLeftPosition(int x, int y);
-
-    SDL_Point getPosition() const;
-    void setCenterPosition(int x, int y);
-
-    SDL_Point computeTilePosition(SDL_Point center_position);
-
-    SDL_Point getTilePosition() const;
-    void setTilePosition(int x, int y);
-
-    SDL_Point getTilePositionFromCenter() const;
-    void setTilePositionFromCenter(int x, int y);
-
-    SDL_Point getCoordCenterTile(SDL_Point tile_pos);
-
+    Direction getSpriteOrientation() const;
+    void setSpriteOrientation(Direction sprite_orientation);
 
 protected:
-    State state;
+    Position position;
+    Direction direction;
+    Direction sprite_orientation;
 };

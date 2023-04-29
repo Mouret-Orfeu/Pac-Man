@@ -2,6 +2,7 @@
 #include "model/GameModel.h"
 #include "model/Character.h"
 #include "model/Ghost.h"
+#include "common/Direction.h"
 // #include "common/GameDimensions.h"
 
 #include <SDL.h>
@@ -79,7 +80,7 @@ void GameView::drawDeathAnimation(int death_sprite_count) {
     drawMaze();
     drawHUD();
 
-    SDL_Point position = getTopLeftPosition(gameModel.getPacMan().getPosition(), SPRITE_SIZE);
+    SDL_Point position = gameModel.getPacMan().getPosition().toTopLeft();
 
     drawSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_count], position, true);
 
@@ -90,18 +91,18 @@ void GameView::drawGhost() {
     const Ghost& ghost = gameModel.getGhost();
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite;
-    Ghost::State state = ghost.getState();
-    switch (state.sprite_direction) {
-        case Ghost::Direction::RIGHT:
+    Direction sprite_orientation = ghost.getSpriteOrientation();
+    switch (sprite_orientation) {
+        case Direction::RIGHT:
             ghost_sprite = Blinky_sprite_r;
             break;
-        case Ghost::Direction::DOWN:
+        case Direction::DOWN:
             ghost_sprite = Blinky_sprite_d;
             break;
-        case Ghost::Direction::LEFT:
+        case Direction::LEFT:
             ghost_sprite = Blinky_sprite_l;
             break;
-        case Ghost::Direction::UP:
+        case Direction::UP:
             ghost_sprite = Blinky_sprite_u;
             break;
     }
@@ -111,28 +112,28 @@ void GameView::drawGhost() {
         ghost_sprite.x += 16;
     }
 
-    drawSprite(spriteSheet_Namco, &ghost_sprite, getTopLeftPosition(state.center_position, SPRITE_SIZE), true);
+    drawSprite(spriteSheet_Namco, &ghost_sprite, ghost.getPosition().toTopLeft(), true);
 }
 
 void GameView::drawPacMan() {
     const PacMan& pacman = gameModel.getPacMan();
     // petit truc pour faire tourner le fantome
     SDL_Rect pacman_sprite_in;
-    PacMan::State state = pacman.getState();
-    switch (state.sprite_direction) {
-        case PacMan::Direction::RIGHT:
+    Direction sprite_orientation = pacman.getSpriteOrientation();
+    switch (sprite_orientation) {
+        case Direction::RIGHT:
             pacman_sprite_in = pacman_sprite_r;
             break;
-        case PacMan::Direction::DOWN:
+        case Direction::DOWN:
             pacman_sprite_in = pacman_sprite_d;
             break;
-        case PacMan::Direction::LEFT:
+        case Direction::LEFT:
             pacman_sprite_in = pacman_sprite_l;
             break;
-        case PacMan::Direction::UP:
+        case Direction::UP:
             pacman_sprite_in = pacman_sprite_u;
             break;
-        case PacMan::Direction::NONE:
+        case Direction::NONE:
             // TODO: set sprite to round sprite
             pacman_sprite_in = pacman_sprite_r;
             break;
@@ -143,10 +144,10 @@ void GameView::drawPacMan() {
     //     pacman_sprite_in.x += 17;
     // }
 
-    drawSprite(spriteSheet_Namco, &pacman_sprite_in, getTopLeftPosition(state.center_position, SPRITE_SIZE), true);
+    drawSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition().toTopLeft(), true);
 
     // DEBUG
-    // drawTileOutline(state.tile_position);
+    drawTileOutline(pacman.getPosition().toTile());
     // drawPacmanPosition();
 }
 
@@ -227,7 +228,7 @@ void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL
 // DEBUG
 void GameView::drawPacmanPosition() {
     // Get Pac-Man's center position
-    SDL_Point pacmanCenter = gameModel.getPacMan().getState().center_position;
+    SDL_Point pacmanCenter = gameModel.getPacMan().getPosition().toCenter();
 
     // Create a new surface with a green pixel
     SDL_Surface* greenPixel = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
@@ -244,27 +245,10 @@ void GameView::drawPacmanPosition() {
     SDL_FreeSurface(greenPixel);
 }
 
-SDL_Point GameView::computeCenterPosition(SDL_Point top_left_position, int size) {
-    return {top_left_position.x+(size-1)/2, top_left_position.y+(size-1)/2};
-}
-
-SDL_Point GameView::computeTilePosition(SDL_Point top_left_position, int size) {
-    SDL_Point center_position = computeCenterPosition(top_left_position, size);
-    return {center_position.x/8, center_position.y/8};
-}
-
-SDL_Point GameView::getCoordCenterTile(SDL_Point tile_pos) {
-    return {tile_pos.x*8+4, tile_pos.y*8+4};
-}
-
-SDL_Point GameView::getTopLeftPosition(SDL_Point position, int size) {
-    return {position.x-(size-1)/2, position.y-(size-1)/2};
-}
-
 //DEBUG
-void GameView::drawTileOutline(SDL_Point tile_position) {
-    int x = tile_position.x*TILE_SIZE,
-        y = tile_position.y*TILE_SIZE;
+void GameView::drawTileOutline(Tile tile) {
+    int x = tile.j*TILE_SIZE,
+        y = tile.i*TILE_SIZE;
     // Create a new surface with the square outline
     SDL_Surface* redSquare = SDL_CreateRGBSurface(0, 8, 8, 32, 0, 0, 0, 0);
     SDL_FillRect(redSquare, NULL, SDL_MapRGB(redSquare->format, 255, 0, 0));
@@ -280,8 +264,8 @@ void GameView::drawTileOutline(SDL_Point tile_position) {
 
 //DEBUG
 void GameView::drawAllTileOutlines() {
-    for(int i = 0; i < WINDOW_COLS; i++)
-        for (int j = 0; j < WINDOW_ROWS; j++)
+    for(int i = 0; i < WINDOW_ROWS; i++)
+        for (int j = 0; j < WINDOW_COLS; j++)
             drawTileOutline({i,j});
 }
 
