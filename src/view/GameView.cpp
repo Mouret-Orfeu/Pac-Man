@@ -2,6 +2,7 @@
 #include "model/GameModel.h"
 #include "model/Character.h"
 #include "model/Ghost.h"
+// #include "GameDimensions.h"
 
 #include <SDL.h>
 #include <iostream>
@@ -9,7 +10,7 @@
 
 GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     // Initialize game view related data here
-	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH , WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, UPSCALED_WINDOW_WIDTH , UPSCALED_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 	win_surf = SDL_GetWindowSurface(pWindow);
 
     //On utilise des sprites venant des ces 2 fichiers
@@ -42,7 +43,7 @@ GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
     }
 
     //DEBUG
-    //grid_surface = SDL_CreateRGBSurface(0, WINDOW_WIDTH, WINDOW_HEIGHT, 32, 0, 0, 0, 0);
+    //grid_surface = SDL_CreateRGBSurface(0, UPSCALED_WINDOW_WIDTH, UPSCALED_WINDOW_HEIGHT, 32, 0, 0, 0, 0);
     //SDL_FillRect(grid_surface, NULL, SDL_MapRGB(grid_surface->format, 255, 0, 0)); // fill grid surface with red color
 
     // DEBUG
@@ -144,8 +145,9 @@ void GameView::drawPacMan() {
 
     drawSprite(spriteSheet_Namco, &pacman_sprite_in, getTopLeftPosition(state.center_position, SIZE_PACMAN_SPRITE), true);
 
-    drawTileOutline(state.tile_position);
-    drawPacmanPosition(); // DEBUG
+    // DEBUG
+    // drawTileOutline(state.tile_position);
+    // drawPacmanPosition();
 }
 
 void GameView::drawMaze() {
@@ -288,17 +290,17 @@ void GameView::drawTileOutline(SDL_Point tile_position) {
 
 //DEBUG
 void GameView::drawAllTileOutlines() {
-    for(int i = 0; i < GameModel::COLS; i++)
-        for (int j = 0; j < GameModel::ROWS; j++)
+    for(int i = 0; i < WINDOW_COLS; i++)
+        for (int j = 0; j < WINDOW_ROWS; j++)
             drawTileOutline({i,j});
 }
 
 // DEBUG
 void GameView::drawAllColoredTiles() {
-    for (int row = 0; row < GameModel::ROWS; row++) {
-        for (int col = 0; col < GameModel::COLS; col++) {
+    for (int row = 0; row < WINDOW_ROWS; row++) {
+        for (int col = 0; col < WINDOW_COLS; col++) {
             // Get the cell type
-            GameModel::Cell cell = static_cast<GameModel::Cell>(GameModel::TILES[row][col]);
+            GameModel::Cell cell = static_cast<GameModel::Cell>(GameModel::TILES_MATRIX[row][col]);
 
             // Define colors for different cell types
             SDL_Color color;
@@ -390,5 +392,5 @@ void GameView::drawText() {
 
 void GameView::drawLives(int lives) {
     for (int i = 1; i <= lives; i++)
-        drawSprite(spriteSheet_Namco, &life_sprite, SDL_Point({2*i*TILE_SIZE+3,GameModel::HEIGHT-2*TILE_SIZE+2}), true);
+        drawSprite(spriteSheet_Namco, &life_sprite, SDL_Point({2*i*TILE_SIZE+3,WINDOW_HEIGHT-2*TILE_SIZE+2}), true);
 }

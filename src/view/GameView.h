@@ -2,6 +2,7 @@
 
 #include "model/GameModel.h"
 #include "model/Ghost.h"
+#include "GameDimensions.h"
 
 #include <SDL.h>
 
@@ -55,14 +56,14 @@ private:
     static constexpr int UPSCALING_FACTOR = 3;
 
     // Tile size
-    static constexpr int TILE_SIZE = GameModel::TILE_SIZE;
+    static constexpr int TILE_SIZE = TILE_SIZE;
 
     // Window dimensions
-    static constexpr int WINDOW_WIDTH  = UPSCALING_FACTOR*GameModel::WIDTH,
-                         WINDOW_HEIGHT = UPSCALING_FACTOR*GameModel::HEIGHT;
+    static constexpr int UPSCALED_WINDOW_WIDTH  = UPSCALING_FACTOR*WINDOW_WIDTH,
+                         UPSCALED_WINDOW_HEIGHT = UPSCALING_FACTOR*WINDOW_HEIGHT;
 
     // Map sprites
-    static constexpr SDL_Rect maze_Namco = { 0,0, GameModel::MAZE_COLS*TILE_SIZE,GameModel::MAZE_ROWS*TILE_SIZE }; // x,y, w,h (0,0) en haut a gauche
+    static constexpr SDL_Rect maze_Namco = { 0,0, MAZE_COLS*TILE_SIZE,MAZE_ROWS*TILE_SIZE }; // x,y, w,h (0,0) en haut a gauche
     static constexpr SDL_Rect maze_NES = { 200,3, 168,216 };
 
     // Other constants

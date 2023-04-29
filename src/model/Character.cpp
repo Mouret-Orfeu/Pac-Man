@@ -84,7 +84,7 @@ SDL_Point Character::getCoordCenterTile(SDL_Point tile_pos) {
 
 bool Character::isTileLegal (const SDL_Point& tile) const
 {
-    return GameModel::TILES[tile.y][tile.x] != GameModel::Cell::WALL;
+    return GameModel::TILES_MATRIX[tile.y][tile.x] != GameModel::Cell::WALL;
 }
 
 SDL_Point Character::getNextTile(const SDL_Point& current_tile, const Direction& direction) const
@@ -110,9 +110,9 @@ SDL_Point Character::getNextTile(const SDL_Point& current_tile, const Direction&
 }
 
 bool Character::isCenteredOnTile() const {
-    // 8 = GameModel::TILE_SIZE
-    // 3 = (GameModel::TILE_SIZE-1)/2
-    // 4 = GameModel::TILE_SIZE/2
+    // 8 = TILE_SIZE
+    // 3 = (TILE_SIZE-1)/2
+    // 4 = TILE_SIZE/2
     // TODO: allow 3 and 4???
     // TODO: `using namespace GameConfig`???
     return (state.center_position.x%8==3 || state.center_position.x%8==4) && (state.center_position.y%8==3 || state.center_position.y%8==4);

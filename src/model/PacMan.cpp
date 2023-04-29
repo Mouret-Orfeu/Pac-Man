@@ -28,9 +28,9 @@ void PacMan::move(int count) {
 
     // DEBUG
     // std::cout << "state.tile_position: (" << state.tile_position.y << ", " << state.tile_position.x << ")" << std::endl;
-    // std::cout << "state.tile_position: " << static_cast<int>(GameModel::TILES[state.tile_position.y][state.tile_position.x]) << std::endl;
+    // std::cout << "state.tile_position: " << static_cast<int>(TILES_MATRIX[state.tile_position.y][state.tile_position.x]) << std::endl;
     // std::cout << "next_tile_intended: (" << next_tile_intended.y << ", " << next_tile_intended.x << ")" << std::endl;
-    // std::cout << "next_tile_intended: " << static_cast<int>(GameModel::TILES[next_tile_intended.y][next_tile_intended.x]) << std::endl;
+    // std::cout << "next_tile_intended: " << static_cast<int>(TILES_MATRIX[next_tile_intended.y][next_tile_intended.x]) << std::endl;
 
     if(isTileLegal(next_tile_intended) && isCenteredOnTile()) {
         state.direction = intended_direction;
