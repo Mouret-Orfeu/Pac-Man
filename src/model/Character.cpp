@@ -76,15 +76,12 @@ SDL_Point Character::getCoordCenterTile(SDL_Point tile_pos) {
 
 bool Character::isTileLegal (const SDL_Point& tile) const
 {
-    if(GameModel::TILES[tile.x][tile.y]!=-1)
-        return true;
-    else
-        return false;
+    return GameModel::TILES[tile.y][tile.x] != GameModel::Cell::WALL;
 }
 
-SDL_Point Character::getNextTile(const SDL_Point& curent_tile, const Direction& direction) const
+SDL_Point Character::getNextTile(const SDL_Point& current_tile, const Direction& direction) const
 {
-    SDL_Point next_tile = curent_tile;
+    SDL_Point next_tile = current_tile;
     switch (direction) {
         case Direction::UP:
             next_tile.y -= 1;
@@ -105,5 +102,10 @@ SDL_Point Character::getNextTile(const SDL_Point& curent_tile, const Direction& 
 }
 
 bool Character::isCenteredOnTile() const {
-    return state.center_position.x%8==0 && state.center_position.y%8==0;
+    // 8 = GameModel::TILE_SIZE
+    // 3 = (GameModel::TILE_SIZE-1)/2
+    // 4 = GameModel::TILE_SIZE/2
+    // TODO: allow 3 and 4???
+    // TODO: `using namespace GameConfig`???
+    return (state.center_position.x%8==3 || state.center_position.x%8==4) && (state.center_position.y%8==3 || state.center_position.y%8==4);
 }

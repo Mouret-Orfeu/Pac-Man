@@ -3,7 +3,7 @@
 
 #include "GameModel.h"
 
-
+#include <iostream>
 
 
 PacMan::PacMan(SDL_Point pos_center)
@@ -33,19 +33,21 @@ void PacMan::move(int count) {
     //       i.e. it doesn't point to a wall
     SDL_Point next_tile_intended = getNextTile(state.tile_position, intended_direction);
 
-    if(isTileLegal(next_tile_intended))
-    {
-        //if(isCenteredOnTile())
-        //{
-        //    state.direction = intended_direction;
-        //}
+    // DEBUG
+    // std::cout << "state.tile_position: (" << state.tile_position.y << ", " << state.tile_position.x << ")" << std::endl;
+    // std::cout << "state.tile_position: " << static_cast<int>(GameModel::TILES[state.tile_position.y][state.tile_position.x]) << std::endl;
+    // std::cout << "next_tile_intended: (" << next_tile_intended.y << ", " << next_tile_intended.x << ")" << std::endl;
+    // std::cout << "next_tile_intended: " << static_cast<int>(GameModel::TILES[next_tile_intended.y][next_tile_intended.x]) << std::endl;
 
+    if(isTileLegal(next_tile_intended) && isCenteredOnTile())
         state.direction = intended_direction;
 
-    }
+    SDL_Point next_tile = getNextTile(state.tile_position, state.direction);
+    if(!isTileLegal(next_tile_intended) && isCenteredOnTile())
+        state.direction = Direction::NONE;
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
-    updatePosition ();
+    updatePosition();
 }
 
 void PacMan::setIntendedDirection(Direction direction) {
