@@ -3,7 +3,7 @@
 #include "Ghost.h"
 #include "PacMan.h"
 
-#include "GameDimensions.h"
+#include "common/GameDimensions.h"
 
 class GameModel {
 public:

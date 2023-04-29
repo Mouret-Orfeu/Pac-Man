@@ -2,7 +2,7 @@
 #include "model/GameModel.h"
 #include "model/Character.h"
 #include "model/Ghost.h"
-// #include "GameDimensions.h"
+// #include "common/GameDimensions.h"
 
 #include <SDL.h>
 #include <iostream>

@@ -2,7 +2,7 @@
 
 #include "model/GameModel.h"
 #include "model/Ghost.h"
-#include "GameDimensions.h"
+#include "common/GameDimensions.h"
 
 #include <SDL.h>
 
@@ -95,48 +95,48 @@ private:
     static constexpr SDL_Rect E_sprite = { 43,61, TILE_SIZE,TILE_SIZE };
 
     // Ghost sprites
-    static constexpr int SIZE_GHOST_SPRITE = 14;
+    static constexpr int SIZE_GHOST_SPRITE = 16;
     // Blinky
-    static constexpr SDL_Rect Blinky_sprite_r = { 457,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Blinky_sprite_l = { 489,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Blinky_sprite_d = { 553,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Blinky_sprite_u = { 521,65, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_r = { 456,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_l = { 488,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_d = { 552,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Blinky_sprite_u = { 520,64, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     // Pinky
-    static constexpr SDL_Rect Pinky_sprite_r = { 457,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Pinky_sprite_l = { 489,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Pinky_sprite_d = { 553,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Pinky_sprite_u = { 521,81, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_r = { 456,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_l = { 488,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_d = { 552,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Pinky_sprite_u = { 520,80, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     // Inky
-    static constexpr SDL_Rect Inky_sprite_r = { 457,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Inky_sprite_l = { 489,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Inky_sprite_d = { 553,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Inky_sprite_u = { 521,97, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_r = { 456,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_l = { 488,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_d = { 552,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Inky_sprite_u = { 520,96, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
     // Clyde
-    static constexpr SDL_Rect Clyde_sprite_r = { 457,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Clyde_sprite_l = { 489,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Clyde_sprite_d = { 553,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
-    static constexpr SDL_Rect Clyde_sprite_u = { 521,113, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_r = { 456,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_l = { 488,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_d = { 552,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
+    static constexpr SDL_Rect Clyde_sprite_u = { 520,112, SIZE_GHOST_SPRITE,SIZE_GHOST_SPRITE };
 
     // PacMan sprites
-    static constexpr int SIZE_PACMAN_SPRITE = 13;
+    static constexpr int SIZE_PACMAN_SPRITE = 16;
     // Directional sprites
-    static constexpr SDL_Rect pacman_sprite_r = { 473,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_l = { 473,17, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_d = { 473,49, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_u = { 473,33, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    static constexpr SDL_Rect pacman_sprite_full = { 489,1, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
-    // Death sprites
+    static constexpr SDL_Rect pacman_sprite_r = { 472,0, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_l = { 472,16, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_u = { 472,32, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_d = { 472,48, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
+    static constexpr SDL_Rect pacman_sprite_full = { 488,0, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE  };
+    // Death sprites$
     static constexpr SDL_Rect pacman_death_sprites[11] = {
-        { 503,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 520,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 536,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 552,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 568,3, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 584,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 600,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 616,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 632,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 648,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE },
-        { 664,5, SIZE_PACMAN_SPRITE+3,SIZE_PACMAN_SPRITE }
+        { 503,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 520,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 536,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 552,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 568,3, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 584,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 600,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 616,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 632,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 648,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 },
+        { 664,5, SIZE_PACMAN_SPRITE,SIZE_PACMAN_SPRITE-3 }
     };
 };
