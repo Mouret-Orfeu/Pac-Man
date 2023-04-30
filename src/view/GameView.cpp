@@ -145,9 +145,10 @@ void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
             break;
     }
 
-    // ici on change entre les 2 sprites sources pour une jolie animation.
+    // Here we change between the 2 source sprites for a nice animation.
     if ((gameModel.getCount() / 8) % 2) {
-        ghost_sprite.x += 16;
+        // The second sprite is just next to the first one
+        ghost_sprite.x += SPRITE_SIZE;
     }
 
     drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
