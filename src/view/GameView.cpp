@@ -67,8 +67,13 @@ GameView::~GameView() {
 void GameView::draw() {
     drawMaze();
     drawHUD();
-    drawGhost();
+
+    // Draw Characters
+    // PacMan
     drawPacMan();
+    // Ghosts
+    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts())
+        drawGhost(ghost);
 
     // drawAllTileOutlines();
     // drawAllColoredTiles();
@@ -87,11 +92,10 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
     SDL_UpdateWindowSurface(pWindow);
 }
 
-void GameView::drawGhost() {
-    const Ghost& ghost = gameModel.getGhost();
+void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite;
-    Direction sprite_orientation = ghost.getSpriteOrientation();
+    Direction sprite_orientation = ghost->getSpriteOrientation();
     switch (sprite_orientation) {
         case Direction::RIGHT:
             ghost_sprite = Blinky_sprite_r;
@@ -112,7 +116,7 @@ void GameView::drawGhost() {
         ghost_sprite.x += 16;
     }
 
-    drawSprite(spriteSheet_Namco, &ghost_sprite, ghost.getPosition().toTopLeft(), true);
+    drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
 }
 
 void GameView::drawPacMan() {

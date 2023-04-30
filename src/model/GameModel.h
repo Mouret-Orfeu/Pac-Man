@@ -1,10 +1,14 @@
 #pragma once
 
 #include "Ghost.h"
+#include "Blinky.h"
 #include "PacMan.h"
 
 #include "common/GameDimensions.h"
 #include "common/Direction.h"
+
+#include <array>
+#include <memory>
 
 class GameModel {
 public:
@@ -13,8 +17,8 @@ public:
 
     void update(Direction input_direction);
 
-    Ghost& getGhost();
     PacMan& getPacMan();
+    std::array<std::unique_ptr<Ghost>, 1>& getGhosts();
 
     int getCount() const;
     void setCount(int count);
@@ -86,8 +90,8 @@ public:
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E}
     };
 private:
-    Ghost blinky;
     PacMan pacman;
+    std::array<std::unique_ptr<Ghost>, 1> ghosts;
     int count;
     int score = 0;
     int highscore = 0;

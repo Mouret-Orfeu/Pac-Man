@@ -2,12 +2,25 @@
 #include "Character.h"
 #include "common/Direction.h"
 
+#include "Ghost.h"
+#include "Blinky.h"
+// #include "Pinky.h"
+// #include "Inky.h"
+// #include "Clyde.h"
+
 #include <iostream>
+#include <array>
+#include <memory>
 
 GameModel::GameModel()
 :count(0),
- blinky(),
- pacman()
+ pacman(),
+ ghosts {
+    std::make_unique<Blinky>(),
+    // std::make_unique<Pinky>(),
+    // std::make_unique<Inky>(),
+    // std::make_unique<Clyde>()
+ }
 {
     // Initialize other game objects here
 }
@@ -17,20 +30,23 @@ GameModel::~GameModel() {
 }
 
 void GameModel::update(Direction input_direction) {
-    // Update Ghost top_left_position
-    blinky.move(count);
+    // Make the ghosts move
+    for (std::unique_ptr<Ghost>& ghost : ghosts)
+        ghost->move(count);
 
-    // Update PacMan top_left_position
+    // Update PacMan's intended direction based on user input
     if (input_direction != Direction::NONE)
         pacman.setIntendedDirection(input_direction);
+
+    // Make PacMan move
     pacman.move(count);
 
-    // Update other game objects here
+    // Update the count
     count = (count + 1) % 512;
 }
 
-Ghost& GameModel::getGhost() {
-    return blinky;
+std::array<std::unique_ptr<Ghost>, 1>& GameModel::getGhosts() {
+    return ghosts;
 }
 
 PacMan& GameModel::getPacMan() {

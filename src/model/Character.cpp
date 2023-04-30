@@ -1,5 +1,4 @@
 #include "Character.h"
-#include "GameModel.h"
 #include "common/Position.h"
 #include "common/Direction.h"
 

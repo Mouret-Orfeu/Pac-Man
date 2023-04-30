@@ -15,7 +15,7 @@ public:
     void draw();
     void drawDeathAnimation(int death_sprite_count);
 
-    void drawGhost();
+    void drawGhost(std::unique_ptr<Ghost>& ghost);
     void drawPacMan();
 
     void drawHUD();
