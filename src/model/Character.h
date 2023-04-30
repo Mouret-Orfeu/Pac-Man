@@ -40,7 +40,7 @@ public:
     void setSpriteOrientation(Direction sprite_orientation);
 
     Tile getTeleportationTileRight() const;
-    
+
     Tile getTeleportationTileLeft() const;
 
 protected:

@@ -110,8 +110,18 @@ Tile Position::getNextTile(const Direction& direction) const {
     return tile;
 }
 
+bool Position::isCenteredHorizontallyOnTile() const {
+    const int offsetX = centerPosition.x % 8;
+    return offsetX == 3;
+}
+
+bool Position::isCenteredVerticallyOnTile() const {
+    const int offsetY = centerPosition.y % 8;
+    return offsetY == 3;
+}
+
 bool Position::isCenteredOnTile() const {
     const int offsetX = centerPosition.x % 8;
     const int offsetY = centerPosition.y % 8;
-    return offsetX == 3 && offsetY == 3;
+    return isCenteredHorizontallyOnTile() && isCenteredVerticallyOnTile();
 }

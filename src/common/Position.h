@@ -40,6 +40,8 @@ public:
     Tile toTile() const;
     SDL_Point toTopLeft() const;
     Tile getNextTile(const Direction& direction) const;
+    bool isCenteredHorizontallyOnTile() const;
+    bool isCenteredVerticallyOnTile() const;
     bool isCenteredOnTile() const;
 
 private:
