@@ -92,33 +92,6 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
     SDL_UpdateWindowSurface(pWindow);
 }
 
-void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
-    // petit truc pour faire tourner le fantome
-    SDL_Rect ghost_sprite;
-    Direction sprite_orientation = ghost->getSpriteOrientation();
-    switch (sprite_orientation) {
-        case Direction::RIGHT:
-            ghost_sprite = Blinky_sprite_r;
-            break;
-        case Direction::DOWN:
-            ghost_sprite = Blinky_sprite_d;
-            break;
-        case Direction::LEFT:
-            ghost_sprite = Blinky_sprite_l;
-            break;
-        case Direction::UP:
-            ghost_sprite = Blinky_sprite_u;
-            break;
-    }
-
-    // ici on change entre les 2 sprites sources pour une jolie animation.
-    if ((gameModel.getCount() / 4) % 2) {
-        ghost_sprite.x += 16;
-    }
-
-    drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
-}
-
 void GameView::drawPacMan() {
     const PacMan& pacman = gameModel.getPacMan();
 
@@ -151,6 +124,33 @@ void GameView::drawPacMan() {
     // DEBUG
     // drawTileOutline(pacman.getPosition().toTile());
     // drawPacmanPosition();
+}
+
+void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
+    // petit truc pour faire tourner le fantome
+    SDL_Rect ghost_sprite;
+    Direction sprite_orientation = ghost->getSpriteOrientation();
+    switch (sprite_orientation) {
+        case Direction::RIGHT:
+            ghost_sprite = Blinky_sprite_r;
+            break;
+        case Direction::DOWN:
+            ghost_sprite = Blinky_sprite_d;
+            break;
+        case Direction::LEFT:
+            ghost_sprite = Blinky_sprite_l;
+            break;
+        case Direction::UP:
+            ghost_sprite = Blinky_sprite_u;
+            break;
+    }
+
+    // ici on change entre les 2 sprites sources pour une jolie animation.
+    if ((gameModel.getCount() / 8) % 2) {
+        ghost_sprite.x += 16;
+    }
+
+    drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
 }
 
 void GameView::drawMaze() {
