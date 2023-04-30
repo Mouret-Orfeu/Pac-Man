@@ -21,6 +21,9 @@ public:
 
     void move(int count) override;
 
+    void eat();
+    void updateDirection();
+
     Direction getIntendedDirection() const;
     void setIntendedDirection(Direction direction);
 

@@ -56,7 +56,7 @@ Tile Character::getTeleportationTileRight() const
 {
     return TELEPORTATION_TILE_RIGHT;
 }
-    
+
 Tile Character::getTeleportationTileLeft() const
 {
     return TELEPORTATION_TILE_LEFT;
