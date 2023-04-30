@@ -112,5 +112,5 @@ Tile Position::getNextTile(const Direction& direction) const {
 bool Position::isCenteredOnTile() const {
     const int offsetX = centerPosition.x % 8;
     const int offsetY = centerPosition.y % 8;
-    return (offsetX == 3 || offsetX == 4) && (offsetY == 3 || offsetY == 4);
+    return offsetX == 3 && offsetY == 3;
 }
