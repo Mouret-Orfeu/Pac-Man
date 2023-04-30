@@ -2,13 +2,12 @@
 
 #include "common/Position.h"
 #include "common/Direction.h"
+#include "GameModel.h"
 
 
-Blinky::Blinky()
-:Ghost(Position(Tile({4,1})), Direction::RIGHT)
-{
-    // Initialize Blinky-specific data here
-}
+Blinky::Blinky(GameModel& gameModel)
+:Ghost(gameModel, Position(Tile({4,1})), Direction::RIGHT)
+{}
 
 Blinky::~Blinky() {
     // Clean up Blinky-specific data here

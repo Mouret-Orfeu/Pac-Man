@@ -1,7 +1,8 @@
 #include "GameModel.h"
-#include "Character.h"
 #include "common/Direction.h"
 
+#include "Character.h"
+#include "PacMan.h"
 #include "Ghost.h"
 #include "Blinky.h"
 // #include "Pinky.h"
@@ -14,15 +15,20 @@
 
 GameModel::GameModel()
 :count(0),
- pacman(),
+ pacman(*this),
  ghosts {
-    std::make_unique<Blinky>(),
+    std::make_unique<Blinky>(*this),
     // std::make_unique<Pinky>(),
     // std::make_unique<Inky>(),
     // std::make_unique<Clyde>()
  }
 {
-    // Initialize other game objects here
+    // Copy the initial matrix to the editable matrix
+    for (int i = 0; i < WINDOW_ROWS; ++i) {
+        for (int j = 0; j < WINDOW_COLS; ++j) {
+            tilesMatrix[i][j] = INITIAL_TILES_MATRIX[i][j];
+        }
+    }
 }
 
 GameModel::~GameModel() {
@@ -93,3 +99,6 @@ void GameModel::setDeath(bool death) {
     this->death = death;
 }
 
+bool GameModel::isTileLegal(Tile tile) {
+    return tilesMatrix[tile.i][tile.j] != GameModel::Cell::WALL;
+}

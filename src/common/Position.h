@@ -25,6 +25,8 @@ public:
     void setX(int x);
     void setY(int y);
 
+    bool operator==(const Position& other) const;
+
     Position& operator+=(const SDL_Point& point);
     Position& operator-=(const SDL_Point& point);
 
@@ -37,7 +39,6 @@ public:
     SDL_Point toCenter() const;
     Tile toTile() const;
     SDL_Point toTopLeft() const;
-    static bool isTileLegal(Tile tile);
     Tile getNextTile(const Direction& direction) const;
     bool isCenteredOnTile() const;
 

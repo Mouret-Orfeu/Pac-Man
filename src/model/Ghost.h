@@ -6,9 +6,11 @@
 
 #include <SDL.h>
 
+class GameModel;
+
 class Ghost : public Character {
 public:
-    Ghost(Position position, Direction direction, Direction sprite_orientation);
-    Ghost(Position position, Direction direction);
+    Ghost(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation);
+    Ghost(GameModel& gameModel, Position initial_position, Direction direction);
     virtual ~Ghost();
 };

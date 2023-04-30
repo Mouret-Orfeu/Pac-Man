@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Character.h"
+#include "PacMan.h"
 #include "Ghost.h"
 #include "Blinky.h"
-#include "PacMan.h"
 
 #include "common/GameDimensions.h"
 #include "common/Direction.h"
@@ -36,6 +37,8 @@ public:
     bool getDeath() const;
     void setDeath(bool death);
 
+    bool isTileLegal(Tile tile);
+
     // Maze cells
     enum class Cell {
         WALL = -1,
@@ -45,13 +48,23 @@ public:
         // FRUIT = 3,
     };
 
+    Cell tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
+
+private:
+    PacMan pacman;
+    std::array<std::unique_ptr<Ghost>, 1> ghosts;
+    int count;
+    int score = 0;
+    int highscore = 0;
+    int lives = 3;
+    bool death = false;
+
+    // Maze layout
     static constexpr Cell W = Cell::WALL;
     static constexpr Cell E = Cell::EMPTY;
     static constexpr Cell D = Cell::DOT;
     static constexpr Cell P = Cell::POWER_PELLET;
-
-    // Maze layout
-    static constexpr Cell TILES_MATRIX[WINDOW_ROWS][WINDOW_COLS] = {
+    static constexpr Cell INITIAL_TILES_MATRIX[WINDOW_ROWS][WINDOW_COLS] = {
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E},
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E},
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E},
@@ -89,12 +102,4 @@ public:
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E},
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E}
     };
-private:
-    PacMan pacman;
-    std::array<std::unique_ptr<Ghost>, 1> ghosts;
-    int count;
-    int score = 0;
-    int highscore = 0;
-    int lives = 3;
-    bool death = false;
 };

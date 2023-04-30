@@ -40,6 +40,11 @@ void Position::setY(int y) {
     centerPosition.y = y;
 }
 
+// equality operator
+bool Position::operator==(const Position& other) const {
+    return centerPosition.x == other.centerPosition.x && centerPosition.y == other.centerPosition.y;
+}
+
 Position& Position::operator+=(const SDL_Point& point) {
     setX(getX() + point.x);
     setY(getY() + point.y);
@@ -84,10 +89,6 @@ SDL_Point Position::toTopLeft() const {
     return {centerPosition.x - (SPRITE_SIZE-1) / 2, centerPosition.y - (SPRITE_SIZE-1) / 2};
 }
 
-bool Position::isTileLegal(Tile tile) {
-    return GameModel::TILES_MATRIX[tile.i][tile.j] != GameModel::Cell::WALL;
-}
-
 Tile Position::getNextTile(const Direction& direction) const {
     Tile tile = toTile();
     switch (direction) {
@@ -103,7 +104,7 @@ Tile Position::getNextTile(const Direction& direction) const {
         case Direction::RIGHT:
             tile.j += 1;
             break;
-        default:
+        case Direction::NONE:
             break;
     }
     return tile;
