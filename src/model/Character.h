@@ -7,10 +7,12 @@
 
 #include <SDL.h>
 
+class GameModel;
+
 class Character : public GameObject {
 public:
-    Character(Position position, Direction direction, Direction sprite_orientation);
-    Character(Position position, Direction direction);
+    Character(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation);
+    Character(GameModel& gameModel, Position initial_position, Direction direction);
     virtual ~Character();
 
     /**
@@ -42,6 +44,8 @@ public:
     Tile getTeleportationTileLeft() const;
 
 protected:
+    GameModel& gameModel;
+    const Position initial_position;
     Position position;
     Direction direction;
     Direction sprite_orientation;

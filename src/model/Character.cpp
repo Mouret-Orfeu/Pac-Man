@@ -2,12 +2,12 @@
 #include "common/Position.h"
 #include "common/Direction.h"
 
-Character::Character(Position position, Direction direction, Direction sprite_orientation)
-:position(position), direction(direction), sprite_orientation(sprite_orientation)
+Character::Character(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation)
+:gameModel(gameModel), initial_position(initial_position), position(initial_position), direction(direction), sprite_orientation(sprite_orientation)
 {}
 
-Character::Character(Position position, Direction direction)
-:Character(position, direction, direction)
+Character::Character(GameModel& gameModel, Position position, Direction direction)
+:Character(gameModel, position, direction, direction)
 {}
 
 Character::~Character() {}

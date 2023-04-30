@@ -2,6 +2,7 @@
 
 #include "Character.h"
 
+class GameModel;
 
 class PacMan : public Character {
 public:
@@ -9,7 +10,7 @@ public:
     /**
     * @brief Constructeur par defaut qui fait spawn pacman à sa position de départ standard et qui le fait partir sur la droite
     */
-    PacMan();
+    PacMan(GameModel& gameModel);
 
     /*
     * @brief Constructeur qui permet de faire spawn pacman à une autre position

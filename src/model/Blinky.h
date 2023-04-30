@@ -6,10 +6,11 @@
 
 #include <SDL.h>
 
+class GameModel;
+
 class Blinky : public Ghost {
 public:
-    Blinky(Position initial_position);
-    Blinky();
+    Blinky(GameModel& gameModel);
     ~Blinky();
 
     void move(int count) override;

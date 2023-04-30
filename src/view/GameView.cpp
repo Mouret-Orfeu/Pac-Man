@@ -282,7 +282,7 @@ void GameView::drawAllColoredTiles() {
     for (int row = 0; row < WINDOW_ROWS; row++) {
         for (int col = 0; col < WINDOW_COLS; col++) {
             // Get the cell type
-            GameModel::Cell cell = static_cast<GameModel::Cell>(GameModel::TILES_MATRIX[row][col]);
+            GameModel::Cell cell = gameModel.tilesMatrix[row][col];
 
             // Define colors for different cell types
             SDL_Color color;
