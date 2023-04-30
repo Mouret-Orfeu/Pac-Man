@@ -31,7 +31,10 @@ void PacMan::move(int count) {
     }
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
-    updatePosition();
+    if (frames_to_drop > 0)
+        frames_to_drop--;
+    else
+        updatePosition();
 }
 
 void PacMan::eat() {
@@ -40,10 +43,12 @@ void PacMan::eat() {
         case GameModel::TileType::DOT:
             gameModel.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=10;
+            frames_to_drop = 1;
             break;
         case GameModel::TileType::ENERGIZER:
             gameModel.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=50;
+            frames_to_drop = 3;
             break;
         default:
             break;

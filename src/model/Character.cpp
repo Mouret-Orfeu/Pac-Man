@@ -3,7 +3,12 @@
 #include "common/Direction.h"
 
 Character::Character(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation)
-:gameModel(gameModel), initial_position(initial_position), position(initial_position), direction(direction), sprite_orientation(sprite_orientation)
+:gameModel(gameModel),
+ initial_position(initial_position),
+ position(initial_position),
+ direction(direction),
+ sprite_orientation(sprite_orientation),
+ frames_to_drop(0)
 {}
 
 Character::Character(GameModel& gameModel, Position position, Direction direction)

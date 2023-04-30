@@ -49,6 +49,7 @@ protected:
     Position position;
     Direction direction;
     Direction sprite_orientation;
+    int frames_to_drop;
 
     static constexpr Tile TELEPORTATION_TILE_RIGHT = {3+(MAZE_ROWS/2)-1, MAZE_COLS-1};
     static constexpr Tile TELEPORTATION_TILE_LEFT = {3+(MAZE_ROWS/2)-1, 0};
