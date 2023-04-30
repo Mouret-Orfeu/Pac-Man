@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "common/Position.h"
 #include "common/Direction.h"
+#include "common/GameDimensions.h"
 
 #include <SDL.h>
 
