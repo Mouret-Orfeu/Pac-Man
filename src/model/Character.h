@@ -36,8 +36,15 @@ public:
     Direction getSpriteOrientation() const;
     void setSpriteOrientation(Direction sprite_orientation);
 
+    Tile getTeleportationTileRight() const;
+    
+    Tile getTeleportationTileLeft() const;
+
 protected:
     Position position;
     Direction direction;
     Direction sprite_orientation;
+
+    static constexpr Tile TELEPORTATION_TILE_RIGHT = {3+(MAZE_ROWS/2)-1, MAZE_COLS-1};
+    static constexpr Tile TELEPORTATION_TILE_LEFT = {3+(MAZE_ROWS/2)-1, 0};
 };

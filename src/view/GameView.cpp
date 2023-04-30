@@ -124,6 +124,11 @@ void GameView::drawPacMan() {
     // DEBUG
     // drawTileOutline(pacman.getPosition().toTile());
     // drawPacmanPosition();
+
+    //DEBUG
+    //Show teleportation tiles
+    //drawTileOutline();
+    //drawTileOutline({17, 27});
 }
 
 void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
