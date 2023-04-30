@@ -20,6 +20,7 @@ public:
 
     void drawHUD();
     void drawMaze();
+    void drawDots();
 
     void drawScoreHelper(int score, bool highscore);
     void drawScore();
@@ -56,7 +57,7 @@ private:
                          UPSCALED_WINDOW_HEIGHT = UPSCALING_FACTOR*WINDOW_HEIGHT;
 
     // Map sprites
-    static constexpr SDL_Rect maze_Namco = { 0,0, MAZE_COLS*TILE_SIZE,MAZE_ROWS*TILE_SIZE }; // x,y, w,h (0,0) en haut a gauche
+    static constexpr SDL_Rect maze_Namco = { 28*TILE_SIZE+TILE_SIZE/2,0, MAZE_COLS*TILE_SIZE,MAZE_ROWS*TILE_SIZE }; // x,y, w,h (0,0) en haut a gauche
     static constexpr SDL_Rect maze_NES = { 200,3, 168,216 };
 
     // Other constants
@@ -157,4 +158,7 @@ private:
         { GRID_ORIGIN+12*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE },
         { GRID_ORIGIN+13*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE }
     };
+
+    static constexpr SDL_Rect dot_sprite = { TILE_SIZE,TILE_SIZE, TILE_SIZE,TILE_SIZE };
+    static constexpr SDL_Rect power_pellet_sprite = { TILE_SIZE,3*TILE_SIZE, TILE_SIZE,TILE_SIZE };
 };

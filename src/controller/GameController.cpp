@@ -73,7 +73,7 @@ void GameController::run() {
         //SDL_Delay(5000);
 
         //Animation de la mort
-        if (gameModel.getDeath()) {
+        if (gameModel.getPacMan().isDead()) {
             for (int death_sprite_num = 0; death_sprite_num < 11; death_sprite_num++) {
                 SDL_Event event;
 	        	while (!quit && SDL_PollEvent(&event))
@@ -101,7 +101,7 @@ void GameController::run() {
                 }
                 frameStartTime = SDL_GetTicks64();
             }
-            gameModel.setDeath(false);
+            gameModel.getPacMan().setIsDead(false);
         }
 
         // LIMITE A 60 FPS

@@ -66,6 +66,7 @@ GameView::~GameView() {
 
 void GameView::draw() {
     drawMaze();
+    drawDots();
     drawHUD();
 
     // Draw Characters
@@ -161,6 +162,38 @@ void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
 
 void GameView::drawMaze() {
     drawSprite(spriteSheet_Namco, &maze_Namco, {0,3*TILE_SIZE}, false);
+}
+
+// class GameModel {
+// public:
+//     // Maze cells
+//     enum class TileType {
+//         WALL = -1,
+//         EMPTY = 0,
+//         DOT = 1,
+//         ENERGIZER = 2,
+//         // FRUIT = 3,
+//     };
+
+//     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
+// }
+
+void GameView::drawDots() {
+    for (int i = 0; i < WINDOW_ROWS; i++) {
+        for (int j = 0; j < WINDOW_COLS; j++) {
+            switch (gameModel.getTile({i, j}))
+            {
+            case GameModel::TileType::DOT:
+                drawSprite(spriteSheet_Namco, &dot_sprite, {j*TILE_SIZE, i*TILE_SIZE}, true);
+                break;
+            case GameModel::TileType::ENERGIZER:
+                drawSprite(spriteSheet_Namco, &power_pellet_sprite, {j*TILE_SIZE, i*TILE_SIZE}, true);
+                break;
+            default:
+                break;
+            }
+        }
+    }
 }
 
 void GameView::drawHUD() {
@@ -279,26 +312,26 @@ void GameView::drawAllTileOutlines() {
 
 // DEBUG
 void GameView::drawAllColoredTiles() {
-    for (int row = 0; row < WINDOW_ROWS; row++) {
-        for (int col = 0; col < WINDOW_COLS; col++) {
+    for (int i = 0; i < WINDOW_ROWS; i++) {
+        for (int j = 0; j < WINDOW_COLS; j++) {
             // Get the cell type
-            GameModel::Cell cell = gameModel.tilesMatrix[row][col];
+            GameModel::TileType cell = gameModel.getTile({i, j});
 
             // Define colors for different cell types
             SDL_Color color;
             Uint8 alpha = 255; // Semi-transparent
 
             switch (cell) {
-                case GameModel::Cell::WALL:
+                case GameModel::TileType::WALL:
                     color = {255, 0, 0, alpha}; // Red
                     break;
-                case GameModel::Cell::EMPTY:
+                case GameModel::TileType::EMPTY:
                     color = {0, 255, 0, alpha}; // Green
                     break;
-                case GameModel::Cell::DOT:
+                case GameModel::TileType::DOT:
                     color = {0, 0, 255, alpha}; // Blue
                     break;
-                case GameModel::Cell::POWER_PELLET:
+                case GameModel::TileType::ENERGIZER:
                     color = {255, 255, 0, alpha}; // Yellow
                     break;
                 default:
@@ -310,7 +343,7 @@ void GameView::drawAllColoredTiles() {
             SDL_FillRect(coloredTile, NULL, SDL_MapRGBA(coloredTile->format, color.r, color.g, color.b, color.a));
 
             // Copy the colored tile onto the main surface
-            SDL_Point dst = {col * TILE_SIZE, row * TILE_SIZE};
+            SDL_Point dst = {j * TILE_SIZE, i * TILE_SIZE};
             drawSprite(coloredTile, NULL, dst, true);
 
             // Free the temporary surface
@@ -320,12 +353,12 @@ void GameView::drawAllColoredTiles() {
 }
 
 void GameView::drawScore() {
-    int score = gameModel.getScore();
+    int score = gameModel.getPacMan().getScore();
     drawScoreHelper(score, false);
 }
 
 void GameView::drawHighScore() {
-    int highscore = gameModel.getHighScore();
+    int highscore = gameModel.getPacMan().getHighScore();
     drawScoreHelper(highscore, true);
 }
 
@@ -357,7 +390,7 @@ void GameView::drawScoreHelper(int score, bool highscore) {
 
         // Draw the digit if valid
         if (0 <= num && num <= 9)
-            drawSprite(spriteSheet_NES, &num_sprites[num], SDL_Point({initialPosition*TILE_SIZE,1*TILE_SIZE}), true);
+            drawSprite(spriteSheet_NES, &num_sprites[num], SDL_Point({initialPosition*TILE_SIZE,1*TILE_SIZE}), false);
 
         initialPosition--;
     }
@@ -383,7 +416,7 @@ void GameView::drawText() {
 }
 
 void GameView::drawLives() {
-    int lives = gameModel.getLives();
+    int lives = gameModel.getPacMan().getLives();
     for (int i = 1; i <= lives; i++)
         drawSprite(spriteSheet_Namco, &life_sprite, SDL_Point({2*i*TILE_SIZE+3,WINDOW_HEIGHT-2*TILE_SIZE+2}), true);
 }

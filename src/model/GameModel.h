@@ -7,6 +7,7 @@
 
 #include "common/GameDimensions.h"
 #include "common/Direction.h"
+#include "common/Position.h"
 
 #include <array>
 #include <memory>
@@ -24,54 +25,40 @@ public:
     int getCount() const;
     void setCount(int count);
 
-
-    int getScore() const;
-    void setScore(int score);
-
-    int getHighScore() const;
-    void setHighScore(int highscore);
-
-    int getLives() const;
-    void setLives(int lives);
-
-    bool getDeath() const;
-    void setDeath(bool death);
-
-    bool isTileLegal(Tile tile);
-
     // Maze cells
-    enum class Cell {
+    enum class TileType {
         WALL = -1,
         EMPTY = 0,
         DOT = 1,
-        POWER_PELLET = 2,
+        ENERGIZER = 2,
         // FRUIT = 3,
     };
 
-    Cell tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
+    // Getter and setter for tilesMatrix
+    TileType getTile(Tile tile) const;
+    void setTile(Tile tile, TileType value);
+
+    bool isTileLegal(Tile tile);
 
 private:
     PacMan pacman;
     std::array<std::unique_ptr<Ghost>, 1> ghosts;
     int count;
-    int score = 0;
-    int highscore = 0;
-    int lives = 3;
-    bool death = false;
+    TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
 
     // Maze layout
-    static constexpr Cell W = Cell::WALL;
-    static constexpr Cell E = Cell::EMPTY;
-    static constexpr Cell D = Cell::DOT;
-    static constexpr Cell P = Cell::POWER_PELLET;
-    static constexpr Cell INITIAL_TILES_MATRIX[WINDOW_ROWS][WINDOW_COLS] = {
+    static constexpr TileType W = TileType::WALL;
+    static constexpr TileType E = TileType::EMPTY;
+    static constexpr TileType D = TileType::DOT;
+    static constexpr TileType Z = TileType::ENERGIZER;
+    static constexpr TileType INITIAL_TILES_MATRIX[WINDOW_ROWS][WINDOW_COLS] = {
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E},
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E},
         {E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E,E},
         {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W},
         {W,D,D,D,D,D,D,D,D,D,D,D,D,W,W,D,D,D,D,D,D,D,D,D,D,D,D,W},
         {W,D,W,W,W,W,D,W,W,W,W,W,D,W,W,D,W,W,W,W,W,D,W,W,W,W,D,W},
-        {W,P,W,W,W,W,D,W,W,W,W,W,D,W,W,D,W,W,W,W,W,D,W,W,W,W,P,W},
+        {W,Z,W,W,W,W,D,W,W,W,W,W,D,W,W,D,W,W,W,W,W,D,W,W,W,W,Z,W},
         {W,D,W,W,W,W,D,W,W,W,W,W,D,W,W,D,W,W,W,W,W,D,W,W,W,W,D,W},
         {W,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,W},
         {W,D,W,W,W,W,D,W,W,D,W,W,W,W,W,W,W,W,D,W,W,D,W,W,W,W,D,W},
@@ -91,7 +78,7 @@ private:
         {W,D,D,D,D,D,D,D,D,D,D,D,D,W,W,D,D,D,D,D,D,D,D,D,D,D,D,W},
         {W,D,W,W,W,W,D,W,W,W,W,W,D,W,W,D,W,W,W,W,W,D,W,W,W,W,D,W},
         {W,D,W,W,W,W,D,W,W,W,W,W,D,W,W,D,W,W,W,W,W,D,W,W,W,W,D,W},
-        {W,P,D,D,W,W,D,D,D,D,D,D,D,E,E,D,D,D,D,D,D,D,W,W,D,D,P,W},
+        {W,Z,D,D,W,W,D,D,D,D,D,D,D,E,E,D,D,D,D,D,D,D,W,W,D,D,Z,W},
         {W,W,W,D,W,W,D,W,W,D,W,W,W,W,W,W,W,W,D,W,W,D,W,W,D,W,W,W},
         {W,W,W,D,W,W,D,W,W,D,W,W,W,W,W,W,W,W,D,W,W,D,W,W,D,W,W,W},
         {W,D,D,D,D,D,D,W,W,D,D,D,D,W,W,D,D,D,D,W,W,D,D,D,D,D,D,W},

@@ -67,38 +67,14 @@ void GameModel::setCount(int count) {
     this->count = count;
 }
 
-int GameModel::getScore() const {
-    return score;
+GameModel::TileType GameModel::getTile(Tile tile) const {
+    return tilesMatrix[tile.i][tile.j];
 }
 
-void GameModel::setScore(int score) {
-    this->score = score;
-}
-
-int GameModel::getHighScore() const {
-    return highscore;
-}
-
-void GameModel::setHighScore(int highscore) {
-    this->highscore = highscore;
-}
-
-int GameModel::getLives() const {
-    return lives;
-}
-
-void GameModel::setLives(int lives) {
-    this->lives = lives;
-}
-
-bool GameModel::getDeath() const {
-    return death;
-}
-
-void GameModel::setDeath(bool death) {
-    this->death = death;
+void GameModel::setTile(Tile tile, TileType value) {
+    tilesMatrix[tile.i][tile.j] = value;
 }
 
 bool GameModel::isTileLegal(Tile tile) {
-    return tilesMatrix[tile.i][tile.j] != GameModel::Cell::WALL;
+    return getTile(tile) != GameModel::TileType::WALL;
 }

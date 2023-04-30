@@ -20,7 +20,26 @@ public:
     ~PacMan();
 
     void move(int count) override;
+
+    Direction getIntendedDirection() const;
     void setIntendedDirection(Direction direction);
+
+    int getScore() const;
+    void setScore(int score);
+
+    int getHighScore() const;
+    void setHighScore(int highscore);
+
+    int getLives() const;
+    void setLives(int lives);
+
+    bool isDead() const;
+    void setIsDead(bool death);
+
 private:
     Direction intended_direction;
+    int score;
+    int highscore;
+    int lives;
+    bool is_dead;
 };
