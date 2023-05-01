@@ -39,11 +39,6 @@ public:
     void drawAllColoredTiles();
     void drawPacmanPosition();
 
-    SDL_Rect getSpriteBlinky(Direction direction) const;
-    SDL_Rect getSpritePinky(Direction direction) const;
-    SDL_Rect getSpriteInky(Direction direction) const;
-    SDL_Rect getSpriteClyde(Direction direction) const;
-
 private:
     GameModel& gameModel;
 
@@ -101,51 +96,30 @@ private:
     static constexpr int GRID_ORIGIN = 456;
 
     // Ghost sprites
-    // Blinky
-    static constexpr SDL_Rect Blinky_sprite_r = { GRID_ORIGIN,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Blinky_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Blinky_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Blinky_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    // Pinky
-    static constexpr SDL_Rect Pinky_sprite_r = { GRID_ORIGIN,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Pinky_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Pinky_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Pinky_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,5*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    // Inky
-    static constexpr SDL_Rect Inky_sprite_r = { GRID_ORIGIN,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Inky_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Inky_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Inky_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,6*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    // Clyde
-    static constexpr SDL_Rect Clyde_sprite_r = { GRID_ORIGIN,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Clyde_sprite_l = { GRID_ORIGIN+2*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Clyde_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-    static constexpr SDL_Rect Clyde_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
-
     std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghost_sprites = {
         {Ghost::Type::BLINKY, {
-            {Direction::RIGHT, Blinky_sprite_r},
-            {Direction::DOWN,  Blinky_sprite_d},
-            {Direction::LEFT,  Blinky_sprite_l},
-            {Direction::UP,    Blinky_sprite_u}
+            {Direction::RIGHT, { GRID_ORIGIN              ,4*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::LEFT,  { GRID_ORIGIN+2*SPRITE_SIZE,4*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::UP,    { GRID_ORIGIN+4*SPRITE_SIZE,4*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::DOWN,  { GRID_ORIGIN+6*SPRITE_SIZE,4*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }}
         }},
         {Ghost::Type::PINKY,  {
-            {Direction::RIGHT, Pinky_sprite_r},
-            {Direction::DOWN,  Pinky_sprite_d},
-            {Direction::LEFT,  Pinky_sprite_l},
-            {Direction::UP,    Pinky_sprite_u}
+            {Direction::RIGHT, { GRID_ORIGIN              ,5*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::LEFT,  { GRID_ORIGIN+2*SPRITE_SIZE,5*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::UP,    { GRID_ORIGIN+4*SPRITE_SIZE,5*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::DOWN,  { GRID_ORIGIN+6*SPRITE_SIZE,5*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }}
         }},
         {Ghost::Type::INKY,   {
-            {Direction::RIGHT, Inky_sprite_r},
-            {Direction::DOWN,  Inky_sprite_d},
-            {Direction::LEFT,  Inky_sprite_l},
-            {Direction::UP,    Inky_sprite_u}
+            {Direction::RIGHT, { GRID_ORIGIN              ,6*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::LEFT,  { GRID_ORIGIN+2*SPRITE_SIZE,6*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::UP,    { GRID_ORIGIN+4*SPRITE_SIZE,6*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::DOWN,  { GRID_ORIGIN+6*SPRITE_SIZE,6*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }}
         }},
         {Ghost::Type::CLYDE,  {
-            {Direction::RIGHT, Clyde_sprite_r},
-            {Direction::DOWN,  Clyde_sprite_d},
-            {Direction::LEFT,  Clyde_sprite_l},
-            {Direction::UP,    Clyde_sprite_u}
+            {Direction::RIGHT, { GRID_ORIGIN              ,7*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::LEFT,  { GRID_ORIGIN+2*SPRITE_SIZE,7*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::UP,    { GRID_ORIGIN+4*SPRITE_SIZE,7*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }},
+            {Direction::DOWN,  { GRID_ORIGIN+6*SPRITE_SIZE,7*SPRITE_SIZE , SPRITE_SIZE,SPRITE_SIZE }}
         }}
     };
 
