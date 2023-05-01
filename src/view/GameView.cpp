@@ -73,8 +73,7 @@ void GameView::draw() {
     // PacMan
     drawPacMan();
     // Ghosts
-    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts())
-        drawGhosts();
+    drawGhosts();
 
     // drawAllTileOutlines();
     // drawAllColoredTiles();
@@ -221,28 +220,22 @@ SDL_Rect GameView::getSpriteClyde(Direction direction) const
 }
 
 void GameView::drawGhosts() {
-    // petit truc pour faire tourner le fantome
-    SDL_Rect ghost_sprite;
-    //Direction sprite_orientation = ghost->getSpriteOrientation();
+    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts()) {
+        Ghost::Type ghost_type = ghost->getType();
+        Direction sprite_orientation = ghost->getSpriteOrientation();
 
-    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts())
-    {
-        //DEBUG
-        //std::cout<<"ghost type: "<<(int)ghost->getType()<<std::endl;
+        if (sprite_orientation != Direction::NONE) {
+            SDL_Rect ghost_sprite = ghost_sprites[ghost_type][sprite_orientation];
+            // Here we change between the 2 source sprites for a nice animation.
+            if ((gameModel.getCount() / 8) % 2) {
+                // The second sprite is just next to the first one
+                ghost_sprite.x += SPRITE_SIZE;
+            }
+            drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
+        }
 
-        Ghost::Type ghostType = ghost->getType();
-
-        if (ghost->getDirection() != Direction::NONE)
-            ghost_sprite = ghostSprites[ghostType][ghost->getDirection()];
-
-        drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
     }
 
-    // Here we change between the 2 source sprites for a nice animation.
-    if ((gameModel.getCount() / 8) % 2) {
-        // The second sprite is just next to the first one
-        ghost_sprite.x += SPRITE_SIZE;
-    }
 }
 
 void GameView::drawMaze() {

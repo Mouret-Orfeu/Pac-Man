@@ -14,6 +14,4 @@ public:
     ~Pinky();
 
     void move(int count) override;
-
-    Type getType() const override;
 };

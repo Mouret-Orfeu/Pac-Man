@@ -7,8 +7,9 @@
 
 const Position init_pos_Inky = Position((WINDOW_WIDTH-1)/2-2*TILE_SIZE, 17*TILE_SIZE + (TILE_SIZE-1)/2);
 
+
 Inky::Inky(GameModel& gameModel)
-:Ghost(gameModel, init_pos_Inky, Direction::UP)
+:Ghost(gameModel, Ghost::Type::INKY, init_pos_Inky, Direction::UP)
 {}
 
 Inky::~Inky() {
@@ -17,8 +18,4 @@ Inky::~Inky() {
 
 void Inky::move(int count) {
     // Update the direction based on the count value
-}
-
-Ghost::Type Inky::getType() const {
-    return Ghost::Type::INKY;
 }

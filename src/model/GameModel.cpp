@@ -6,8 +6,8 @@
 #include "Ghost.h"
 #include "Blinky.h"
 #include "Pinky.h"
-//#include "Inky.h"
-//#include "Clyde.h"
+#include "Inky.h"
+#include "Clyde.h"
 
 #include <iostream>
 #include <array>
@@ -20,8 +20,8 @@ GameModel::GameModel()
  ghosts {
     std::make_unique<Blinky>(*this),
     std::make_unique<Pinky>(*this),
-    //std::make_unique<Inky>(*this),
-    //std::make_unique<Clyde>(*this),
+    std::make_unique<Inky>(*this),
+    std::make_unique<Clyde>(*this)
 
  }
 {
@@ -56,7 +56,7 @@ void GameModel::update(Direction input_direction) {
     count = (count + 1) % 512;
 }
 
-std::array<std::unique_ptr<Ghost>, 2>& GameModel::getGhosts() {
+std::array<std::unique_ptr<Ghost>, 4>& GameModel::getGhosts() {
     return ghosts;
 }
 

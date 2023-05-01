@@ -8,7 +8,7 @@
 const Position init_pos_Blinky = Position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2);
 
 Blinky::Blinky(GameModel& gameModel)
-:Ghost(gameModel, init_pos_Blinky, Direction::LEFT)
+:Ghost(gameModel, Ghost::Type::BLINKY, init_pos_Blinky, Direction::LEFT)
 {}
 
 Blinky::~Blinky() {
@@ -39,8 +39,4 @@ void Blinky::move(int count) {
             position.incrementY(-1);
             break;
     }
-}
-
-Ghost::Type Blinky::getType() const {
-    return Ghost::Type::BLINKY;
 }

@@ -17,9 +17,12 @@ public:
         CLYDE
     };
 
-    Ghost(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation);
-    Ghost(GameModel& gameModel, Position initial_position, Direction direction);
+    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Direction sprite_orientation);
+    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction);
     virtual ~Ghost();
 
-    virtual Type getType() const = 0;
+    Type getType() const;
+
+private:
+    Type ghost_type;
 };

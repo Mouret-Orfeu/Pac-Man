@@ -21,7 +21,7 @@ public:
     void update(Direction input_direction);
 
     PacMan& getPacMan();
-    std::array<std::unique_ptr<Ghost>, 2>& getGhosts();
+    std::array<std::unique_ptr<Ghost>, 4>& getGhosts();
 
     int getCount() const;
     void setCount(int count);
@@ -43,7 +43,7 @@ public:
 
 private:
     PacMan pacman;
-    std::array<std::unique_ptr<Ghost>, 2> ghosts;
+    std::array<std::unique_ptr<Ghost>, 4> ghosts;
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
 

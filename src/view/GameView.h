@@ -122,23 +122,31 @@ private:
     static constexpr SDL_Rect Clyde_sprite_u = { GRID_ORIGIN+4*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
     static constexpr SDL_Rect Clyde_sprite_d = { GRID_ORIGIN+6*SPRITE_SIZE,7*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
 
-    std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghostSprites = {
-        {Ghost::Type::BLINKY, {{Direction::RIGHT, Blinky_sprite_r},
-                               {Direction::DOWN,  Blinky_sprite_d},
-                               {Direction::LEFT,  Blinky_sprite_l},
-                               {Direction::UP,    Blinky_sprite_u}}},
-        {Ghost::Type::PINKY,  {{Direction::RIGHT, Pinky_sprite_r},
-                               {Direction::DOWN,  Pinky_sprite_d},
-                               {Direction::LEFT,  Pinky_sprite_l},
-                               {Direction::UP,    Pinky_sprite_u}}},
-        {Ghost::Type::INKY,   {{Direction::RIGHT, Inky_sprite_r},
-                               {Direction::DOWN,  Inky_sprite_d},
-                               {Direction::LEFT,  Inky_sprite_l},
-                               {Direction::UP,    Inky_sprite_u}}},
-        {Ghost::Type::CLYDE,  {{Direction::RIGHT, Clyde_sprite_r},
-                               {Direction::DOWN,  Clyde_sprite_d},
-                               {Direction::LEFT,  Clyde_sprite_l},
-                               {Direction::UP,    Clyde_sprite_u}}}
+    std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghost_sprites = {
+        {Ghost::Type::BLINKY, {
+            {Direction::RIGHT, Blinky_sprite_r},
+            {Direction::DOWN,  Blinky_sprite_d},
+            {Direction::LEFT,  Blinky_sprite_l},
+            {Direction::UP,    Blinky_sprite_u}
+        }},
+        {Ghost::Type::PINKY,  {
+            {Direction::RIGHT, Pinky_sprite_r},
+            {Direction::DOWN,  Pinky_sprite_d},
+            {Direction::LEFT,  Pinky_sprite_l},
+            {Direction::UP,    Pinky_sprite_u}
+        }},
+        {Ghost::Type::INKY,   {
+            {Direction::RIGHT, Inky_sprite_r},
+            {Direction::DOWN,  Inky_sprite_d},
+            {Direction::LEFT,  Inky_sprite_l},
+            {Direction::UP,    Inky_sprite_u}
+        }},
+        {Ghost::Type::CLYDE,  {
+            {Direction::RIGHT, Clyde_sprite_r},
+            {Direction::DOWN,  Clyde_sprite_d},
+            {Direction::LEFT,  Clyde_sprite_l},
+            {Direction::UP,    Clyde_sprite_u}
+        }}
     };
 
     // PacMan sprites
