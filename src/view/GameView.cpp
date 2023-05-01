@@ -74,7 +74,7 @@ void GameView::draw() {
     drawPacMan();
     // Ghosts
     for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts())
-        drawGhost(ghost);
+        drawGhosts();
 
     // drawAllTileOutlines();
     // drawAllColoredTiles();
@@ -132,23 +132,121 @@ void GameView::drawPacMan() {
     //drawTileOutline({17, 27});
 }
 
-void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
-    // petit truc pour faire tourner le fantome
-    SDL_Rect ghost_sprite;
-    Direction sprite_orientation = ghost->getSpriteOrientation();
-    switch (sprite_orientation) {
+SDL_Rect GameView::getSpriteBlinky(Direction direction) const
+{
+    SDL_Rect blinky_sprite;
+
+    switch (direction) {
         case Direction::RIGHT:
-            ghost_sprite = Blinky_sprite_r;
+            blinky_sprite = Blinky_sprite_r;
             break;
         case Direction::DOWN:
-            ghost_sprite = Blinky_sprite_d;
+            blinky_sprite = Blinky_sprite_d;
             break;
         case Direction::LEFT:
-            ghost_sprite = Blinky_sprite_l;
+            blinky_sprite = Blinky_sprite_l;
             break;
         case Direction::UP:
-            ghost_sprite = Blinky_sprite_u;
+            blinky_sprite = Blinky_sprite_u;
             break;
+    }
+
+    return blinky_sprite;
+}
+
+SDL_Rect GameView::getSpritePinky(Direction direction) const
+{
+    SDL_Rect Pinky_sprite;
+
+    switch (direction) {
+        case Direction::RIGHT:
+            Pinky_sprite = Pinky_sprite_r;
+            break;
+        case Direction::DOWN:
+            Pinky_sprite = Pinky_sprite_d;
+            break;
+        case Direction::LEFT:
+            Pinky_sprite = Pinky_sprite_l;
+            break;
+        case Direction::UP:
+            Pinky_sprite = Pinky_sprite_u;
+            break;
+    }
+
+    return Pinky_sprite;
+}
+
+SDL_Rect GameView::getSpriteInky(Direction direction) const
+{
+    SDL_Rect Inky_sprite;
+
+    switch (direction) {
+        case Direction::RIGHT:
+            Inky_sprite = Inky_sprite_r;
+            break;
+        case Direction::DOWN:
+            Inky_sprite = Inky_sprite_d;
+            break;
+        case Direction::LEFT:
+            Inky_sprite = Inky_sprite_l;
+            break;
+        case Direction::UP:
+            Inky_sprite = Inky_sprite_u;
+            break;
+    }
+
+    return Inky_sprite;
+}
+
+SDL_Rect GameView::getSpriteClyde(Direction direction) const
+{
+    SDL_Rect Clyde_sprite;
+
+    switch (direction) {
+        case Direction::RIGHT:
+            Clyde_sprite = Clyde_sprite_r;
+            break;
+        case Direction::DOWN:
+            Clyde_sprite = Clyde_sprite_d;
+            break;
+        case Direction::LEFT:
+            Clyde_sprite = Clyde_sprite_l;
+            break;
+        case Direction::UP:
+            Clyde_sprite = Clyde_sprite_u;
+            break;
+    }
+
+    return Clyde_sprite;
+}
+
+void GameView::drawGhosts() {
+    // petit truc pour faire tourner le fantome
+    SDL_Rect ghost_sprite;
+    //Direction sprite_orientation = ghost->getSpriteOrientation();
+
+    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts())
+    {
+        //DEBUG
+        //std::cout<<"ghost type: "<<(int)ghost->getType()<<std::endl;
+
+        //switch on gost type
+        switch (ghost->getType()) {
+            case Ghost::Type::BLINKY:
+                ghost_sprite = getSpriteBlinky(ghost->getDirection());
+                break;
+            case Ghost::Type::PINKY:
+                ghost_sprite = getSpritePinky(ghost->getDirection());
+                break;
+            case Ghost::Type::INKY:
+                ghost_sprite = getSpriteInky(ghost->getDirection());
+                break;
+            case Ghost::Type::CLYDE:
+                ghost_sprite = getSpriteClyde(ghost->getDirection());
+                break;
+        }
+
+        drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
     }
 
     // Here we change between the 2 source sprites for a nice animation.
@@ -156,9 +254,13 @@ void GameView::drawGhost(std::unique_ptr<Ghost>& ghost) {
         // The second sprite is just next to the first one
         ghost_sprite.x += SPRITE_SIZE;
     }
-
-    drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
 }
+
+
+    
+    
+
+    
 
 void GameView::drawMaze() {
     drawSprite(spriteSheet_Namco, &maze_Namco, {0,3*TILE_SIZE}, false);

@@ -15,7 +15,7 @@ public:
     void draw();
     void drawDeathAnimation(int death_sprite_count);
 
-    void drawGhost(std::unique_ptr<Ghost>& ghost);
+    void drawGhosts();
     void drawPacMan();
 
     void drawHUD();
@@ -37,6 +37,11 @@ public:
     void drawAllTileOutlines();
     void drawAllColoredTiles();
     void drawPacmanPosition();
+
+    SDL_Rect getSpriteBlinky(Direction direction) const;
+    SDL_Rect getSpritePinky(Direction direction) const;
+    SDL_Rect getSpriteInky(Direction direction) const;
+    SDL_Rect getSpriteClyde(Direction direction) const;
 
 private:
     GameModel& gameModel;

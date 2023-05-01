@@ -10,7 +10,22 @@ class GameModel;
 
 class Ghost : public Character {
 public:
-    Ghost(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation);
-    Ghost(GameModel& gameModel, Position initial_position, Direction direction);
+    enum class Type{
+        BLINKY,
+        PINKY,
+        INKY,
+        CLYDE
+    };
+
+    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Direction sprite_orientation);
+    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction);
     virtual ~Ghost();
+
+    Type getType() const;
+
+    
+
+private:
+    Type ghost_type;
+
 };

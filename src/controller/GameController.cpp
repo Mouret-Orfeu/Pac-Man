@@ -70,7 +70,8 @@ void GameController::run() {
         // AFFICHAGE
 		gameView.draw();
 
-        //SDL_Delay(5000);
+        //DEBUG
+        //SDL_Delay(1000);
 
         //Animation de la mort
         if (gameModel.getPacMan().isDead()) {

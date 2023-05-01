@@ -5,6 +5,8 @@
 #include "common/Direction.h"
 #include "common/GameDimensions.h"
 
+#include <string.h>
+
 #include <SDL.h>
 
 class GameModel;

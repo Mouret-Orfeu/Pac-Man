@@ -3,10 +3,12 @@
 #include "common/Position.h"
 #include "common/Direction.h"
 #include "GameModel.h"
+#include "Ghost.h"
 
+const Position init_pos_Blinky = Position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2);
 
 Blinky::Blinky(GameModel& gameModel)
-:Ghost(gameModel, Position(Tile({4,1})), Direction::RIGHT)
+:Ghost(gameModel, Ghost::Type::BLINKY, init_pos_Blinky, Direction::LEFT)
 {}
 
 Blinky::~Blinky() {

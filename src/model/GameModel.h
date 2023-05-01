@@ -4,6 +4,7 @@
 #include "PacMan.h"
 #include "Ghost.h"
 #include "Blinky.h"
+#include "Pinky.h"
 
 #include "common/GameDimensions.h"
 #include "common/Direction.h"
@@ -20,7 +21,7 @@ public:
     void update(Direction input_direction);
 
     PacMan& getPacMan();
-    std::array<std::unique_ptr<Ghost>, 1>& getGhosts();
+    std::array<std::unique_ptr<Ghost>, 2>& getGhosts();
 
     int getCount() const;
     void setCount(int count);
@@ -42,7 +43,7 @@ public:
 
 private:
     PacMan pacman;
-    std::array<std::unique_ptr<Ghost>, 1> ghosts;
+    std::array<std::unique_ptr<Ghost>, 2> ghosts;
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
 

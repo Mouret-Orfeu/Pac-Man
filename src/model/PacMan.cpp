@@ -7,10 +7,10 @@
 #include "common/GameDimensions.h"
 
 #include <iostream>
-
+const Position init_pos_pacman = Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2);
 
 PacMan::PacMan(GameModel& gameModel)
-:Character(gameModel, Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2), Direction::RIGHT),
+:Character(gameModel, init_pos_pacman, Direction::RIGHT),
  intended_direction(Direction::RIGHT),
  score(0),
  highscore(0),
