@@ -230,21 +230,10 @@ void GameView::drawGhosts() {
         //DEBUG
         //std::cout<<"ghost type: "<<(int)ghost->getType()<<std::endl;
 
-        //switch on gost type
-        switch (ghost->getType()) {
-            case Ghost::Type::BLINKY:
-                ghost_sprite = getSpriteBlinky(ghost->getDirection());
-                break;
-            case Ghost::Type::PINKY:
-                ghost_sprite = getSpritePinky(ghost->getDirection());
-                break;
-            case Ghost::Type::INKY:
-                ghost_sprite = getSpriteInky(ghost->getDirection());
-                break;
-            case Ghost::Type::CLYDE:
-                ghost_sprite = getSpriteClyde(ghost->getDirection());
-                break;
-        }
+        Ghost::Type ghostType = ghost->getType();
+
+        if (ghost->getDirection() != Direction::NONE)
+            ghost_sprite = ghostSprites[ghostType][ghost->getDirection()];
 
         drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
     }
@@ -255,12 +244,6 @@ void GameView::drawGhosts() {
         ghost_sprite.x += SPRITE_SIZE;
     }
 }
-
-
-    
-    
-
-    
 
 void GameView::drawMaze() {
     drawSprite(spriteSheet_Namco, &maze_Namco, {0,3*TILE_SIZE}, false);

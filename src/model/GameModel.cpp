@@ -22,7 +22,7 @@ GameModel::GameModel()
     std::make_unique<Pinky>(*this),
     //std::make_unique<Inky>(*this),
     //std::make_unique<Clyde>(*this),
-   
+
  }
 {
     //DEBUG

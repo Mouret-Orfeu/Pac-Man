@@ -14,4 +14,6 @@ public:
     ~Blinky();
 
     void move(int count) override;
+
+    Type getType() const override;
 };

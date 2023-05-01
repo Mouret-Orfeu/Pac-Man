@@ -8,7 +8,7 @@
 const Position init_pos_Clyde = Position((WINDOW_WIDTH-1)/2+2*TILE_SIZE, 17*TILE_SIZE + (TILE_SIZE-1)/2);
 
 Clyde::Clyde(GameModel& gameModel)
-:Ghost(gameModel, Ghost::Type::CLYDE, init_pos_Clyde, Direction::UP)
+:Ghost(gameModel, init_pos_Clyde, Direction::UP)
 {}
 
 Clyde::~Clyde() {
@@ -17,5 +17,8 @@ Clyde::~Clyde() {
 
 void Clyde::move(int count) {
     // Update the direction based on the count value
-    
+}
+
+Ghost::Type Clyde::getType() const {
+    return Ghost::Type::CLYDE;
 }
