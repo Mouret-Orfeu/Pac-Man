@@ -6,8 +6,8 @@
 #include "Ghost.h"
 #include "Blinky.h"
 #include "Pinky.h"
-//#include "Inky.h"
-//#include "Clyde.h"
+#include "Inky.h"
+#include "Clyde.h"
 
 #include <iostream>
 #include <array>
@@ -17,13 +17,13 @@
 GameModel::GameModel()
 :count(0),
  pacman(*this),
- ghosts {
-    std::make_unique<Blinky>(*this),
-    std::make_unique<Pinky>(*this),
-    //std::make_unique<Inky>(*this),
-    //std::make_unique<Clyde>(*this),
+ ghosts({
+    new Blinky(*this),
+    new Pinky(*this),
+    new Inky(*this),
+    new Clyde(*this)
 
- }
+ })
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -42,7 +42,7 @@ GameModel::~GameModel() {
 
 void GameModel::update(Direction input_direction) {
     // Make the ghosts move
-    for (std::unique_ptr<Ghost>& ghost : ghosts)
+    for (Ghost* ghost : ghosts)
         ghost->move(count);
 
     // Update PacMan's intended direction based on user input
@@ -56,7 +56,7 @@ void GameModel::update(Direction input_direction) {
     count = (count + 1) % 512;
 }
 
-std::array<std::unique_ptr<Ghost>, 2>& GameModel::getGhosts() {
+std::array<Ghost*, 4> GameModel::getGhosts() {
     return ghosts;
 }
 

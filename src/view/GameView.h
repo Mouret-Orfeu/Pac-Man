@@ -39,11 +39,6 @@ public:
     void drawAllColoredTiles();
     void drawPacmanPosition();
 
-    SDL_Rect getSpriteBlinky(Direction direction) const;
-    SDL_Rect getSpritePinky(Direction direction) const;
-    SDL_Rect getSpriteInky(Direction direction) const;
-    SDL_Rect getSpriteClyde(Direction direction) const;
-
 private:
     GameModel& gameModel;
 

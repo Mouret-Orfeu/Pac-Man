@@ -73,7 +73,7 @@ void GameView::draw() {
     // PacMan
     drawPacMan();
     // Ghosts
-    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts())
+    // for (Ghost* ghost: gameModel.getGhosts())
         drawGhosts();
 
     // drawAllTileOutlines();
@@ -132,100 +132,12 @@ void GameView::drawPacMan() {
     //drawTileOutline({17, 27});
 }
 
-SDL_Rect GameView::getSpriteBlinky(Direction direction) const
-{
-    SDL_Rect blinky_sprite;
-
-    switch (direction) {
-        case Direction::RIGHT:
-            blinky_sprite = Blinky_sprite_r;
-            break;
-        case Direction::DOWN:
-            blinky_sprite = Blinky_sprite_d;
-            break;
-        case Direction::LEFT:
-            blinky_sprite = Blinky_sprite_l;
-            break;
-        case Direction::UP:
-            blinky_sprite = Blinky_sprite_u;
-            break;
-    }
-
-    return blinky_sprite;
-}
-
-SDL_Rect GameView::getSpritePinky(Direction direction) const
-{
-    SDL_Rect Pinky_sprite;
-
-    switch (direction) {
-        case Direction::RIGHT:
-            Pinky_sprite = Pinky_sprite_r;
-            break;
-        case Direction::DOWN:
-            Pinky_sprite = Pinky_sprite_d;
-            break;
-        case Direction::LEFT:
-            Pinky_sprite = Pinky_sprite_l;
-            break;
-        case Direction::UP:
-            Pinky_sprite = Pinky_sprite_u;
-            break;
-    }
-
-    return Pinky_sprite;
-}
-
-SDL_Rect GameView::getSpriteInky(Direction direction) const
-{
-    SDL_Rect Inky_sprite;
-
-    switch (direction) {
-        case Direction::RIGHT:
-            Inky_sprite = Inky_sprite_r;
-            break;
-        case Direction::DOWN:
-            Inky_sprite = Inky_sprite_d;
-            break;
-        case Direction::LEFT:
-            Inky_sprite = Inky_sprite_l;
-            break;
-        case Direction::UP:
-            Inky_sprite = Inky_sprite_u;
-            break;
-    }
-
-    return Inky_sprite;
-}
-
-SDL_Rect GameView::getSpriteClyde(Direction direction) const
-{
-    SDL_Rect Clyde_sprite;
-
-    switch (direction) {
-        case Direction::RIGHT:
-            Clyde_sprite = Clyde_sprite_r;
-            break;
-        case Direction::DOWN:
-            Clyde_sprite = Clyde_sprite_d;
-            break;
-        case Direction::LEFT:
-            Clyde_sprite = Clyde_sprite_l;
-            break;
-        case Direction::UP:
-            Clyde_sprite = Clyde_sprite_u;
-            break;
-    }
-
-    return Clyde_sprite;
-}
-
 void GameView::drawGhosts() {
     // petit truc pour faire tourner le fantome
     SDL_Rect ghost_sprite;
     //Direction sprite_orientation = ghost->getSpriteOrientation();
 
-    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts())
+    for (Ghost* ghost: gameModel.getGhosts())
     {
         //DEBUG
         //std::cout<<"ghost type: "<<(int)ghost->getType()<<std::endl;
