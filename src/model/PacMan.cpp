@@ -104,15 +104,15 @@ void PacMan::setCornering()
             {
                 case Direction::UP:
                     if(center_passed)
-                        cornering= Cornering::UP_RIGHT;
+                        cornering = Cornering::UP_RIGHT;
                     else
-                        cornering= Cornering::UP_LEFT; 
+                        cornering = Cornering::UP_LEFT;
                     break;
                 case Direction::DOWN:
                     if(center_passed)
-                        cornering= Cornering::DOWN_RIGHT;
+                        cornering = Cornering::DOWN_RIGHT;
                     else
-                        cornering= Cornering::DOWN_LEFT;
+                        cornering = Cornering::DOWN_LEFT;
                     break;
                 default:
                     break;
@@ -138,7 +138,6 @@ void PacMan::setCornering()
         default:
             break;
     }
-    
 }
 
 void PacMan::setCenterPassed()
@@ -172,8 +171,6 @@ void PacMan::updateDirection() {
     //Si PacMan était en cornering et qu'il est centré horizontalement ou verticalement, le cornering est fini
     if(cornering!=Cornering::NONE && (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()))
         cornering=Cornering::NONE;
-    
-        
 
     //Si PacMan veut tourner dans une nouvelle direction:
     //Update the direction based on the intended direction
@@ -202,7 +199,7 @@ void PacMan::updateDirection() {
     if(!gameModel.isTileLegal(next_tile) && position.isCenteredOnTile())
         direction = Direction::NONE;
 
-    /*Si Pacman est pas CenteredOnTile, ça veut dire qu'il est en train de faire du cornering 
+    /*Si Pacman est pas CenteredOnTile, ça veut dire qu'il est en train de faire du cornering
     Dans ce cas il garde la même direction*/
 }
 
@@ -226,26 +223,22 @@ void PacMan::updatePosition()
                 break;
             default:
                 break;
-        } 
+        }
     }
     else
     {
         switch (cornering) {
             case PacMan::Cornering::UP_LEFT:
-                position.incrementX(-1);
-                position.incrementY(-1);
+                position += {-1,-1};
                 break;
             case PacMan::Cornering::UP_RIGHT:
-                position.incrementX(1);
-                position.incrementY(-1);
+                position += {1,-1};
                 break;
             case PacMan::Cornering::DOWN_LEFT:
-                position.incrementX(-1);
-                position.incrementY(1);
+                position += {-1,1};
                 break;
             case PacMan::Cornering::DOWN_RIGHT:
-                position.incrementX(1);
-                position.incrementY(1);
+                position += {1,1};
                 break;
             default:
                 break;
