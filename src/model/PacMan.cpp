@@ -188,7 +188,7 @@ void PacMan::updateDirection() {
             setCornering();
 
             //DEBUG
-            //printCornering();
+            printCornering();
 
             direction = intended_direction;
             sprite_orientation = intended_direction;
