@@ -38,6 +38,13 @@ public:
 
     SDL_Point toCenter() const;
     Tile toTile() const;
+
+    /**
+    * @brief On va prendre le pixel en haut à gauche du cerré central de la tile correspondante à la position
+    *
+    */
+    SDL_Point getCenterTile() const;
+
     SDL_Point toTopLeft() const;
     Tile getNextTile(const Direction& direction) const;
     bool isCenteredHorizontallyOnTile() const;
@@ -45,7 +52,9 @@ public:
     bool isCenteredOnTile() const;
 
 private:
+    //centre de PacMan
     SDL_Point centerPosition;
+    
 };
 
 Position operator+(const Position& pos, const SDL_Point& point);

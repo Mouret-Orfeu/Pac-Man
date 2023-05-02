@@ -22,7 +22,13 @@ public:
     void move(int count) override;
 
     void eat();
+
+    /**
+    * @brief  updateDirection permet de mettre à jour la direction et l'attribut "cornering" de pacman
+    * 
+    */
     void updateDirection();
+    void updatePosition();
 
     Direction getIntendedDirection() const;
     void setIntendedDirection(Direction direction);
@@ -39,10 +45,29 @@ public:
     bool isDead() const;
     void setIsDead(bool death);
 
+    void setCenterPassed();
+
+    enum class Cornering {
+    UP_LEFT,
+    UP_RIGHT,
+    DOWN_LEFT,
+    DOWN_RIGHT,
+    NONE
+    };
+
+    void setCornering();
+
+    //DEBUG
+    void printCornering() const;
+
 private:
     Direction intended_direction;
     int score;
     int highscore;
     int lives;
     bool is_dead;
+    Cornering cornering;
+
+    //Pour savoir quel type de cornering il faut faire
+    bool center_passed;
 };

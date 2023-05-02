@@ -85,6 +85,12 @@ Tile Position::toTile() const {
     return {centerPosition.y / 8, centerPosition.x / 8};
 }
 
+SDL_Point Position::getCenterTile() const
+{
+    SDL_Point centerTile={centerPosition.x/8*(TILE_SIZE)-1+3, centerPosition.y/8*(TILE_SIZE)-1+3};
+    return centerTile;
+}
+
 SDL_Point Position::toTopLeft() const {
     return {centerPosition.x - (SPRITE_SIZE-1) / 2, centerPosition.y - (SPRITE_SIZE-1) / 2};
 }

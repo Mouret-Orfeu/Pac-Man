@@ -29,7 +29,7 @@ public:
     *
     *
     */
-    void updatePosition();
+    virtual void updatePosition();
 
 
     Position getPosition() const;
