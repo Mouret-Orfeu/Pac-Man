@@ -36,8 +36,8 @@ void PacMan::move(int count) {
         updateDirection();
     }
 
-    
-    
+
+
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
     if (frames_to_drop > 0)
@@ -90,7 +90,7 @@ void PacMan::setCornering()
                             break;
                         default:
                             break;
-                    } 
+                    }
                     break;
                 case Direction::RIGHT:
                     switch(is_center_passed)
@@ -132,10 +132,10 @@ void PacMan::setCornering()
                         case Center_passed::ON_CENTER:
                             cornering_direction= Cornering::NONE;
                             cornering=false;
-                            break;  
+                            break;
                         default:
-                            break; 
-                    }                     
+                            break;
+                    }
                     break;
                 case Direction::RIGHT:
                     switch(is_center_passed)
@@ -151,10 +151,10 @@ void PacMan::setCornering()
                         case Center_passed::ON_CENTER:
                             cornering_direction= Cornering::NONE;
                             cornering=false;
-                            break;  
+                            break;
                         default:
-                            break; 
-                    }                     
+                            break;
+                    }
                     break;
                 default:
                     break;
@@ -177,9 +177,9 @@ void PacMan::setCornering()
                         case Center_passed::ON_CENTER:
                             cornering_direction= Cornering::NONE;
                             cornering=false;
-                            break;    
+                            break;
                         default:
-                            break;                    
+                            break;
                     }
                     break;
                 case Direction::DOWN:
@@ -197,9 +197,9 @@ void PacMan::setCornering()
                         case Center_passed::ON_CENTER:
                             cornering_direction= Cornering::NONE;
                             cornering=false;
-                            break;    
+                            break;
                         default:
-                            break;                    
+                            break;
                     }
                     break;
                 default:
@@ -223,9 +223,9 @@ void PacMan::setCornering()
                         case Center_passed::ON_CENTER:
                             cornering_direction= Cornering::NONE;
                             cornering=false;
-                            break;    
+                            break;
                         default:
-                            break;                    
+                            break;
                     }
                     break;
                 case Direction::DOWN:
@@ -242,9 +242,9 @@ void PacMan::setCornering()
                         case Center_passed::ON_CENTER:
                             cornering_direction= Cornering::NONE;
                             cornering=false;
-                            break;    
+                            break;
                         default:
-                            break;                    
+                            break;
                     }
                     break;
                 default:
@@ -257,7 +257,7 @@ void PacMan::setCornering()
 
     //DEBUG
     //printDirection();
-    
+
 }
 
 void PacMan::setIsCenterPassed()
@@ -265,35 +265,35 @@ void PacMan::setIsCenterPassed()
     switch (direction)
     {
     case Direction::UP:
-        if(position.getY()<position.getCenterTile().y)
+        if(position.getY()<position.getTileCenter().y)
             is_center_passed=Center_passed::PASSED;
-        else if(position.getY()==position.getCenterTile().y)
+        else if(position.getY()==position.getTileCenter().y)
             is_center_passed=Center_passed::ON_CENTER;
-        else if(position.getY()>position.getCenterTile().y)
+        else if(position.getY()>position.getTileCenter().y)
             is_center_passed=Center_passed::NOT_PASSED;
         break;
     case Direction::DOWN:
-        if(position.getY()>position.getCenterTile().y)
+        if(position.getY()>position.getTileCenter().y)
             is_center_passed=Center_passed::PASSED;
-        if(position.getY()==position.getCenterTile().y)
+        if(position.getY()==position.getTileCenter().y)
             is_center_passed=Center_passed::ON_CENTER;
-        if(position.getY()<position.getCenterTile().y)
+        if(position.getY()<position.getTileCenter().y)
             is_center_passed=Center_passed::NOT_PASSED;
         break;
     case Direction::LEFT:
-        if(position.getX()<position.getCenterTile().x)
+        if(position.getX()<position.getTileCenter().x)
             is_center_passed=Center_passed::PASSED;
-        if(position.getX()==position.getCenterTile().x)
+        if(position.getX()==position.getTileCenter().x)
             is_center_passed=Center_passed::ON_CENTER;
-        if(position.getX()>position.getCenterTile().x)
+        if(position.getX()>position.getTileCenter().x)
             is_center_passed=Center_passed::NOT_PASSED;
         break;
     case Direction::RIGHT:
-        if(position.getX()>position.getCenterTile().x)
+        if(position.getX()>position.getTileCenter().x)
             is_center_passed=Center_passed::PASSED;
-        if(position.getX()==position.getCenterTile().x)
+        if(position.getX()==position.getTileCenter().x)
             is_center_passed=Center_passed::ON_CENTER;
-        if(position.getX()<position.getCenterTile().x)
+        if(position.getX()<position.getTileCenter().x)
             is_center_passed=Center_passed::NOT_PASSED;
         break;
     default:
@@ -303,16 +303,16 @@ void PacMan::setIsCenterPassed()
 
 bool PacMan::turnaround() const
 {
-    if((direction==Direction::UP && intended_direction==Direction::DOWN) 
-        || (direction==Direction::DOWN && intended_direction==Direction::UP) 
-        || (direction==Direction::LEFT && intended_direction==Direction::RIGHT) 
+    if((direction==Direction::UP && intended_direction==Direction::DOWN)
+        || (direction==Direction::DOWN && intended_direction==Direction::UP)
+        || (direction==Direction::LEFT && intended_direction==Direction::RIGHT)
         || (direction==Direction::RIGHT && intended_direction==Direction::LEFT))
         return true;
     else
         return false;
 }
 
-void PacMan::updateDirection() { 
+void PacMan::updateDirection() {
     //cornering va être égale à true pendant le mouvement diagonal et jusqu'au prochain centre de tile
     if(position.isCenteredOnTile()){
         cornering=false;
@@ -332,9 +332,9 @@ void PacMan::updateDirection() {
 
             //Si pacman est pas centré horizontalement ou verticalement, il est en cornering
             if((position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()) ){
-               //Si pacman n'est pas au centre de la tile, il doit faire du cornering, 
+               //Si pacman n'est pas au centre de la tile, il doit faire du cornering,
                 //si il fait deja du cornering, pas besoin de modifier le cornering_direction
-                
+
                 //C'est imortant de set center passed avant de set cornering_direction
                 //Et c'est important de set le cornering avant de mettre à jour la direction avec intended_direction
                 setIsCenterPassed();
@@ -344,9 +344,9 @@ void PacMan::updateDirection() {
                     direction = intended_direction;
                     sprite_orientation = intended_direction;
                 }
-                
 
-            }     
+
+            }
             //DEBUG
             //printCornering();
             //std::cout<<is_center_passed<<std::endl;
@@ -368,12 +368,12 @@ void PacMan::updateDirection() {
     Tile next_tile = position.getNextTile(direction);
     if(!gameModel.isTileLegal(next_tile) && position.isCenteredOnTile()){
         if(position.isCenteredOnTile())
-            //std::cout<<"centered_on_tile"<<std::endl; 
+            //std::cout<<"centered_on_tile"<<std::endl;
             direction = Direction::NONE;
     }
-        
 
-    /*Si Pacman est pas CenteredOnTile, ça veut dire qu'il est en train de faire du cornering 
+
+    /*Si Pacman est pas CenteredOnTile, ça veut dire qu'il est en train de faire du cornering
     Dans ce cas il garde la même direction*/
 }
 
@@ -397,7 +397,7 @@ void PacMan::updatePosition()
                 break;
             default:
                 break;
-        } 
+        }
     }
      else
     {

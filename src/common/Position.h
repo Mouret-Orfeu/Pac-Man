@@ -43,7 +43,7 @@ public:
     * @brief On va prendre le pixel en haut à gauche du cerré central de la tile correspondante à la position
     *
     */
-    SDL_Point getCenterTile() const;
+    SDL_Point getTileCenter() const;
 
     SDL_Point toTopLeft() const;
     Tile getNextTile(const Direction& direction) const;
