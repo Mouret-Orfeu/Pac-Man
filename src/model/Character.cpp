@@ -2,6 +2,8 @@
 #include "common/Position.h"
 #include "common/Direction.h"
 
+#include <iostream>
+
 Character::Character(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation)
 :gameModel(gameModel),
  initial_position(initial_position),
@@ -66,3 +68,30 @@ Tile Character::getTeleportationTileLeft() const
 {
     return TELEPORTATION_TILE_LEFT;
 }
+
+void Character::printDirection() const
+{
+
+
+    switch (direction)
+    {
+    case Direction::UP:
+        std::cout <<"direction: UP"<< std::endl;
+        break;
+    case Direction::DOWN:
+        std::cout <<"direction: DOWN"<< std::endl;
+        break;
+    case Direction::LEFT:
+        std::cout <<"direction: LEFT"<< std::endl;
+        break;
+    case Direction::RIGHT:
+        std::cout <<"direction: RIGHT"<< std::endl;
+        break;
+    case Direction::NONE:
+        std::cout <<"direction: NONE"<< std::endl;
+        break;
+    default:
+        break;
+    }
+}
+

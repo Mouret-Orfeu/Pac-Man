@@ -45,6 +45,9 @@ public:
 
     Tile getTeleportationTileLeft() const;
 
+    //DEBUG
+    void printDirection() const;
+
 protected:
     GameModel& gameModel;
     const Position initial_position;

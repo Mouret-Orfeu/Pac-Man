@@ -16,8 +16,9 @@ PacMan::PacMan(GameModel& gameModel)
  highscore(0),
  lives(3),
  is_dead(false),
- cornering(Cornering::NONE),
- center_passed(false)
+ cornering_direction(Cornering::NONE),
+ cornering(false),
+ is_center_passed(Center_passed::NOT_PASSED)
 {}
 
 PacMan::~PacMan() {}
@@ -26,11 +27,17 @@ PacMan::~PacMan() {}
 void PacMan::move(int count) {
     (void)count;
 
+    if(position.isCenteredOnTile()){
+        eat();
+    }
+
     // Eat dots and power pellets
     if (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()) {
-        eat();
         updateDirection();
     }
+
+    
+    
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
     if (frames_to_drop > 0)
@@ -67,140 +74,304 @@ void PacMan::setCornering()
             switch(intended_direction)
             {
                 case Direction::LEFT:
-                    if(center_passed)
-                        cornering= Cornering::DOWN_LEFT;
-                    else
-                        cornering= Cornering::UP_LEFT;
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::DOWN_LEFT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::UP_LEFT;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;
+                        default:
+                            break;
+                    } 
                     break;
                 case Direction::RIGHT:
-                    if(center_passed)
-                        cornering= Cornering::UP_LEFT;
-                    else
-                        cornering= Cornering::DOWN_RIGHT;
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::DOWN_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::UP_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;
             }
+            break;
         case Direction::DOWN:
             switch(intended_direction)
             {
                 case Direction::LEFT:
-                    if(center_passed)
-                        cornering= Cornering::UP_LEFT;
-                    else
-                        cornering= Cornering::DOWN_LEFT;
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::UP_LEFT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::DOWN_LEFT;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;  
+                        default:
+                            break; 
+                    }                     
                     break;
                 case Direction::RIGHT:
-                    if(center_passed)
-                        cornering= Cornering::UP_RIGHT;
-                    else
-                        cornering= Cornering::DOWN_RIGHT;
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::UP_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::DOWN_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;  
+                        default:
+                            break; 
+                    }                     
                     break;
                 default:
                     break;
             }
+            break;
         case Direction::LEFT:
             switch(intended_direction)
             {
                 case Direction::UP:
-                    if(center_passed)
-                        cornering= Cornering::UP_RIGHT;
-                    else
-                        cornering= Cornering::UP_LEFT; 
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::UP_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::UP_LEFT;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;    
+                        default:
+                            break;                    
+                    }
                     break;
                 case Direction::DOWN:
-                    if(center_passed)
-                        cornering= Cornering::DOWN_RIGHT;
-                    else
-                        cornering= Cornering::DOWN_LEFT;
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::DOWN_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::DOWN_LEFT;
+                            std::cout<<"DOWN_LEFT LEFT"<<std::endl;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;    
+                        default:
+                            break;                    
+                    }
                     break;
                 default:
                     break;
             }
+            break;
         case Direction::RIGHT:
             switch(intended_direction)
             {
                 case Direction::UP:
-                    if(center_passed)
-                        cornering= Cornering::UP_LEFT;
-                    else
-                        cornering= Cornering::UP_RIGHT;
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::UP_LEFT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::UP_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;    
+                        default:
+                            break;                    
+                    }
                     break;
                 case Direction::DOWN:
-                    if(center_passed)
-                        cornering= Cornering::DOWN_LEFT;
-                    else
-                        cornering= Cornering::DOWN_RIGHT;
+                    switch(is_center_passed)
+                    {
+                        case Center_passed::PASSED:
+                            cornering_direction= Cornering::DOWN_LEFT;
+                            cornering=true;
+                            break;
+                        case Center_passed::NOT_PASSED:
+                            cornering_direction= Cornering::DOWN_RIGHT;
+                            cornering=true;
+                            break;
+                        case Center_passed::ON_CENTER:
+                            cornering_direction= Cornering::NONE;
+                            cornering=false;
+                            break;    
+                        default:
+                            break;                    
+                    }
                     break;
                 default:
                     break;
             }
+            break;
         default:
             break;
     }
+
+    //DEBUG
+    //printDirection();
     
 }
 
-void PacMan::setCenterPassed()
+void PacMan::setIsCenterPassed()
 {
     switch (direction)
     {
     case Direction::UP:
-        if(position.getY()>position.getCenterTile().y)
-            center_passed=true;
+        if(position.getY()<position.getCenterTile().y)
+            is_center_passed=Center_passed::PASSED;
+        else if(position.getY()==position.getCenterTile().y)
+            is_center_passed=Center_passed::ON_CENTER;
+        else if(position.getY()>position.getCenterTile().y)
+            is_center_passed=Center_passed::NOT_PASSED;
         break;
     case Direction::DOWN:
+        if(position.getY()>position.getCenterTile().y)
+            is_center_passed=Center_passed::PASSED;
+        if(position.getY()==position.getCenterTile().y)
+            is_center_passed=Center_passed::ON_CENTER;
         if(position.getY()<position.getCenterTile().y)
-            center_passed=true;
+            is_center_passed=Center_passed::NOT_PASSED;
         break;
     case Direction::LEFT:
         if(position.getX()<position.getCenterTile().x)
-            center_passed=true;
+            is_center_passed=Center_passed::PASSED;
+        if(position.getX()==position.getCenterTile().x)
+            is_center_passed=Center_passed::ON_CENTER;
+        if(position.getX()>position.getCenterTile().x)
+            is_center_passed=Center_passed::NOT_PASSED;
         break;
     case Direction::RIGHT:
         if(position.getX()>position.getCenterTile().x)
-            center_passed=true;
+            is_center_passed=Center_passed::PASSED;
+        if(position.getX()==position.getCenterTile().x)
+            is_center_passed=Center_passed::ON_CENTER;
+        if(position.getX()<position.getCenterTile().x)
+            is_center_passed=Center_passed::NOT_PASSED;
         break;
     default:
-        center_passed=false;
         break;
     }
 }
 
-void PacMan::updateDirection() {
+bool PacMan::turnaround() const
+{
+    if((direction==Direction::UP && intended_direction==Direction::DOWN) 
+        || (direction==Direction::DOWN && intended_direction==Direction::UP) 
+        || (direction==Direction::LEFT && intended_direction==Direction::RIGHT) 
+        || (direction==Direction::RIGHT && intended_direction==Direction::LEFT))
+        return true;
+    else
+        return false;
+}
 
-    //Si PacMan était en cornering et qu'il est centré horizontalement ou verticalement, le cornering est fini
-    if(cornering!=Cornering::NONE && (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()))
-        cornering=Cornering::NONE;
-    
-        
-
+void PacMan::updateDirection() { 
+    //cornering va être égale à true pendant le mouvement diagonal et jusqu'au prochain centre de tile
+    if(position.isCenteredOnTile()){
+        cornering=false;
+    }
+    //cornering_direction va être égal à NONE tout le temps sauf durant le mouvement diagonal
+    if(position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()){
+        cornering_direction=Cornering::NONE;
+    }
     //Si PacMan veut tourner dans une nouvelle direction:
     //Update the direction based on the intended direction
     //Update le cornering
     if (intended_direction != Direction::NONE) {
         Tile next_tile_intended = position.getNextTile(intended_direction);
-        if(gameModel.isTileLegal(next_tile_intended) && intended_direction!=direction) {
 
-            //C'est imortant de set center passed avant de set cornering
-            //Et c'est important de set le cornering avant de mettre à jour la direction avec intended_direction
-            setCenterPassed();
-            setCornering();
+        //Dans le cas d'un tournant où on est pas deja en train de faire du cornering
+        if(gameModel.isTileLegal(next_tile_intended) && intended_direction!=direction && !turnaround() && cornering==false) {
 
+            //Si pacman est pas centré horizontalement ou verticalement, il est en cornering
+            if((position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()) ){
+               //Si pacman n'est pas au centre de la tile, il doit faire du cornering, 
+                //si il fait deja du cornering, pas besoin de modifier le cornering_direction
+                
+                //C'est imortant de set center passed avant de set cornering_direction
+                //Et c'est important de set le cornering avant de mettre à jour la direction avec intended_direction
+                setIsCenterPassed();
+                setCornering();
+                //std::cout<<"SET CORNERING"<<std::endl;
+                if(cornering_direction!=Cornering::NONE){
+                    direction = intended_direction;
+                    sprite_orientation = intended_direction;
+                }
+                
+
+            }     
             //DEBUG
-            printCornering();
-
-            direction = intended_direction;
-            sprite_orientation = intended_direction;
+            //printCornering();
+            //std::cout<<is_center_passed<<std::endl;
         }
 
-
+        //Dans le cas d'un demi-tour, on ne peut le faireque au centre d'une tile
+        if(gameModel.isTileLegal(next_tile_intended) && intended_direction!=direction) {
+            if(position.isCenteredOnTile()){
+                direction = intended_direction;
+                sprite_orientation = intended_direction;
+            }
+        }
     }
+
+    //DEBUG
+    //printDirection();
 
     //PacMan s'arrete quand la tile devant lui est illégale
     Tile next_tile = position.getNextTile(direction);
-    if(!gameModel.isTileLegal(next_tile) && position.isCenteredOnTile())
-        direction = Direction::NONE;
+    if(!gameModel.isTileLegal(next_tile) && position.isCenteredOnTile()){
+        if(position.isCenteredOnTile())
+            //std::cout<<"centered_on_tile"<<std::endl; 
+            direction = Direction::NONE;
+    }
+        
 
     /*Si Pacman est pas CenteredOnTile, ça veut dire qu'il est en train de faire du cornering 
     Dans ce cas il garde la même direction*/
@@ -209,7 +380,7 @@ void PacMan::updateDirection() {
 void PacMan::updatePosition()
 {
     // Update the position based on the direction
-    if(cornering==PacMan::Cornering::NONE)
+    if(cornering_direction==PacMan::Cornering::NONE)
     {
         switch (direction) {
             case Direction::UP:
@@ -228,24 +399,20 @@ void PacMan::updatePosition()
                 break;
         } 
     }
-    else
+     else
     {
-        switch (cornering) {
+        switch (cornering_direction) {
             case PacMan::Cornering::UP_LEFT:
-                position.incrementX(-1);
-                position.incrementY(-1);
+                position += {-1,-1};
                 break;
             case PacMan::Cornering::UP_RIGHT:
-                position.incrementX(1);
-                position.incrementY(-1);
+                position += {1,-1};
                 break;
             case PacMan::Cornering::DOWN_LEFT:
-                position.incrementX(-1);
-                position.incrementY(1);
+                position += {-1,1};
                 break;
             case PacMan::Cornering::DOWN_RIGHT:
-                position.incrementX(1);
-                position.incrementY(1);
+                position += {1,1};
                 break;
             default:
                 break;
@@ -296,25 +463,26 @@ void PacMan::setIsDead(bool is_dead) {
 
 void PacMan::printCornering() const
 {
-    switch (cornering)
+    switch (cornering_direction)
     {
     case Cornering::NONE:
-        std::cout <<"cornering: NONE"<< std::endl;
+        std::cout <<"cornering_direction: NONE"<< std::endl;
         break;
     case Cornering::UP_LEFT:
-        std::cout <<"cornering: UP_LEFT"<< std::endl;
+        std::cout <<"cornering_direction: UP_LEFT"<< std::endl;
         break;
     case Cornering::UP_RIGHT:
-        std::cout <<"cornering: UP_RIGHT"<< std::endl;
+        std::cout <<"cornering_direction: UP_RIGHT"<< std::endl;
         break;
     case Cornering::DOWN_LEFT:
-        std::cout <<"cornering: DOWN_LEFT"<< std::endl;
+        std::cout <<"cornering_direction: DOWN_LEFT"<< std::endl;
         break;
     case Cornering::DOWN_RIGHT:
-        std::cout <<"cornering: DOWN_RIGHT"<< std::endl;
+        std::cout <<"cornering_direction: DOWN_RIGHT"<< std::endl;
         break;
     default:
         break;
     }
 }
+
 

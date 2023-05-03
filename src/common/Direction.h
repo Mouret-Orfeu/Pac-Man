@@ -7,3 +7,4 @@ enum class Direction {
     RIGHT,
     NONE
 };
+

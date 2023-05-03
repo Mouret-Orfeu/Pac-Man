@@ -87,7 +87,7 @@ Tile Position::toTile() const {
 
 SDL_Point Position::getCenterTile() const
 {
-    SDL_Point centerTile={centerPosition.x/8*(TILE_SIZE)-1+3, centerPosition.y/8*(TILE_SIZE)-1+3};
+    SDL_Point centerTile={centerPosition.x/8*(TILE_SIZE)+3, centerPosition.y/8*(TILE_SIZE)+3};
     return centerTile;
 }
 

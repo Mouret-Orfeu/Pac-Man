@@ -122,8 +122,8 @@ void GameView::drawPacMan() {
     drawSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition().toTopLeft(), true);
 
     // DEBUG
-    // drawTileOutline(pacman.getPosition().toTile());
-    // drawPacmanPosition();
+    drawTileOutline(pacman.getPosition().toTile());
+    drawPacmanPosition();
 
     //DEBUG
     //Show teleportation tiles
