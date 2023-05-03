@@ -303,13 +303,10 @@ void PacMan::setIsCenterPassed()
 
 bool PacMan::turnaround() const
 {
-    if((direction==Direction::UP && intended_direction==Direction::DOWN)
+    return (direction==Direction::UP && intended_direction==Direction::DOWN)
         || (direction==Direction::DOWN && intended_direction==Direction::UP)
         || (direction==Direction::LEFT && intended_direction==Direction::RIGHT)
-        || (direction==Direction::RIGHT && intended_direction==Direction::LEFT))
-        return true;
-    else
-        return false;
+        || (direction==Direction::RIGHT && intended_direction==Direction::LEFT);
 }
 
 void PacMan::updateDirection() {
