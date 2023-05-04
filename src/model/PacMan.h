@@ -71,6 +71,8 @@ public:
 
     bool turnaround() const;
 
+    Direction getMemoryDirection() const;
+
 private:
     Direction intended_direction;
     int score;
@@ -79,6 +81,10 @@ private:
     bool is_dead;
     Cornering cornering_direction;
     bool cornering;
+
+    //J'ai besoin de ça pourpouvoir calculer des target tile quand pacman.direction=NONE
+    //memory direction est la même chose que direction seulement, elle n'est jamais à NONE
+    Direction memory_direction;
 
     //Pour savoir quel type de cornering il faut faire
     Center_passed is_center_passed;

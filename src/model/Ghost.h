@@ -4,6 +4,7 @@
 #include "common/Position.h"
 #include "common/Direction.h"
 #include "common/Tile.h"
+#include "PacMan.h"
 
 #include <iostream>
 #include <SDL.h>
@@ -26,8 +27,8 @@ public:
         FRIGHTENED
     };
 
-    //Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Direction sprite_orientation);
-    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den);
+    //Les ghosts ont besoin d'un pacman pour calculer leur target tile
+    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman);
     virtual ~Ghost();
 
     Type getType() const;
@@ -35,21 +36,25 @@ public:
     void setMode(Mode mode);
     Mode getMode() const;
 
-    void setChaseTargetTile(Tile tile);
     Tile getScatterTargetTile() const;
 
     void setCurrentTargetTile(Tile tile);
     Tile getCurrentTargetTile() const;
 
+    void updateDirection();
+
+    virtual void leaveTheDen() =0;
+    virtual void updateTargetTile() =0;
+
+    void printType(Type ghost_type) const;
+
     
 
 protected:
     Type ghost_type;
-    Mode ghost_mode=Mode::SCATTER;
+    Mode ghost_mode;
 
     Tile scatter_target_tile;
-    Tile chase_target_tile;
-
     Tile current_target_tile;
 
     std::vector<Tile> forbiden_tiles_UP={{13,12},{13,15}};
@@ -59,4 +64,6 @@ protected:
     Position center_den_position;
 
     bool out_of_den;
+
+    PacMan& pacman;
 };

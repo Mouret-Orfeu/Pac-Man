@@ -36,7 +36,7 @@ public:
     // void drawSpriteAlpha(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency, Uint8 alpha);
 
     // DEBUG
-    void drawTileOutline(Tile tile);
+    void drawTileOutline(Tile tile, const SDL_Color& color);
     void drawAllTileOutlines();
     void drawAllColoredTiles();
     void drawPacmanPosition();
@@ -52,6 +52,10 @@ private:
     SDL_Surface* spriteSheet_Namco_before_conversion = nullptr;
     SDL_Surface* spriteSheet_Namco = nullptr;
     // SDL_Renderer* renderer; // DEBUG
+    SDL_Color red = { 255, 0, 0 };
+    SDL_Color orange = { 255, 165, 0 };
+    SDL_Color pink = { 255, 105, 180 };
+    SDL_Color blue = { 0, 0, 255 };
 
     // Upscaling factor
     static constexpr int UPSCALING_FACTOR = 3;

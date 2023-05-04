@@ -19,7 +19,8 @@ PacMan::PacMan(GameModel& gameModel)
  cornering_direction(Cornering::NONE),
  cornering(false),
  is_center_passed(Center_passed::NOT_PASSED),
- dots_eaten(0)
+ dots_eaten(0),
+ memory_direction(Direction::LEFT)
 {}
 
 PacMan::~PacMan() {}
@@ -340,6 +341,7 @@ void PacMan::updateDirection() {
                 if(cornering_direction!=Cornering::NONE){
                     direction = intended_direction;
                     sprite_orientation = intended_direction;
+                    memory_direction=intended_direction;
                 }
 
 
@@ -349,11 +351,12 @@ void PacMan::updateDirection() {
             //std::cout<<is_center_passed<<std::endl;
         }
 
-        //Dans le cas d'un demi-tour, on ne peut le faireque au centre d'une tile
+        //Dans le cas d'un demi-tour, on ne peut le faire que au centre d'une tile
         if(gameModel.isTileLegal(next_tile_intended) && intended_direction!=direction) {
             if(position.isCenteredOnTile()){
                 direction = intended_direction;
                 sprite_orientation = intended_direction;
+                memory_direction=intended_direction;
             }
         }
     }
@@ -474,4 +477,10 @@ int PacMan::getDotsEaten() const {
 
 void PacMan::resetDotsEaten() {
     dots_eaten = 0;
+}
+
+
+Direction PacMan::getMemoryDirection() const
+{
+    return memory_direction;
 }

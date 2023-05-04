@@ -21,7 +21,7 @@ public:
     void update(Direction input_direction, int second_count);
 
     PacMan& getPacMan();
-    std::array<std::unique_ptr<Ghost>, 4>& getGhosts();
+    std::array<std::unique_ptr<Ghost>, 2>& getGhosts();
 
     int getCount() const;
     void setCount(int count);
@@ -44,11 +44,11 @@ public:
     */
     bool isTileLegal(Tile tile);
 
-    void GhostSwitchMode(int second_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts);
+    void GhostSwitchMode(int second_count, std::array<std::unique_ptr<Ghost>, 2>& ghosts);
 
 private:
     PacMan pacman;
-    std::array<std::unique_ptr<Ghost>, 4> ghosts;
+    std::array<std::unique_ptr<Ghost>, 2> ghosts;
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
 

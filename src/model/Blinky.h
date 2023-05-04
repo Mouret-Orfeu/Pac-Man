@@ -3,6 +3,7 @@
 #include "Ghost.h"
 
 #include "common/Position.h"
+#include "PacMan.h"
 
 #include <SDL.h>
 
@@ -10,12 +11,14 @@ class GameModel;
 
 class Blinky : public Ghost {
 public:
-    Blinky(GameModel& gameModel);
+    Blinky(GameModel& gameModel, PacMan& pacman);
     ~Blinky();
 
     void move(int count) override;
 
-    void updateDirection() override;
+    void leaveTheDen() override;
+
+    void updateTargetTile() override;
 
 
 private:

@@ -4,6 +4,7 @@
 
 #include "common/Position.h"
 #include "common/Tile.h"
+#include "PacMan.h"
 
 #include <SDL.h>
 
@@ -11,10 +12,12 @@ class GameModel;
 
 class Inky : public Ghost {
 public:
-    Inky(GameModel& gameModel);
+    Inky(GameModel& gameModel, PacMan& pacman);
     ~Inky();
 
-    void updateDirection() override;
+    void leaveTheDen() override;
+
+    void updateTargetTile() override;
 
     void move(int count) override;
 };

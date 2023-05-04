@@ -155,8 +155,10 @@ void GameView::drawGhosts() {
             drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
 
             //DEBUG
+            if(ghost->getType() == Ghost::Type::PINKY)
+                drawTileOutline(ghost->getCurrentTargetTile(), pink);
             if(ghost->getType() == Ghost::Type::BLINKY)
-                drawTileOutline(ghost->getCurrentTargetTile());
+                drawTileOutline(ghost->getCurrentTargetTile(), red);
         }
 
     }
@@ -319,25 +321,25 @@ void GameView::drawGhostPosition(std::unique_ptr<Ghost> ghost) {
 }
 
 //DEBUG
-void GameView::drawTileOutline(Tile tile) {
-    // Create a new surface with the square outline
-    SDL_Surface* redSquare = SDL_CreateRGBSurface(0, 8, 8, 32, 0, 0, 0, 0);
-    SDL_FillRect(redSquare, NULL, SDL_MapRGB(redSquare->format, 255, 0, 0));
+void GameView::drawTileOutline(Tile tile, const SDL_Color& color) {
+    // Create a new surface with the square outline in the desired color
+    SDL_Surface* coloredSquare = SDL_CreateRGBSurface(0, 8, 8, 32, 0, 0, 0, 0);
+    SDL_FillRect(coloredSquare, NULL, SDL_MapRGB(coloredSquare->format, color.r, color.g, color.b));
     SDL_Rect blackSquare = { 1,1, 6,6 };
-    SDL_FillRect(redSquare, &blackSquare, SDL_MapRGB(redSquare->format, 0, 0, 0));
+    SDL_FillRect(coloredSquare, &blackSquare, SDL_MapRGB(coloredSquare->format, 0, 0, 0));
 
     // Copy the square outline onto the main surface
-    drawSprite(redSquare, NULL, tile, true);
+    drawSprite(coloredSquare, NULL, tile, true);
 
     // Free the temporary surface
-    SDL_FreeSurface(redSquare);
+    SDL_FreeSurface(coloredSquare);
 }
 
 //DEBUG
 void GameView::drawAllTileOutlines() {
     for(int i = 0; i < WINDOW_ROWS; i++)
         for (int j = 0; j < WINDOW_COLS; j++)
-            drawTileOutline({i,j});
+            drawTileOutline({i,j}, red);
 }
 
 // DEBUG
