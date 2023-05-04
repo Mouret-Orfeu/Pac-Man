@@ -45,6 +45,9 @@ public:
     */
     SDL_Point getTileCenter() const;
 
+    Tile getTilePosition() const;
+    void setTilePosition( Tile& tile_position);
+
     SDL_Point toTopLeft() const;
     Tile getNextTile(const Direction& direction) const;
     bool isCenteredHorizontallyOnTile() const;
@@ -53,7 +56,7 @@ public:
 
 private:
     //centre de PacMan
-    SDL_Point centerPosition;
+    SDL_Point center_position;
     
 };
 

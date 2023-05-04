@@ -7,10 +7,10 @@
 Position::Position(int x, int y, CoordinateSystem coordinateSystem) {
     switch (coordinateSystem) {
         case CoordinateSystem::CENTER:
-            centerPosition = {x, y};
+            center_position = {x, y};
             break;
         case CoordinateSystem::TOP_LEFT:
-            centerPosition = {x + (SPRITE_SIZE-1) / 2, y + (SPRITE_SIZE-1) / 2};
+            center_position = {x + (SPRITE_SIZE-1) / 2, y + (SPRITE_SIZE-1) / 2};
             break;
     }
 }
@@ -19,7 +19,7 @@ Position::Position(const SDL_Point& point, CoordinateSystem coordinateSystem)
 : Position(point.x, point.y, coordinateSystem) {}
 
 Position::Position(Tile tile) {
-    centerPosition = {tile.j * 8 + (TILE_SIZE-1) / 2, tile.i * 8 + (TILE_SIZE-1) / 2};
+    center_position = {tile.j * 8 + (TILE_SIZE-1) / 2, tile.i * 8 + (TILE_SIZE-1) / 2};
 }
 
 int Position::getX() const {
@@ -33,16 +33,16 @@ int Position::getY() const {
 }
 
 void Position::setX(int x) {
-    centerPosition.x = x;
+    center_position.x = x;
 }
 
 void Position::setY(int y) {
-    centerPosition.y = y;
+    center_position.y = y;
 }
 
 // equality operator
 bool Position::operator==(const Position& other) const {
-    return centerPosition.x == other.centerPosition.x && centerPosition.y == other.centerPosition.y;
+    return center_position.x == other.center_position.x && center_position.y == other.center_position.y;
 }
 
 Position& Position::operator+=(const SDL_Point& point) {
@@ -78,21 +78,21 @@ void Position::incrementY(int value) {
 }
 
 SDL_Point Position::toCenter() const {
-    return centerPosition;
+    return center_position;
 }
 
 Tile Position::toTile() const {
-    return {centerPosition.y / 8, centerPosition.x / 8};
+    return {center_position.y / 8, center_position.x / 8};
 }
 
 SDL_Point Position::getTileCenter() const
 {
-    SDL_Point centerTile={centerPosition.x/8*(TILE_SIZE)+3, centerPosition.y/8*(TILE_SIZE)+3};
+    SDL_Point centerTile={center_position.x/8*(TILE_SIZE)+3, center_position.y/8*(TILE_SIZE)+3};
     return centerTile;
 }
 
 SDL_Point Position::toTopLeft() const {
-    return {centerPosition.x - (SPRITE_SIZE-1) / 2, centerPosition.y - (SPRITE_SIZE-1) / 2};
+    return {center_position.x - (SPRITE_SIZE-1) / 2, center_position.y - (SPRITE_SIZE-1) / 2};
 }
 
 Tile Position::getNextTile(const Direction& direction) const {
@@ -117,17 +117,17 @@ Tile Position::getNextTile(const Direction& direction) const {
 }
 
 bool Position::isCenteredHorizontallyOnTile() const {
-    const int offsetX = centerPosition.x % 8;
+    const int offsetX = center_position.x % 8;
     return offsetX == 3;
 }
 
 bool Position::isCenteredVerticallyOnTile() const {
-    const int offsetY = centerPosition.y % 8;
+    const int offsetY = center_position.y % 8;
     return offsetY == 3;
 }
 
 bool Position::isCenteredOnTile() const {
-    const int offsetX = centerPosition.x % 8;
-    const int offsetY = centerPosition.y % 8;
+    const int offsetX = center_position.x % 8;
+    const int offsetY = center_position.y % 8;
     return isCenteredHorizontallyOnTile() && isCenteredVerticallyOnTile();
 }

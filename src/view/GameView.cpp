@@ -129,6 +129,16 @@ void GameView::drawPacMan() {
     //Show teleportation tiles
     //drawTileOutline();
     //drawTileOutline({17, 27});
+
+    //draw scatter_target_tile blinky pinky inky & clyde
+    drawTileOutline(gameModel.getGhosts()[0]->getScatterTargetTile());
+    std::cout<<"blinky target: "<<gameModel.getGhosts()[0]->getScatterTargetTile().i<<" "<<gameModel.getGhosts()[0]->getScatterTargetTile().j<<std::endl;
+    //drawTileOutline(gameModel.getGhosts()[1]->getScatterTargetTile());
+    //std::cout<<"pinky target: "<<gameModel.getGhosts()[1]->getScatterTargetTile()<<std::endl;
+    //drawTileOutline(gameModel.getGhosts()[2]->getScatterTargetTile());
+    //std::cout<<"inky target: "<<gameModel.getGhosts()[2]->getScatterTargetTile()<<std::endl;
+    //drawTileOutline(gameModel.getGhosts()[3]->getScatterTargetTile());
+    //std::cout<<"clyde target: "<<gameModel.getGhosts()[3]->getScatterTargetTile()<<std::endl;
 }
 
 void GameView::drawGhosts() {

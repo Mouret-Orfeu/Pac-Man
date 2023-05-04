@@ -8,7 +8,7 @@ Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_posi
  ghost_type(ghost_type)
 {}
 
-Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction)
+Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile)
 :Character(gameModel, initial_position, direction),
  ghost_type(ghost_type)
 {}
@@ -20,3 +20,18 @@ Ghost::~Ghost() {
 Ghost::Type Ghost::getType() const {
     return ghost_type;
 }
+
+Ghost::Mode Ghost::getMode() const {
+    return ghost_mode;
+}
+
+void Ghost::setChaseTargetTile(Tile tile)
+{
+    chase_target_tile=tile;
+}
+
+Tile Ghost::getScatterTargetTile() const
+{
+    return scatter_target_tile;
+}
+

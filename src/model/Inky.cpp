@@ -6,10 +6,10 @@
 #include "Ghost.h"
 
 const Position init_pos_Inky = Position((WINDOW_WIDTH-1)/2-2*TILE_SIZE, 17*TILE_SIZE + (TILE_SIZE-1)/2);
-
+const Tile scatter_target_tile_Inky = {WINDOW_ROWS,WINDOW_COLS};
 
 Inky::Inky(GameModel& gameModel)
-:Ghost(gameModel, Ghost::Type::INKY, init_pos_Inky, Direction::UP)
+:Ghost(gameModel, Ghost::Type::INKY, init_pos_Inky, Direction::UP, scatter_target_tile_Inky )
 {}
 
 Inky::~Inky() {

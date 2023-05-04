@@ -64,14 +64,14 @@ void GameController::run() {
         if (keys[SDL_SCANCODE_DOWN])
             input_direction = Direction::DOWN;
 
-        //là dedans y'a move pourtous les persos
+        //là dedans y'a move pour tous les persos
         gameModel.update(input_direction);
 
         // AFFICHAGE
 		gameView.draw();
 
         //DEBUG
-        SDL_Delay(200);
+        //SDL_Delay(200);
 
         //Animation de la mort
         if (gameModel.getPacMan().isDead()) {

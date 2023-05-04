@@ -48,6 +48,10 @@ void GameModel::update(Direction input_direction) {
     // Update PacMan's intended direction based on user input
     if (input_direction != Direction::NONE)
         pacman.setIntendedDirection(input_direction);
+    
+    //ghosts[1] c'est blinky,j'aimerais bien l'appeler comme tel
+    if(ghosts[1]->getMode()==Ghost::Mode::CHASE)
+        ghosts[1]->setChaseTargetTile(pacman.getPosition().toTile());
 
     // Make PacMan move
     pacman.move(count);
