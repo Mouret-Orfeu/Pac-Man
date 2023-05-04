@@ -10,7 +10,8 @@ Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_posi
 
 Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile)
 :Character(gameModel, initial_position, direction),
- ghost_type(ghost_type)
+ ghost_type(ghost_type),
+ scatter_target_tile(scatter_target_tile)
 {}
 
 Ghost::~Ghost() {
