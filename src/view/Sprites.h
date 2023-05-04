@@ -7,7 +7,6 @@ static constexpr SDL_Rect maze_Namco = { 28*TILE_SIZE+TILE_SIZE/2,0, MAZE_COLS*T
 static constexpr SDL_Rect maze_NES = { 200,3, 168,216 };
 
 // HUP sprites
-static constexpr SDL_Rect life_sprite = { 584,16, SPRITE_SIZE,SPRITE_SIZE};
 static constexpr SDL_Rect num_sprites[10] = {
     { 3,53, TILE_SIZE,TILE_SIZE },  // 0
     { 12,53, TILE_SIZE,TILE_SIZE }, // 1
@@ -36,6 +35,9 @@ static constexpr SDL_Rect E_sprite = { 43,61, TILE_SIZE,TILE_SIZE };
 // Coordinates of the top left corner of the character sprite grid
 // in the Namco sprite sheet
 static constexpr int GRID_ORIGIN = 456;
+
+// Life sprite
+static constexpr SDL_Rect life_sprite = { GRID_ORIGIN+8*SPRITE_SIZE,SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE};
 
 // Ghost sprites
 std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghost_sprites = {

@@ -30,6 +30,8 @@ public:
     void drawLives();
 
     void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency);
+    void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Tile tile, bool transparency);
+    void drawCharacterSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Position position, bool transparency);
     // DEBUG
     // void drawSpriteAlpha(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency, Uint8 alpha);
 

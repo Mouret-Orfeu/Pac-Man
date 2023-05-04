@@ -86,9 +86,9 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
     drawMaze();
     drawHUD();
 
-    SDL_Point position = gameModel.getPacMan().getPosition().toTopLeft();
+    Position position = gameModel.getPacMan().getPosition();
 
-    drawSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_num], position, true);
+    drawCharacterSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_num], position, true);
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -120,7 +120,7 @@ void GameView::drawPacMan() {
             break;
     }
 
-    drawSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition().toTopLeft(), true);
+    drawCharacterSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition(), true);
 
     // DEBUG
     drawTileOutline(pacman.getPosition().toTile());
@@ -152,7 +152,7 @@ void GameView::drawGhosts() {
                 // The second sprite is just next to the first one
                 ghost_sprite.x += SPRITE_SIZE;
             }
-            drawSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition().toTopLeft(), true);
+            drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
         }
 
     }
@@ -160,7 +160,7 @@ void GameView::drawGhosts() {
 }
 
 void GameView::drawMaze() {
-    drawSprite(spriteSheet_Namco, &maze_Namco, {0,3*TILE_SIZE}, false);
+    drawSprite(spriteSheet_Namco, &maze_Namco, Tile({3,0}), false);
 }
 
 // class GameModel {
@@ -180,13 +180,14 @@ void GameView::drawMaze() {
 void GameView::drawDots() {
     for (int i = 0; i < WINDOW_ROWS; i++) {
         for (int j = 0; j < WINDOW_COLS; j++) {
-            switch (gameModel.getTile({i, j}))
+            Tile tile = {i, j};
+            switch (gameModel.getTile(tile))
             {
             case GameModel::TileType::DOT:
-                drawSprite(spriteSheet_Namco, &dot_sprite, {j*TILE_SIZE, i*TILE_SIZE}, true);
+                drawSprite(spriteSheet_Namco, &dot_sprite, tile, true);
                 break;
             case GameModel::TileType::ENERGIZER:
-                drawSprite(spriteSheet_Namco, &power_pellet_sprite, {j*TILE_SIZE, i*TILE_SIZE}, true);
+                drawSprite(spriteSheet_Namco, &power_pellet_sprite, tile, true);
                 break;
             default:
                 break;
@@ -223,6 +224,14 @@ void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL
     if(SDL_BlitScaled(sprite_sheet, sprite, win_surf, &sprite_out)<0){
         printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
     }
+}
+
+void GameView::drawCharacterSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Position position, bool transparency) {
+    drawSprite(sprite_sheet, sprite, position.toTopLeft(), transparency);
+}
+
+void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Tile tile, bool transparency) {
+    drawSprite(sprite_sheet, sprite, SDL_Point({tile.j*TILE_SIZE, tile.i*TILE_SIZE}), transparency);
 }
 
 // // DEBUG
@@ -277,8 +286,8 @@ void GameView::drawPacmanPosition() {
     // Draw a green cross centered on Pac-Man's position
     int crossSize = 5; // You can adjust the size of the cross if necessary
     for (int i = -crossSize; i <= crossSize; ++i) {
-        drawSprite(greenPixel, NULL, {pacmanCenter.x + i, pacmanCenter.y}, true);
-        drawSprite(greenPixel, NULL, {pacmanCenter.x, pacmanCenter.y + i}, true);
+        drawSprite(greenPixel, NULL, SDL_Point({pacmanCenter.x + i, pacmanCenter.y}), true);
+        drawSprite(greenPixel, NULL, SDL_Point({pacmanCenter.x, pacmanCenter.y + i}), true);
     }
 
     // Free the temporary surface
@@ -287,8 +296,6 @@ void GameView::drawPacmanPosition() {
 
 //DEBUG
 void GameView::drawTileOutline(Tile tile) {
-    int x = tile.j*TILE_SIZE,
-        y = tile.i*TILE_SIZE;
     // Create a new surface with the square outline
     SDL_Surface* redSquare = SDL_CreateRGBSurface(0, 8, 8, 32, 0, 0, 0, 0);
     SDL_FillRect(redSquare, NULL, SDL_MapRGB(redSquare->format, 255, 0, 0));
@@ -296,7 +303,7 @@ void GameView::drawTileOutline(Tile tile) {
     SDL_FillRect(redSquare, &blackSquare, SDL_MapRGB(redSquare->format, 0, 0, 0));
 
     // Copy the square outline onto the main surface
-    drawSprite(redSquare, NULL, {x,y}, true);
+    drawSprite(redSquare, NULL, tile, true);
 
     // Free the temporary surface
     SDL_FreeSurface(redSquare);
@@ -342,8 +349,7 @@ void GameView::drawAllColoredTiles() {
             SDL_FillRect(coloredTile, NULL, SDL_MapRGBA(coloredTile->format, color.r, color.g, color.b, color.a));
 
             // Copy the colored tile onto the main surface
-            SDL_Point dst = {j * TILE_SIZE, i * TILE_SIZE};
-            drawSprite(coloredTile, NULL, dst, true);
+            drawSprite(coloredTile, NULL, Tile({i,j}), true);
 
             // Free the temporary surface
             SDL_FreeSurface(coloredTile);
@@ -389,7 +395,7 @@ void GameView::drawScoreHelper(int score, bool highscore) {
 
         // Draw the digit if valid
         if (0 <= num && num <= 9)
-            drawSprite(spriteSheet_NES, &num_sprites[num], SDL_Point({initialPosition*TILE_SIZE,1*TILE_SIZE}), false);
+            drawSprite(spriteSheet_NES, &num_sprites[num], Tile({1, initialPosition}), false);
 
         initialPosition--;
     }
@@ -397,25 +403,25 @@ void GameView::drawScoreHelper(int score, bool highscore) {
 
 void GameView::drawText() {
     // 1UP
-    drawSprite(spriteSheet_NES, &num_sprites[1], SDL_Point({3*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &U_sprite, SDL_Point({4*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &P_sprite, SDL_Point({5*TILE_SIZE, 0}), true);
+    drawSprite(spriteSheet_NES, &num_sprites[1], Tile({0,3}), true);
+    drawSprite(spriteSheet_NES, &U_sprite, Tile({0,4}), true);
+    drawSprite(spriteSheet_NES, &P_sprite, Tile({0,5}), true);
 
     // HIGH SCORE
-    drawSprite(spriteSheet_NES, &H_sprite, SDL_Point({10*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &I_sprite, SDL_Point({11*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &G_sprite, SDL_Point({12*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &H_sprite, SDL_Point({13*TILE_SIZE, 0}), true);
+    drawSprite(spriteSheet_NES, &H_sprite, Tile({0,10}), true);
+    drawSprite(spriteSheet_NES, &I_sprite, Tile({0,11}), true);
+    drawSprite(spriteSheet_NES, &G_sprite, Tile({0,12}), true);
+    drawSprite(spriteSheet_NES, &H_sprite, Tile({0,13}), true);
 
-    drawSprite(spriteSheet_NES, &S_sprite, SDL_Point({15*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &C_sprite, SDL_Point({16*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &O_sprite, SDL_Point({17*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &R_sprite, SDL_Point({18*TILE_SIZE, 0}), true);
-    drawSprite(spriteSheet_NES, &E_sprite, SDL_Point({19*TILE_SIZE, 0}), true);
+    drawSprite(spriteSheet_NES, &S_sprite, Tile({0,15}), true);
+    drawSprite(spriteSheet_NES, &C_sprite, Tile({0,16}), true);
+    drawSprite(spriteSheet_NES, &O_sprite, Tile({0,17}), true);
+    drawSprite(spriteSheet_NES, &R_sprite, Tile({0,18}), true);
+    drawSprite(spriteSheet_NES, &E_sprite, Tile({0,19}), true);
 }
 
 void GameView::drawLives() {
     int lives = gameModel.getPacMan().getLives();
     for (int i = 1; i <= lives; i++)
-        drawSprite(spriteSheet_Namco, &life_sprite, SDL_Point({2*i*TILE_SIZE+3,WINDOW_HEIGHT-2*TILE_SIZE+2}), true);
+        drawSprite(spriteSheet_Namco, &life_sprite, Tile({WINDOW_ROWS-2,2*i}), true);
 }
