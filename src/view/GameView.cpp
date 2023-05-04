@@ -123,8 +123,8 @@ void GameView::drawPacMan() {
     drawCharacterSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition(), true);
 
     // DEBUG
-    drawTileOutline(pacman.getPosition().toTile());
-    drawPacmanPosition();
+    //drawTileOutline(pacman.getPosition().toTile());
+    //drawPacmanPosition();
 
     //DEBUG
     //Show teleportation tiles
@@ -155,7 +155,8 @@ void GameView::drawGhosts() {
             drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
 
             //DEBUG
-            //drawTileOutline(ghost->getPosition().toTile());
+            if(ghost->getType() == Ghost::Type::BLINKY)
+                drawTileOutline(ghost->getCurrentTargetTile());
         }
 
     }

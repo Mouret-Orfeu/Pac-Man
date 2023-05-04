@@ -155,7 +155,9 @@ void Blinky::move(int count) {
     (void)count;
 
     if(position.isCenteredOnTile()){
-        printDirection(direction);
+        //DEBUG
+        //printDirection(direction);
+        
         updateDirection();
     }
 

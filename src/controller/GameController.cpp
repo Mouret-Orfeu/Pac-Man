@@ -66,7 +66,7 @@ void GameController::run() {
             input_direction = Direction::DOWN;
 
         //là dedans y'a move pour tous les persos
-        gameModel.update(input_direction);
+        gameModel.update(input_direction, second_count);
 
         // AFFICHAGE
 		gameView.draw();
@@ -121,6 +121,7 @@ void GameController::run() {
         if(it==60){
             second_count++;
             it=0;
+            std::cout << "second_count : " << second_count << std::endl;
         }
 	}
 

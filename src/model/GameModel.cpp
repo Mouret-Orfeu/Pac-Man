@@ -23,7 +23,7 @@ GameModel::GameModel()
     std::make_unique<Inky>(*this),
     std::make_unique<Clyde>(*this)
 
- }
+}
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -40,7 +40,49 @@ GameModel::~GameModel() {
     // Clean up if necessary
 }
 
-void GameModel::update(Direction input_direction) {
+void GameModel::GhostSwitchMode(int second_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts)
+{
+    for (std::unique_ptr<Ghost>& ghost : ghosts) {
+        switch(second_count){
+            case 7:
+                ghost->setMode(Ghost::Mode::CHASE);
+                break;
+            case 27:
+                ghost->setMode(Ghost::Mode::SCATTER);
+                break;
+            case 34:
+                ghost->setMode(Ghost::Mode::CHASE);
+                break;
+            case 54:
+                ghost->setMode(Ghost::Mode::SCATTER);
+                break;
+            case 59:
+                ghost->setMode(Ghost::Mode::CHASE);
+                break;
+            case 79:
+                ghost->setMode(Ghost::Mode::SCATTER);
+                break;
+            case 84:
+                ghost->setMode(Ghost::Mode::CHASE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    //ghosts[0] c'est blinky,j'aimerais bien l'appeler comme tel
+    if(ghosts[0]->getMode()==Ghost::Mode::CHASE){
+        ghosts[0]->setChaseTargetTile(pacman.getPosition().toTile());
+        ghosts[0]->setCurrentTargetTile(pacman.getPosition().toTile());
+    }
+
+}
+
+void GameModel::update(Direction input_direction, int second_count) {
+    
+    //En fonction du temps qui passe, on change le mode des fantomes
+    GhostSwitchMode(second_count, ghosts);
+    
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts)
         ghost->move(count);
@@ -48,10 +90,6 @@ void GameModel::update(Direction input_direction) {
     // Update PacMan's intended direction based on user input
     if (input_direction != Direction::NONE)
         pacman.setIntendedDirection(input_direction);
-    
-    //ghosts[1] c'est blinky,j'aimerais bien l'appeler comme tel
-    if(ghosts[1]->getMode()==Ghost::Mode::CHASE)
-        ghosts[1]->setChaseTargetTile(pacman.getPosition().toTile());
 
     // Make PacMan move
     pacman.move(count);

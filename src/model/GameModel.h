@@ -18,7 +18,7 @@ public:
     GameModel();
     ~GameModel();
 
-    void update(Direction input_direction);
+    void update(Direction input_direction, int second_count);
 
     PacMan& getPacMan();
     std::array<std::unique_ptr<Ghost>, 4>& getGhosts();
@@ -43,6 +43,8 @@ public:
     * @brief Teste si la tile passé en argument est un mur (tile légale= tile qui n'est pas un mur)
     */
     bool isTileLegal(Tile tile);
+
+    void GhostSwitchMode(int second_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts);
 
 private:
     PacMan pacman;
