@@ -190,7 +190,6 @@ void PacMan::setCornering()
                             break;
                         case Center_passed::NOT_PASSED:
                             cornering_direction= Cornering::DOWN_LEFT;
-                            std::cout<<"DOWN_LEFT LEFT"<<std::endl;
                             cornering=true;
                             break;
                         case Center_passed::ON_CENTER:
