@@ -20,8 +20,8 @@ GameModel::GameModel()
  ghosts {
     std::make_unique<Blinky>(*this, pacman),
     std::make_unique<Pinky>(*this, pacman),
-    //std::make_unique<Inky>(*this, pacman),
-    //std::make_unique<Clyde>(*this, pacman)
+    std::make_unique<Inky>(*this, pacman, ghosts[0])
+    std::make_unique<Clyde>(*this, pacman)
 
 }
 {
@@ -40,7 +40,7 @@ GameModel::~GameModel() {
     // Clean up if necessary
 }
 
-void GameModel::GhostSwitchMode(int second_count, std::array<std::unique_ptr<Ghost>, 2>& ghosts)
+void GameModel::GhostSwitchMode(int second_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts)
 {
     for (std::unique_ptr<Ghost>& ghost : ghosts) {
         switch(second_count){
@@ -91,7 +91,7 @@ void GameModel::update(Direction input_direction, int second_count) {
     count = (count + 1) % 512;
 }
 
-std::array<std::unique_ptr<Ghost>, 2>& GameModel::getGhosts() {
+std::array<std::unique_ptr<Ghost>, 4>& GameModel::getGhosts() {
     return ghosts;
 }
 

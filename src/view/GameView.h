@@ -55,7 +55,7 @@ private:
     SDL_Color red = { 255, 0, 0 };
     SDL_Color orange = { 255, 165, 0 };
     SDL_Color pink = { 255, 105, 180 };
-    SDL_Color blue = { 0, 0, 255 };
+    SDL_Color blue = {173, 216, 230, 255};
 
     // Upscaling factor
     static constexpr int UPSCALING_FACTOR = 3;
