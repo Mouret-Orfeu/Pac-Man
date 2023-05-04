@@ -18,7 +18,8 @@ PacMan::PacMan(GameModel& gameModel)
  is_dead(false),
  cornering_direction(Cornering::NONE),
  cornering(false),
- is_center_passed(Center_passed::NOT_PASSED)
+ is_center_passed(Center_passed::NOT_PASSED),
+ dots_eaten(0)
 {}
 
 PacMan::~PacMan() {}
@@ -52,6 +53,8 @@ void PacMan::eat() {
             gameModel.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=10;
             frames_to_drop = 1;
+            dots_eaten++;
+            std::cout << "Dots eaten: " << dots_eaten << std::endl;
             break;
         case GameModel::TileType::ENERGIZER:
             gameModel.setTile(current_tile, GameModel::TileType::EMPTY);
@@ -480,4 +483,10 @@ void PacMan::printCornering() const
     }
 }
 
+int PacMan::getDotsEaten() const {
+    return dots_eaten;
+}
 
+void PacMan::resetDotsEaten() {
+    dots_eaten = 0;
+}
