@@ -153,9 +153,13 @@ void GameView::drawGhosts() {
                 ghost_sprite.x += SPRITE_SIZE;
             }
             drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
+
+            //DEBUG
+            //drawTileOutline(ghost->getPosition().toTile());
         }
 
     }
+ 
 
 }
 
@@ -292,6 +296,25 @@ void GameView::drawPacmanPosition() {
 
     // Free the temporary surface
     SDL_FreeSurface(greenPixel);
+}
+
+void GameView::drawGhostPosition(std::unique_ptr<Ghost> ghost) {
+    // Get the ghost's center position
+    SDL_Point ghostCenter = ghost->getPosition().toCenter();
+
+    // Create a new surface with a red pixel
+    SDL_Surface* redPixel = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
+    SDL_FillRect(redPixel, NULL, SDL_MapRGB(redPixel->format, 255, 0, 0));
+
+    // Draw a red cross centered on the ghost's position
+    int crossSize = 5; // You can adjust the size of the cross if necessary
+    for (int i = -crossSize; i <= crossSize; ++i) {
+        drawSprite(redPixel, NULL, SDL_Point({ghostCenter.x + i, ghostCenter.y}), true);
+        drawSprite(redPixel, NULL, SDL_Point({ghostCenter.x, ghostCenter.y + i}), true);
+    }
+
+    // Free the temporary surface
+    SDL_FreeSurface(redPixel);
 }
 
 //DEBUG

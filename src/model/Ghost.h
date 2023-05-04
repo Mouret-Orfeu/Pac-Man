@@ -37,6 +37,8 @@ public:
     void setChaseTargetTile(Tile tile);
     Tile getScatterTargetTile() const;
 
+    void switchMode(Mode mode);
+
     
 
 protected:

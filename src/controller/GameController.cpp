@@ -9,7 +9,7 @@
 #include <SDL.h>
 #include <iostream>
 
-GameController::GameController() : sdl_initialized(false) {}
+GameController::GameController() : sdl_initialized(false), second_count(0){}
 
 GameController::~GameController() {
     if (sdl_initialized) {
@@ -35,6 +35,7 @@ void GameController::run() {
     GameView gameView(gameModel);
 
     // Main game loop
+    int it = 0;
 	bool quit = false;
 	while (!quit) {
 		SDL_Event event;
@@ -71,7 +72,7 @@ void GameController::run() {
 		gameView.draw();
 
         //DEBUG
-        //SDL_Delay(200);
+        //SDL_Delay(500);
 
         //Animation de la mort
         if (gameModel.getPacMan().isDead()) {
@@ -114,6 +115,18 @@ void GameController::run() {
             SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
         }
         frameStartTime = SDL_GetTicks64();
+
+        it++;
+
+        if(it==60){
+            second_count++;
+            it=0;
+        }
 	}
 
+}
+
+int GameController::getSecondCount() const
+{
+    return second_count;
 }

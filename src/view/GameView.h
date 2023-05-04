@@ -40,6 +40,7 @@ public:
     void drawAllTileOutlines();
     void drawAllColoredTiles();
     void drawPacmanPosition();
+    void drawGhostPosition(std::unique_ptr<Ghost> ghost);
 
 private:
     GameModel& gameModel;

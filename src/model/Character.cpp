@@ -62,11 +62,11 @@ void Character::updatePosition () {
     }
 }
 
-void Character::printDirection() const
+void Character::printDirection(Direction d) const
 {
 
 
-    switch (direction)
+    switch (d)
     {
     case Direction::UP:
         std::cout <<"direction: UP"<< std::endl;

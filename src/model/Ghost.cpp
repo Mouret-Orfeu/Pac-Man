@@ -35,3 +35,8 @@ Tile Ghost::getScatterTargetTile() const
 {
     return scatter_target_tile;
 }
+
+void Ghost::switchMode(Mode mode)
+{
+    ghost_mode=mode;
+}

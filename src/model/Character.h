@@ -45,7 +45,7 @@ public:
     void setSpriteOrientation(Direction sprite_orientation);
 
     //DEBUG
-    void printDirection() const;
+    void printDirection(Direction d) const;
 
 protected:
     GameModel& gameModel;

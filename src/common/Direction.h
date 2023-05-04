@@ -13,4 +13,4 @@ enum class Direction {
 */
 bool compareDirections( Direction& dir1, Direction& dir2);
 
-
+Direction getOppositeDirection(Direction direction);
