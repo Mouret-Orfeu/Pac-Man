@@ -379,22 +379,8 @@ void PacMan::updatePosition()
     // Update the position based on the direction
     if(cornering_direction==PacMan::Cornering::NONE)
     {
-        switch (direction) {
-            case Direction::UP:
-                position.incrementY(-1);
-                break;
-            case Direction::DOWN:
-                position.incrementY(1);
-                break;
-            case Direction::LEFT:
-                position.incrementX(-1);
-                break;
-            case Direction::RIGHT:
-                position.incrementX(1);
-                break;
-            default:
-                break;
-        }
+        // Call parent function
+        Character::updatePosition();
     }
      else
     {
