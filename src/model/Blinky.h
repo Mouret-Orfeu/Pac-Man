@@ -14,15 +14,14 @@ public:
     ~Blinky();
 
     void move(int count) override;
+
+    void updateDirection() override;
+
+
 private:
     Direction direction=Direction::LEFT;
     //pour l'instant je met 1, 2, 3 mais faudra mettre les vraies vitesse (vitesse2 c'est celle de PacMan)
     int vitesse1=1;
     int vitesse2=2;
     int vitesse3=3;
-
-    
-
-
-
 };

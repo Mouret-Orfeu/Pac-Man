@@ -13,5 +13,7 @@ public:
     Clyde(GameModel& gameModel);
     ~Clyde();
 
+    void updateDirection() override;
+
     void move(int count) override;
 };

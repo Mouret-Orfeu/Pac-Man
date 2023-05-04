@@ -35,4 +35,3 @@ Tile Ghost::getScatterTargetTile() const
 {
     return scatter_target_tile;
 }
-

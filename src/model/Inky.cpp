@@ -19,3 +19,5 @@ Inky::~Inky() {
 void Inky::move(int count) {
     // Update the direction based on the count value
 }
+
+void Inky::updateDirection(){}

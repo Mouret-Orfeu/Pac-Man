@@ -19,3 +19,6 @@ Pinky::~Pinky() {
 void Pinky::move(int count) {
     // Update the direction based on the count value
 }
+
+
+void Pinky::updateDirection(){}

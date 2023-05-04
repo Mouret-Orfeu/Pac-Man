@@ -3,8 +3,11 @@
 #include "Character.h"
 #include "common/Position.h"
 #include "common/Direction.h"
+#include "common/Tile.h"
 
+#include <iostream>
 #include <SDL.h>
+#include <vector>
 
 class GameModel;
 
@@ -34,7 +37,9 @@ public:
     void setChaseTargetTile(Tile tile);
     Tile getScatterTargetTile() const;
 
-private:
+    
+
+protected:
     Type ghost_type;
     Mode ghost_mode=Mode::SCATTER;
 
@@ -42,4 +47,7 @@ private:
     Tile chase_target_tile;
 
     Tile current_target_tile=scatter_target_tile;
+
+    std::vector<Tile> forbiden_tiles_UP={{13,12},{13,15}};
+    std::vector<Tile> forbiden_tiles_DOWN={{25,12},{25,15}};
 };

@@ -39,6 +39,9 @@ public:
     TileType getTile(Tile tile) const;
     void setTile(Tile tile, TileType value);
 
+    /**
+    * @brief Teste si la tile passé en argument est un mur (tile légale= tile qui n'est pas un mur)
+    */
     bool isTileLegal(Tile tile);
 
 private:

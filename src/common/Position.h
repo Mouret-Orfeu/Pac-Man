@@ -1,13 +1,9 @@
 #pragma once
 
 #include "common/Direction.h"
+#include "Tile.h"
 
 #include <SDL.h>
-
-struct Tile {
-    int i;
-    int j;
-};
 
 class Position {
 public:
@@ -53,6 +49,12 @@ public:
     bool isCenteredHorizontallyOnTile() const;
     bool isCenteredVerticallyOnTile() const;
     bool isCenteredOnTile() const;
+
+    int distance_tile(Tile& t1, Tile& t2) const;
+
+    bool operator==(const Tile& T2) const;
+
+
 
 private:
     //centre de PacMan
