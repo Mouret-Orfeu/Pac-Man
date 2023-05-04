@@ -16,7 +16,29 @@ Clyde::~Clyde() {
     // Clean up Clyde-specific data here
 }
 
-void Clyde::updateTargetTile() {}
+Tile Clyde::findChaseTargetTile()
+{
+    Tile Clyde_tile=position.toTile();
+    Tile pacman_tile=pacman.getPosition().toTile();
+
+    if(position.distance_tile(Clyde_tile, pacman_tile)>8){
+        return pacman.getPosition().toTile();
+    }
+    else{
+        return scatter_target_tile;
+    }
+}
+
+void Clyde::updateTargetTile()
+{
+    if(ghost_mode==Ghost::Mode::CHASE){
+            current_target_tile=Clyde::findChaseTargetTile();
+    }
+
+    if(ghost_mode==Ghost::Mode::SCATTER){
+        current_target_tile=scatter_target_tile;
+    }
+}
 
 void Clyde::move(int count) {
     (void)count;

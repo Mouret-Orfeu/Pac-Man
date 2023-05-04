@@ -20,7 +20,7 @@ GameModel::GameModel()
  ghosts {
     std::make_unique<Blinky>(*this, pacman),
     std::make_unique<Pinky>(*this, pacman),
-    std::make_unique<Inky>(*this, pacman, ghosts[0])
+    std::make_unique<Inky>(*this, pacman, ghosts[0]),
     std::make_unique<Clyde>(*this, pacman)
 
 }

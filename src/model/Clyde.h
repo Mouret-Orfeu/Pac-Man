@@ -14,6 +14,8 @@ public:
     Clyde(GameModel& gameModel, PacMan& pacman);
     ~Clyde();
 
+    Tile findChaseTargetTile();
+
     void leaveTheDen() override;
 
     void updateTargetTile() override;

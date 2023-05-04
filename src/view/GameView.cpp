@@ -161,6 +161,8 @@ void GameView::drawGhosts() {
                 drawTileOutline(ghost->getCurrentTargetTile(), red);
             if(ghost->getType() == Ghost::Type::INKY)
                 drawTileOutline(ghost->getCurrentTargetTile(), blue);
+            if(ghost->getType() == Ghost::Type::CLYDE)
+                drawTileOutline(ghost->getCurrentTargetTile(), orange);
         }
 
     }
