@@ -27,23 +27,22 @@ PacMan::~PacMan() {}
 void PacMan::move(int count) {
     (void)count;
 
-    if(position.isCenteredOnTile()){
-        eat();
-    }
+    // WARNNING: we check too many things at each frame, this is not efficient
 
-    // Eat dots and power pellets
-    if (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()) {
-        updateDirection();
-    }
-
-
-
+    // Eat dots and energizers
+    eat();
+    // if(position.isCenteredOnTile()){
+    //     eat();
+    // }
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
     if (frames_to_drop > 0)
         frames_to_drop--;
-    else
+    else {
+        if (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile())
+            updateDirection();
         updatePosition();
+    }
 }
 
 void PacMan::eat() {
