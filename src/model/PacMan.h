@@ -27,8 +27,8 @@ public:
     * @brief  updateDirection permet de mettre à jour la direction et l'attribut "cornering_direction" de pacman
     * 
     */
-    void updateDirection();
-    void updatePosition();
+    void updateDirection() override;
+    void updatePosition() override;
 
     Direction getIntendedDirection() const;
     void setIntendedDirection(Direction direction);

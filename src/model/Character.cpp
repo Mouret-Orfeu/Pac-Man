@@ -1,6 +1,7 @@
-#include "Character.h"
 #include "common/Position.h"
+#include "Character.h"
 #include "common/Direction.h"
+
 
 #include <iostream>
 
@@ -10,7 +11,9 @@ Character::Character(GameModel& gameModel, Position initial_position, Direction 
  position(initial_position),
  direction(direction),
  sprite_orientation(sprite_orientation),
- frames_to_drop(0)
+ frames_to_drop(0),
+ TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
+ TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
 {}
 
 Character::Character(GameModel& gameModel, Position position, Direction direction)
@@ -57,16 +60,6 @@ void Character::updatePosition () {
         default:
             break;
     }
-}
-
-Tile Character::getTeleportationTileRight() const
-{
-    return TELEPORTATION_TILE_RIGHT;
-}
-
-Tile Character::getTeleportationTileLeft() const
-{
-    return TELEPORTATION_TILE_LEFT;
 }
 
 void Character::printDirection() const

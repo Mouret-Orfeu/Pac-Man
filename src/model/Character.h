@@ -1,9 +1,10 @@
 #pragma once
 
 #include "GameObject.h"
+#include "common/GameDimensions.h"
+#include "common/Tile.h"
 #include "common/Position.h"
 #include "common/Direction.h"
-#include "common/GameDimensions.h"
 
 #include <string.h>
 
@@ -31,6 +32,8 @@ public:
     */
     virtual void updatePosition();
 
+    virtual void updateDirection() = 0;
+
 
     Position getPosition() const;
     void setPosition(Position position);
@@ -40,10 +43,6 @@ public:
 
     Direction getSpriteOrientation() const;
     void setSpriteOrientation(Direction sprite_orientation);
-
-    Tile getTeleportationTileRight() const;
-
-    Tile getTeleportationTileLeft() const;
 
     //DEBUG
     void printDirection() const;
@@ -56,6 +55,9 @@ protected:
     Direction sprite_orientation;
     int frames_to_drop;
 
-    static constexpr Tile TELEPORTATION_TILE_RIGHT = {3+(MAZE_ROWS/2)-1, MAZE_COLS-1};
-    static constexpr Tile TELEPORTATION_TILE_LEFT = {3+(MAZE_ROWS/2)-1, 0};
+    //static constexpr Tile TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1);
+    //static constexpr Tile TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0);
+
+    Tile TELEPORTATION_TILE_RIGHT;
+    Tile TELEPORTATION_TILE_LEFT;
 };

@@ -1,6 +1,7 @@
 #include "Position.h"
 #include "Direction.h"
 #include "GameDimensions.h"
+#include "Tile.h"
 #include "model/GameModel.h"
 #include "model/Character.h" // TODO: Put Direction in common/Direction.h
 
@@ -130,4 +131,9 @@ bool Position::isCenteredOnTile() const {
     const int offsetX = center_position.x % 8;
     const int offsetY = center_position.y % 8;
     return isCenteredHorizontallyOnTile() && isCenteredVerticallyOnTile();
+}
+
+int Position::distance_tile(Tile& t1, Tile& t2) const
+{
+    return abs(t1.i-t2.i)+abs(t1.j-t2.j);
 }

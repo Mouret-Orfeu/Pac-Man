@@ -13,5 +13,7 @@ public:
     Pinky(GameModel& gameModel);
     ~Pinky();
 
+    void updateDirection() override;
+
     void move(int count) override;
 };
