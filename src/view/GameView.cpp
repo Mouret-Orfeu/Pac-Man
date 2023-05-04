@@ -1,4 +1,5 @@
 #include "GameView.h"
+#include "Sprites.h"
 #include "model/GameModel.h"
 #include "model/Character.h"
 #include "model/Ghost.h"
