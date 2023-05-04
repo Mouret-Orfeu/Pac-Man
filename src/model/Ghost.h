@@ -27,7 +27,7 @@ public:
     };
 
     //Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Direction sprite_orientation);
-    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile);
+    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den);
     virtual ~Ghost();
 
     Type getType() const;
@@ -54,4 +54,9 @@ protected:
 
     std::vector<Tile> forbiden_tiles_UP={{13,12},{13,15}};
     std::vector<Tile> forbiden_tiles_DOWN={{25,12},{25,15}};
+
+    Position out_of_den_position;
+    Position center_den_position;
+
+    bool out_of_den;
 };

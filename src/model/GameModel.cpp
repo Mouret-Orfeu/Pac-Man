@@ -76,6 +76,10 @@ void GameModel::GhostSwitchMode(int second_count, std::array<std::unique_ptr<Gho
         ghosts[0]->setCurrentTargetTile(pacman.getPosition().toTile());
     }
 
+    if(ghosts[0]->getMode()==Ghost::Mode::SCATTER){
+        ghosts[0]->setCurrentTargetTile(ghosts[0]->getScatterTargetTile());
+    }
+
 }
 
 void GameModel::update(Direction input_direction, int second_count) {

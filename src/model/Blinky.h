@@ -23,4 +23,5 @@ private:
     int vitesse1;
     int vitesse2;
     int vitesse3;
+    Position respawn_position;
 };

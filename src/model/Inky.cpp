@@ -9,7 +9,7 @@ const Position init_pos_Inky = Position((WINDOW_WIDTH-1)/2-2*TILE_SIZE, 17*TILE_
 const Tile scatter_target_tile_Inky = {WINDOW_ROWS-1,WINDOW_COLS-1};
 
 Inky::Inky(GameModel& gameModel)
-:Ghost(gameModel, Ghost::Type::INKY, init_pos_Inky, Direction::UP, scatter_target_tile_Inky )
+:Ghost(gameModel, Ghost::Type::INKY, init_pos_Inky, Direction::UP, scatter_target_tile_Inky, false)
 {}
 
 Inky::~Inky() {
@@ -17,7 +17,36 @@ Inky::~Inky() {
 }
 
 void Inky::move(int count) {
-    // Update the direction based on the count value
+    (void)count;
+
+    if(position.isCenteredOnTile() || out_of_den==false){
+        //DEBUG
+        //printDirection(direction);
+        
+        updateDirection();
+    }
+
+    //printDirection(direction);
+    updatePosition();
 }
 
-void Inky::updateDirection(){}
+void Inky::updateDirection()
+{
+    if(position==init_pos_Inky)
+    {
+        direction=Direction::RIGHT;
+        return;
+    }
+    else if(position==center_den_position)
+    {
+        direction=Direction::UP;
+    }
+    else if(position==out_of_den_position)
+    {
+        direction=Direction::LEFT;
+        out_of_den=true;
+    }
+    else{
+        ;
+    }
+}

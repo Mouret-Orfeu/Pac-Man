@@ -8,11 +8,13 @@
 // ghost_type(ghost_type),
 //{}
 
-Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile)
+Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den)
 :Character(gameModel, initial_position, direction),
  ghost_type(ghost_type),
  scatter_target_tile(scatter_target_tile),
- current_target_tile(scatter_target_tile)
+ current_target_tile(scatter_target_tile),
+ out_of_den_position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2),
+ center_den_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2)
 {}
 
 Ghost::~Ghost() {
