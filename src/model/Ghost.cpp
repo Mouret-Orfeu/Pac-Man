@@ -7,11 +7,6 @@
 #include <iostream>
 #include <algorithm>
 
-//Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Direction sprite_orientation)
-//:Character(gameModel, initial_position, direction, sprite_orientation),
-// ghost_type(ghost_type),
-//{}
-
 Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman)
 :Character(gameModel, initial_position, direction),
  ghost_type(ghost_type),

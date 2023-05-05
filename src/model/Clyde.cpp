@@ -74,7 +74,7 @@ void Clyde::leaveTheDen()
     }
     else if(position==out_of_den_position)
     {
-        direction=Direction::LEFT;
+        direction=Direction::RIGHT;
         out_of_den=true;
     }
     else{

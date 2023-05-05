@@ -5,19 +5,14 @@
 
 #include <iostream>
 
-Character::Character(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation)
+Character::Character(GameModel& gameModel, Position initial_position, Direction direction)
 :gameModel(gameModel),
  initial_position(initial_position),
  position(initial_position),
  direction(direction),
- sprite_orientation(sprite_orientation),
  frames_to_drop(0),
  TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
  TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
-{}
-
-Character::Character(GameModel& gameModel, Position position, Direction direction)
-:Character(gameModel, position, direction, direction)
 {}
 
 Character::~Character() {}
@@ -33,14 +28,6 @@ Direction Character::getDirection() const {
 
 void Character::setDirection(Direction direction) {
     this->direction = direction;
-}
-
-Direction Character::getSpriteOrientation() const {
-    return sprite_orientation;
-}
-
-void Character::setSpriteOrientation(Direction sprite_orientation) {
-    this->sprite_orientation = sprite_orientation;
 }
 
 void Character::updatePosition () {

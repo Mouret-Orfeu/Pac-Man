@@ -340,7 +340,6 @@ void PacMan::updateDirection() {
                 //std::cout<<"SET CORNERING"<<std::endl;
                 if(cornering_direction!=Cornering::NONE){
                     direction = intended_direction;
-                    sprite_orientation = intended_direction;
                     memory_direction=intended_direction;
                 }
 
@@ -355,7 +354,6 @@ void PacMan::updateDirection() {
         if(gameModel.isTileLegal(next_tile_intended) && intended_direction!=direction) {
             if(position.isCenteredOnTile()){
                 direction = intended_direction;
-                sprite_orientation = intended_direction;
                 memory_direction=intended_direction;
             }
         }

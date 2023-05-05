@@ -100,7 +100,7 @@ void GameView::drawPacMan() {
     int sprite_num = (gameModel.getCount() / 4) % 4;
 
     SDL_Rect pacman_sprite_in;
-    Direction sprite_orientation = pacman.getSpriteOrientation();
+    Direction sprite_orientation = pacman.getDirection();
     switch (sprite_orientation) {
         case Direction::RIGHT:
             pacman_sprite_in = pacman_sprites_r[sprite_num];
@@ -143,7 +143,7 @@ void GameView::drawPacMan() {
 void GameView::drawGhosts() {
     for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts()) {
         Ghost::Type ghost_type = ghost->getType();
-        Direction sprite_orientation = ghost->getSpriteOrientation();
+        Direction sprite_orientation = ghost->getDirection();
 
         if (sprite_orientation != Direction::NONE) {
             SDL_Rect ghost_sprite = ghost_sprites[ghost_type][sprite_orientation];

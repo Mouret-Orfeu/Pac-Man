@@ -14,7 +14,6 @@ class GameModel;
 
 class Character : public GameObject {
 public:
-    Character(GameModel& gameModel, Position initial_position, Direction direction, Direction sprite_orientation);
     Character(GameModel& gameModel, Position initial_position, Direction direction);
     virtual ~Character();
 
@@ -41,9 +40,6 @@ public:
     Direction getDirection() const;
     void setDirection(Direction direction);
 
-    Direction getSpriteOrientation() const;
-    void setSpriteOrientation(Direction sprite_orientation);
-
     //DEBUG
     void printDirection(Direction d) const;
 
@@ -52,7 +48,6 @@ protected:
     const Position initial_position;
     Position position;
     Direction direction;
-    Direction sprite_orientation;
     int frames_to_drop;
 
     //static constexpr Tile TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1);
