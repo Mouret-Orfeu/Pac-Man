@@ -151,7 +151,7 @@ void Ghost::updateDirection() {
     if(nb_legal_direction>1 && nb_legal_direction<5)
     {
         //Distance la plus grandethéorique sur notre fenêtre
-        int min_distance=WINDOW_ROWS*WINDOW_COLS;
+        int min_distance=2*WINDOW_ROWS*WINDOW_COLS;
 
         /*best_directions va stoquer la directions des prochaines tile apres le carrefour,
         dont la distance à la target tile est minimale (les tiles à égalité)*/
