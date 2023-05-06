@@ -5,8 +5,8 @@
 
 #include <iostream>
 
-Character::Character(GameModel& gameModel, Position initial_position, Direction direction)
-:gameModel(gameModel),
+Character::Character(GameModel& game_model, Position initial_position, Direction direction)
+:game_model(game_model),
  initial_position(initial_position),
  position(initial_position),
  direction(direction),

@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Character.h"
+//#include "MonsterDen.h"
 
 class GameModel;
+class MonsterDen;
 
 class PacMan : public Character {
 public:
@@ -10,7 +12,7 @@ public:
     /**
     * @brief Constructeur par defaut qui fait spawn pacman à sa position de départ standard et qui le fait partir sur la droite
     */
-    PacMan(GameModel& gameModel);
+    PacMan(GameModel& game_model, MonsterDen& monster_den);
 
     /*
     * @brief Constructeur qui permet de faire spawn pacman à une autre position
@@ -77,6 +79,7 @@ public:
     bool isEnergized() const;
 
 private:
+    MonsterDen& monster_den;
     Direction intended_direction;
     int score;
     int highscore;

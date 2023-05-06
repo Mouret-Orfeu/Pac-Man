@@ -13,7 +13,7 @@ class GameModel;
 
 class Inky : public Ghost {
 public:
-    Inky(GameModel& gameModel, PacMan& pacman, std::unique_ptr<Ghost>& blinky_uniq_ptr);
+    Inky(GameModel& game_model, PacMan& pacman, std::unique_ptr<Ghost>& blinky_uniq_ptr);
     ~Inky();
 
     Tile findChaseTargetTile();

@@ -11,7 +11,7 @@ class GameModel;
 
 class Clyde : public Ghost {
 public:
-    Clyde(GameModel& gameModel, PacMan& pacman);
+    Clyde(GameModel& game_model, PacMan& pacman);
     ~Clyde();
 
     Tile findChaseTargetTile();

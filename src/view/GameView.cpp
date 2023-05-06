@@ -10,7 +10,7 @@
 #include <iostream>
 
 
-GameView::GameView(GameModel& gameModel) : gameModel(gameModel) {
+GameView::GameView(GameModel& game_model) : game_model(game_model) {
     // Initialize game view related data here
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, UPSCALED_WINDOW_WIDTH , UPSCALED_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 	win_surf = SDL_GetWindowSurface(pWindow);
@@ -86,7 +86,7 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
     drawMaze();
     drawHUD();
 
-    Position position = gameModel.getPacMan().getPosition();
+    Position position = game_model.getPacMan().getPosition();
 
     drawCharacterSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_num], position, true);
 
@@ -94,10 +94,10 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
 }
 
 void GameView::drawPacMan() {
-    const PacMan& pacman = gameModel.getPacMan();
+    const PacMan& pacman = game_model.getPacMan();
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
-    int sprite_num = (gameModel.getCount() / 4) % 4;
+    int sprite_num = (game_model.getCount() / 4) % 4;
 
     SDL_Rect pacman_sprite_in;
     Direction sprite_orientation = pacman.getDirection();
@@ -132,16 +132,16 @@ void GameView::drawPacMan() {
     //drawTileOutline({17, 27});
 
     //draw scatter_target_tile blinky pinky inky & clyde
-    //drawTileOutline(gameModel.getGhosts()[0]->getScatterTargetTile());
-    //drawTileOutline(gameModel.getGhosts()[1]->getScatterTargetTile());
-    //drawTileOutline(gameModel.getGhosts()[2]->getScatterTargetTile());
-    //drawTileOutline(gameModel.getGhosts()[3]->getScatterTargetTile());
+    //drawTileOutline(game_model.getGhosts()[0]->getScatterTargetTile());
+    //drawTileOutline(game_model.getGhosts()[1]->getScatterTargetTile());
+    //drawTileOutline(game_model.getGhosts()[2]->getScatterTargetTile());
+    //drawTileOutline(game_model.getGhosts()[3]->getScatterTargetTile());
 
 
 }
 
 void GameView::drawGhosts() {
-    for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts()) {
+    for (std::unique_ptr<Ghost>& ghost: game_model.getGhosts()) {
         Ghost::Type ghost_type = ghost->getType();
         Direction sprite_orientation = ghost->getDirection();
         SDL_Rect ghost_sprite;
@@ -152,7 +152,7 @@ void GameView::drawGhosts() {
             else
                 ghost_sprite = ghost_sprites[ghost_type][sprite_orientation];
             // Here we change between the 2 source sprites for a nice animation.
-            if ((gameModel.getCount() / 8) % 2) {
+            if ((game_model.getCount() / 8) % 2) {
                 // The second sprite is just next to the first one
                 ghost_sprite.x += SPRITE_SIZE;
             }
@@ -196,7 +196,7 @@ void GameView::drawDots() {
     for (int i = 0; i < WINDOW_ROWS; i++) {
         for (int j = 0; j < WINDOW_COLS; j++) {
             Tile tile = {i, j};
-            switch (gameModel.getTile(tile))
+            switch (game_model.getTile(tile))
             {
             case GameModel::TileType::DOT:
                 drawSprite(spriteSheet_Namco, &dot_sprite, tile, true);
@@ -292,7 +292,7 @@ void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Til
 // DEBUG
 void GameView::drawPacmanPosition() {
     // Get Pac-Man's center position
-    SDL_Point pacmanCenter = gameModel.getPacMan().getPosition().toCenter();
+    SDL_Point pacmanCenter = game_model.getPacMan().getPosition().toCenter();
 
     // Create a new surface with a green pixel
     SDL_Surface* greenPixel = SDL_CreateRGBSurface(0, 1, 1, 32, 0, 0, 0, 0);
@@ -355,7 +355,7 @@ void GameView::drawAllColoredTiles() {
     for (int i = 0; i < WINDOW_ROWS; i++) {
         for (int j = 0; j < WINDOW_COLS; j++) {
             // Get the cell type
-            GameModel::TileType cell = gameModel.getTile({i, j});
+            GameModel::TileType cell = game_model.getTile({i, j});
 
             // Define colors for different cell types
             SDL_Color color;
@@ -392,12 +392,12 @@ void GameView::drawAllColoredTiles() {
 }
 
 void GameView::drawScore() {
-    int score = gameModel.getPacMan().getScore();
+    int score = game_model.getPacMan().getScore();
     drawScoreHelper(score, false);
 }
 
 void GameView::drawHighScore() {
-    int highscore = gameModel.getPacMan().getHighScore();
+    int highscore = game_model.getPacMan().getHighScore();
     drawScoreHelper(highscore, true);
 }
 
@@ -455,7 +455,7 @@ void GameView::drawText() {
 }
 
 void GameView::drawLives() {
-    int lives = gameModel.getPacMan().getLives();
+    int lives = game_model.getPacMan().getLives();
     for (int i = 1; i <= lives; i++)
         drawSprite(spriteSheet_Namco, &life_sprite, Tile({WINDOW_ROWS-2,2*i}), true);
 }

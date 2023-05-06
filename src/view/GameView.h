@@ -10,7 +10,7 @@
 
 class GameView {
 public:
-    GameView(GameModel& gameModel);
+    GameView(GameModel& game_model);
     ~GameView();
 
     void draw();
@@ -43,7 +43,7 @@ public:
     void drawGhostPosition(std::unique_ptr<Ghost> ghost);
 
 private:
-    GameModel& gameModel;
+    GameModel& game_model;
 
     // SDL window and surfaces
     SDL_Window* pWindow = nullptr;

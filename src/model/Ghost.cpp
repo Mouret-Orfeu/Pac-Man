@@ -10,8 +10,8 @@
 #include <cstdlib>
 #include <set>
 
-Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman)
-:Character(gameModel, initial_position, direction),
+Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman)
+:Character(game_model, initial_position, direction),
  ghost_type(ghost_type),
  ghost_mode(Mode::SCATTER),
  scatter_target_tile(scatter_target_tile),
@@ -106,7 +106,7 @@ void Ghost::updateDirection() {
         not_turnaround_directions.erase(std::remove(not_turnaround_directions.begin(), not_turnaround_directions.end(), getOppositeDirection(direction)), not_turnaround_directions.end());
 
         //Si la direction aléatoire est légale (pas un mur) on la choisit        
-        if(gameModel.isTileLegal(position.getNextTile(not_turnaround_directions[random]))){
+        if(game_model.isTileLegal(position.getNextTile(not_turnaround_directions[random]))){
 
             direction=not_turnaround_directions[random];
             return;
@@ -115,7 +115,7 @@ void Ghost::updateDirection() {
         else{
             for (Direction d : {Direction::UP, Direction::LEFT, Direction::DOWN, Direction::RIGHT}) {
                 if (d != getOppositeDirection(direction)) {
-                    if (gameModel.isTileLegal(position.getNextTile(d))) {
+                    if (game_model.isTileLegal(position.getNextTile(d))) {
                         direction=d;
                         return;
                     }
@@ -145,7 +145,7 @@ void Ghost::updateDirection() {
 
             Tile next_possible_tile=position.getNextTile(d);
             
-            if(gameModel.isTileLegal(next_possible_tile)){
+            if(game_model.isTileLegal(next_possible_tile)){
                 auto iter_1 = std::find(forbiden_tiles_UP.begin(), forbiden_tiles_UP.end(), next_possible_tile);
                 auto iter_2 = std::find(forbiden_tiles_DOWN.begin(), forbiden_tiles_DOWN.end(), next_possible_tile);
                 if(iter_1 != forbiden_tiles_UP.end())
@@ -284,6 +284,11 @@ Ghost::Mode Ghost::getPreviousMode() const
 bool Ghost::isOutOfDen()
 {
     return out_of_den;
+}
+
+void Ghost::setCanLeaveDen(bool can_leave_den)
+{
+    this->can_leave_den=can_leave_den;
 }
 
 void Ghost::move(int count) {

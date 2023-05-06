@@ -14,7 +14,7 @@ class GameModel;
 
 class Character : public GameObject {
 public:
-    Character(GameModel& gameModel, Position initial_position, Direction direction);
+    Character(GameModel& game_model, Position initial_position, Direction direction);
     virtual ~Character();
 
     /**
@@ -44,7 +44,7 @@ public:
     void printDirection(Direction d) const;
 
 protected:
-    GameModel& gameModel;
+    GameModel& game_model;
     const Position initial_position;
     Position position;
     Direction direction;

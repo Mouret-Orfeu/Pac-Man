@@ -11,7 +11,7 @@ class GameModel;
 
 class Blinky : public Ghost {
 public:
-    Blinky(GameModel& gameModel, PacMan& pacman);
+    Blinky(GameModel& game_model, PacMan& pacman);
     ~Blinky();
 
     

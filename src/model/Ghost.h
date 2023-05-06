@@ -10,10 +10,14 @@
 #include <SDL.h>
 #include <vector>
 
+class PacMan;
+
 class GameModel;
 
 class Ghost : public Character {
 public:
+
+    //!!Ne pas changer l'ordre des types!! (utilisé dans MonsterDen::updateMonsterDen())
     enum class Type {
         BLINKY,
         PINKY,
@@ -28,7 +32,7 @@ public:
     };
 
     //Les ghosts ont besoin d'un pacman pour calculer leur target tile
-    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman);
+    Ghost(GameModel& game_model, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman);
     virtual ~Ghost();
 
     Type getType() const;
@@ -60,6 +64,8 @@ public:
     Mode getPreviousMode() const;
 
     bool isOutOfDen();
+
+    void setCanLeaveDen(bool can_leave_den);
 
     
 

@@ -17,13 +17,14 @@
 
 GameModel::GameModel()
 :count(0),
- pacman(*this),
+ monster_den(*this),
+ pacman(*this, monster_den),
  ghosts {
+    //!!Ne pas changer l'ordre de rangement des fantomes dans ghosts!! (utilisé dans MonsterDen::updateMonsterDen())
     std::make_unique<Blinky>(*this, pacman),
     std::make_unique<Pinky>(*this, pacman),
     std::make_unique<Inky>(*this, pacman, ghosts[0]),
     std::make_unique<Clyde>(*this, pacman)},
-    monster_den(*this),
     frightened_bool(false)
 {
     //DEBUG

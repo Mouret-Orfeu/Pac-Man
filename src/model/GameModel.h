@@ -50,9 +50,9 @@ public:
     bool getFrightenedBool() const;
 
 private:
+    MonsterDen monster_den;
     PacMan pacman;
     std::array<std::unique_ptr<Ghost>, 4> ghosts;
-    MonsterDen monster_den;
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
     bool frightened_bool;

@@ -5,12 +5,14 @@
 #include "common/Position.h"
 #include "common/Direction.h"
 #include "common/GameDimensions.h"
+#include "MonsterDen.h"
 
 #include <iostream>
 const Position init_pos_pacman = Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2);
 
-PacMan::PacMan(GameModel& gameModel)
+PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
 :Character(gameModel, init_pos_pacman, Direction::RIGHT),
+ monster_den(monster_den),
  intended_direction(Direction::RIGHT),
  score(0),
  highscore(0),
@@ -50,15 +52,20 @@ void PacMan::move(int count) {
 
 void PacMan::eat() {
     Tile current_tile = position.toTile();
-    switch (gameModel.getTile(current_tile)) {
+    switch (game_model.getTile(current_tile)) {
         case GameModel::TileType::DOT:
-            gameModel.setTile(current_tile, GameModel::TileType::EMPTY);
+            game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=10;
             frames_to_drop = 1;
             dots_eaten++;
+            monster_den.incrementDotCounter();
+
+            //DEBUG
+            std::cout<<"nb dots eaten: "<<dots_eaten<<std::endl;
+
             break;
         case GameModel::TileType::ENERGIZER:
-            gameModel.setTile(current_tile, GameModel::TileType::EMPTY);
+            game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=50;
             frames_to_drop = 3;
             energized = true;
@@ -328,7 +335,7 @@ void PacMan::updateDirection() {
         Tile next_tile_intended = position.getNextTile(intended_direction);
 
         //Dans le cas d'un tournant où on est pas deja en train de faire du cornering
-        if(gameModel.isTileLegal(next_tile_intended) && intended_direction!=direction && !turnaround() && cornering==false) {
+        if(game_model.isTileLegal(next_tile_intended) && intended_direction!=direction && !turnaround() && cornering==false) {
 
             //Si pacman est pas centré horizontalement ou verticalement, il est en cornering
             if((position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile()) ){
@@ -353,7 +360,7 @@ void PacMan::updateDirection() {
         }
 
         //Dans le cas d'un demi-tour, on ne peut le faire que au centre d'une tile
-        if(gameModel.isTileLegal(next_tile_intended) && intended_direction!=direction) {
+        if(game_model.isTileLegal(next_tile_intended) && intended_direction!=direction) {
             if(position.isCenteredOnTile()){
                 direction = intended_direction;
                 memory_direction=intended_direction;
@@ -366,7 +373,7 @@ void PacMan::updateDirection() {
 
     //PacMan s'arrete quand la tile devant lui est illégale
     Tile next_tile = position.getNextTile(direction);
-    if(!gameModel.isTileLegal(next_tile) && position.isCenteredOnTile()){
+    if(!game_model.isTileLegal(next_tile) && position.isCenteredOnTile()){
         if(position.isCenteredOnTile())
             //std::cout<<"centered_on_tile"<<std::endl;
             direction = Direction::NONE;

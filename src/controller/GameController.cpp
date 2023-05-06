@@ -32,11 +32,14 @@ void GameController::run() {
         return;
     }
 
-    GameModel gameModel;
-    GameView gameView(gameModel);
+    GameModel game_model;
+    GameView gameView(game_model);
 
     // Main game loop
-    int it=0;
+    
+    //DEBUG
+    //int it=0;
+
 	bool quit = false;
 	while (!quit) {
 		SDL_Event event;
@@ -67,7 +70,7 @@ void GameController::run() {
             input_direction = Direction::DOWN;
 
         //là dedans y'a move pour tous les persos
-        gameModel.update(input_direction, time_count, fright_time_count);
+        game_model.update(input_direction, time_count, fright_time_count);
 
         // AFFICHAGE
 		gameView.draw();
@@ -76,7 +79,7 @@ void GameController::run() {
         //SDL_Delay(500);
 
         //Animation de la mort
-        if (gameModel.getPacMan().isDead()) {
+        if (game_model.getPacMan().isDead()) {
             for (int death_sprite_num = 0; death_sprite_num < 11; death_sprite_num++) {
                 SDL_Event event;
 	        	while (!quit && SDL_PollEvent(&event))
@@ -104,7 +107,7 @@ void GameController::run() {
                 }
                 frameStartTime = SDL_GetTicks64();
             }
-            gameModel.getPacMan().setIsDead(false);
+            game_model.getPacMan().setIsDead(false);
         }
 
         // LIMITE A 60 FPS
@@ -117,7 +120,7 @@ void GameController::run() {
         }
         frameStartTime = SDL_GetTicks64();
 
-        if(!gameModel.getFrightenedBool())
+        if(!game_model.getFrightenedBool())
             time_count += 1.0f/60.0f;
         else
             fright_time_count += 1.0f/60.0f;
@@ -129,11 +132,11 @@ void GameController::run() {
         //std::cout << "time_count: " << time_count << std::endl;
 
         //DEBUG
-        it++;
-        if(it%60==0){
-            std::cout << "Second fright: " << static_cast<int>(fright_time_count) << std::endl;
-            it=0;
-        }
+        //it++;
+        //if(it%60==0){
+        //    std::cout << "Second fright: " << static_cast<int>(fright_time_count) << std::endl;
+        //    it=0;
+        //}
 
 
 	}

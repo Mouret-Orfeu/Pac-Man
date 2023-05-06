@@ -11,7 +11,7 @@ class GameModel;
 
 class Pinky : public Ghost {
 public:
-    Pinky(GameModel& gameModel, PacMan&pacman);
+    Pinky(GameModel& game_model, PacMan&pacman);
     ~Pinky();
 
     Tile findChaseTargetTile();
