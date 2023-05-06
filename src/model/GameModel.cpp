@@ -21,9 +21,8 @@ GameModel::GameModel()
     std::make_unique<Blinky>(*this, pacman),
     std::make_unique<Pinky>(*this, pacman),
     std::make_unique<Inky>(*this, pacman, ghosts[0]),
-    std::make_unique<Clyde>(*this, pacman)
-
-}
+    std::make_unique<Clyde>(*this, pacman)},
+    frightenedTime(false)
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -45,25 +44,25 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
     for (std::unique_ptr<Ghost>& ghost : ghosts) { 
 
         //On ne change pas le mode si il vient juste de changer
-        if (ghost->getModJustChanged() != true) {
+        if (ghost->getModeJustChanged() != true) {
             if (std::fabs(time_count - 7.0f) < 0.0001f ||
                 std::fabs(time_count - 34.0f) < 0.0001f ||
                 std::fabs(time_count - 59.0f) < 0.0001f ||
                 std::fabs(time_count - 84.0f) < 0.0001f) {
-                ghost->setMod(Ghost::Mode::CHASE);
-                ghost->setModHasChanged(true);
-                ghost->setModJustChanged(true);
+                ghost->setMode(Ghost::Mode::CHASE);
+                ghost->setModeHasChanged(true);
+                ghost->setModeJustChanged(true);
 
                 //DEBUG
-                std::cout << "Chase" << std::endl;
+                //std::cout << "Chase" << std::endl;
             }
             else if  (std::fabs(time_count - 27.0f) < 0.0001f ||
                       std::fabs(time_count - 54.0f) < 0.0001f ||
                       std::fabs(time_count - 79.0f) < 0.0001f) {
                 
-                ghost->setMod(Ghost::Mode::SCATTER);
-                ghost->setModHasChanged(true);
-                ghost->setModJustChanged(true);
+                ghost->setMode(Ghost::Mode::SCATTER);
+                ghost->setModeHasChanged(true);
+                ghost->setModeJustChanged(true);
 
                 //DEBUG
                 //std::cout << "Scatter" << std::endl;
@@ -92,6 +91,19 @@ void GameModel::update(Direction input_direction, float time_count) {
     
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts);
+
+    //DEBUG
+    //test de FRIGHTENED (faut commenter GhostSwitchMode au dessus pour ce test)
+    //if(std::fabs(time_count - 7.0f) < 0.0001f){
+    //    for(std::unique_ptr<Ghost>& ghost : ghosts){
+    //        ghost->setMode(Ghost::Mode::FRIGHTENED);
+    //        ghost->setModeHasChanged(true);
+    //        ghost->setModeJustChanged(true);
+    //    }
+//
+    //    //DEBUG
+    //    //std::cout<<"frighten change"<<std::endl;
+    //}
     
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts)
@@ -135,4 +147,9 @@ void GameModel::setTile(Tile tile, TileType value) {
 
 bool GameModel::isTileLegal(Tile tile) {
     return getTile(tile) != GameModel::TileType::WALL;
+}
+
+bool GameModel::getFrightenedTime() const
+{
+    return frightenedTime;
 }

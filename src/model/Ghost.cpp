@@ -6,6 +6,8 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cstdlib>
+#include <set>
 
 Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman)
 :Character(gameModel, initial_position, direction),
@@ -16,8 +18,8 @@ Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_posi
  out_of_den_position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2),
  center_den_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2),
  pacman(pacman),
- mod_has_changed(false),
- mod_just_changed(false)
+ mode_has_changed(false),
+ mode_just_changed(false)
 {}
 
 Ghost::~Ghost() {
@@ -28,7 +30,7 @@ Ghost::Type Ghost::getType() const {
     return ghost_type;
 }
 
-Ghost::Mode Ghost::getMod() const {
+Ghost::Mode Ghost::getMode() const {
     return ghost_mode;
 }
 
@@ -37,7 +39,7 @@ Tile Ghost::getScatterTargetTile() const
     return scatter_target_tile;
 }
 
-void Ghost::setMod(Mode mode)
+void Ghost::setMode(Mode mode)
 {
     ghost_mode=mode;
 }
@@ -80,14 +82,45 @@ void Ghost::printType(Ghost::Type ghost_type) const
 
 void Ghost::updateDirection() {
 
-    if(mod_just_changed==true)
+    if(mode_just_changed==true)
     {
         direction=getOppositeDirection(direction);
-        mod_just_changed=false;
+        mode_just_changed=false;
 
         //DEBUG
-        std::cout<<"mod_just_changed"<<std::endl;
+        //std::cout<<"mod_just_changed"<<std::endl;
     }
+
+    /*Ghosts use a random number generator to pick a way to turn at each intersection when frightened.
+     If the tile of the chosen direction is not legal, the ghost then test the legality of the tiles in that order of direction: up, left, down, and right an choose the direction of the first legal tile found*/
+    if(ghost_mode==Ghost::Mode::FRIGHTENED)
+    {
+        //En mode FRIGTHENED, les fantomes se déplacent aléatoirement (mais toujours avec la même seed)
+        int random=rand()%3;
+
+        //on extrait les direction qui ne sont pas l'opposé de la direction actuelle
+        std::vector<Direction> not_turnaround_directions={Direction::UP, Direction::LEFT, Direction::DOWN, Direction::RIGHT};
+        not_turnaround_directions.erase(std::remove(not_turnaround_directions.begin(), not_turnaround_directions.end(), getOppositeDirection(direction)), not_turnaround_directions.end());
+
+        //Si la direction aléatoire est légale (pas un mur) on la choisit        
+        if(gameModel.isTileLegal(position.getNextTile(not_turnaround_directions[random]))){
+
+            direction=not_turnaround_directions[random];
+            return;
+        }
+        //Si la direction aléatoire est bloqué par un mur (donc illégal) on choisit la direction légal par ordre de preference up, left, down, right (sans faire demi tour) 
+        else{
+            for (Direction d : {Direction::UP, Direction::LEFT, Direction::DOWN, Direction::RIGHT}) {
+                if (d != getOppositeDirection(direction)) {
+                    if (gameModel.isTileLegal(position.getNextTile(d))) {
+                        direction=d;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
 
 
     bool forbiden_tile_up= false;
@@ -106,9 +139,6 @@ void Ghost::updateDirection() {
             //std::cout<<std::endl;
             //std::cout<<std::endl;
             //std::cout<<std::endl;
-
-
-
 
             Tile next_possible_tile=position.getNextTile(d);
             
@@ -218,24 +248,24 @@ void Ghost::updateDirection() {
 
 }
 
-void Ghost::setModHasChanged(bool mod_has_changed_bool)
+void Ghost::setModeHasChanged(bool mod_has_changed_bool)
 {
-    mod_has_changed=mod_has_changed_bool;
+    mode_has_changed=mod_has_changed_bool;
 }
 
-bool Ghost::getModHasChanged() const
+bool Ghost::getModeHasChanged() const
 {
-    return mod_has_changed;
+    return mode_has_changed;
 }
 
-void Ghost::setModJustChanged(bool mod_just_changed_bool)
+void Ghost::setModeJustChanged(bool mod_just_changed_bool)
 {
-    mod_just_changed=mod_just_changed_bool;
+    mode_just_changed=mod_just_changed_bool;
 }
 
-bool Ghost::getModJustChanged() const
+bool Ghost::getModeJustChanged() const
 {
-    return mod_just_changed;
+    return mode_just_changed;
 }
 
 void Ghost::move(int count) {

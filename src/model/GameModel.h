@@ -46,11 +46,14 @@ public:
 
     void GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts);
 
+    bool getFrightenedTime() const;
+
 private:
     PacMan pacman;
     std::array<std::unique_ptr<Ghost>, 4> ghosts;
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
+    bool frightenedTime;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;

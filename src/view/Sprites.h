@@ -67,6 +67,10 @@ std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghost_sprites = {
     }}
 };
 
+// Ghost sprites Frightened
+static constexpr SDL_Rect ghost_sprite_frightened_blue = { GRID_ORIGIN+8*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+static constexpr SDL_Rect ghost_sprite_frightened_white= { GRID_ORIGIN+10*SPRITE_SIZE,4*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+
 // PacMan sprites
 // Directional sprites
 static constexpr SDL_Rect pacman_sprite_full = { GRID_ORIGIN+2*SPRITE_SIZE,0, SPRITE_SIZE,SPRITE_SIZE };

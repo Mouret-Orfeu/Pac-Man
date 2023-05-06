@@ -144,9 +144,13 @@ void GameView::drawGhosts() {
     for (std::unique_ptr<Ghost>& ghost: gameModel.getGhosts()) {
         Ghost::Type ghost_type = ghost->getType();
         Direction sprite_orientation = ghost->getDirection();
+        SDL_Rect ghost_sprite;
 
         if (sprite_orientation != Direction::NONE) {
-            SDL_Rect ghost_sprite = ghost_sprites[ghost_type][sprite_orientation];
+            if(ghost->getMode()==Ghost::Mode::FRIGHTENED)
+                ghost_sprite= ghost_sprite_frightened_blue;
+            else
+                ghost_sprite = ghost_sprites[ghost_type][sprite_orientation];
             // Here we change between the 2 source sprites for a nice animation.
             if ((gameModel.getCount() / 8) % 2) {
                 // The second sprite is just next to the first one

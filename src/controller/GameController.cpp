@@ -117,7 +117,8 @@ void GameController::run() {
         }
         frameStartTime = SDL_GetTicks64();
 
-        time_count += 1.0f/60.0f;
+        if(!gameModel.getFrightenedTime())
+            time_count += 1.0f/60.0f;
 
         //DEBUG
         //std::cout << "time_count: " << time_count << std::endl;
@@ -136,7 +137,7 @@ void GameController::run() {
 
 }
 
-int GameController::getSecondCount() const
+int GameController::getTimeCount() const
 {
     return time_count;
 }

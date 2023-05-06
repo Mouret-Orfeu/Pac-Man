@@ -5,7 +5,7 @@ public:
     GameController();
     ~GameController();
 
-    int getSecondCount() const;
+    int getTimeCount() const;
 
     bool init();
     void run();
