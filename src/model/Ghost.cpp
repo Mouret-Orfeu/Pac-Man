@@ -305,12 +305,5 @@ void Ghost::move(int count) {
 
     if(can_leave_den==true){
         updatePosition();
-
-        //DEBUG
-        if(ghost_type==Type::BLINKY){
-            if(can_leave_den==true){
-                std::cout<<"Blinky can leave the den"<<std::endl;
-            }
-        }
     }
 }
