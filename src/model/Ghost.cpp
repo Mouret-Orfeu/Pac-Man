@@ -15,6 +15,8 @@ Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_posi
  ghost_type(ghost_type),
  ghost_mode(Mode::SCATTER),
  scatter_target_tile(scatter_target_tile),
+ out_of_den(out_of_den),
+ can_leave_den(can_leave_den),
  current_target_tile(scatter_target_tile),
  out_of_den_position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2),
  center_den_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2),
