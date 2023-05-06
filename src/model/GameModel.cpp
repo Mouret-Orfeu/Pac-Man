@@ -100,7 +100,7 @@ void GameModel::update(Direction input_direction, float time_count) {
     //        ghost->setModeHasChanged(true);
     //        ghost->setModeJustChanged(true);
     //    }
-//
+
     //    //DEBUG
     //    //std::cout<<"frighten change"<<std::endl;
     //}
