@@ -5,6 +5,7 @@
 #include "Ghost.h"
 #include "Blinky.h"
 #include "Pinky.h"
+#include "MonsterDen.h"
 
 #include "common/GameDimensions.h"
 #include "common/Direction.h"
@@ -51,6 +52,7 @@ public:
 private:
     PacMan pacman;
     std::array<std::unique_ptr<Ghost>, 4> ghosts;
+    MonsterDen monster_den;
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
     bool frightened_bool;

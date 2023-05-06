@@ -28,7 +28,7 @@ public:
     };
 
     //Les ghosts ont besoin d'un pacman pour calculer leur target tile
-    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman);
+    Ghost(GameModel& gameModel, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman);
     virtual ~Ghost();
 
     Type getType() const;
@@ -59,6 +59,8 @@ public:
     void setPreviousMode(Mode previous_ghost_mode);
     Mode getPreviousMode() const;
 
+    bool isOutOfDen();
+
     
 
 protected:
@@ -75,6 +77,7 @@ protected:
     Position center_den_position;
 
     bool out_of_den;
+    bool can_leave_den;
 
     PacMan& pacman;
 

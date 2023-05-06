@@ -23,6 +23,7 @@ GameModel::GameModel()
     std::make_unique<Pinky>(*this, pacman),
     std::make_unique<Inky>(*this, pacman, ghosts[0]),
     std::make_unique<Clyde>(*this, pacman)},
+    monster_den(*this),
     frightened_bool(false)
 {
     //DEBUG
@@ -64,7 +65,7 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
 
         pacman.setEnergized(false);
         frightened_bool = false;
-        
+
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
             ghost->setMode(ghost->getPreviousMode());
             ghost->setModeHasChanged(true);
@@ -123,6 +124,9 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
 }
 
 void GameModel::update(Direction input_direction, float time_count, float fright_time_count) {
+
+    //On libère les fantomes qui doivent l'être
+    monster_den.updateMonsterDen();
     
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
@@ -147,6 +151,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
         ghost->move(count);
 
 
+
     // Update PacMan's intended direction based on user input
     if (input_direction != Direction::NONE)
         pacman.setIntendedDirection(input_direction);
@@ -154,7 +159,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     // Make PacMan move
     pacman.move(count);
 
-    // Update the count
+    // Update the count, (je pense que ça sert plus à rien ça)
     count = (count + 1) % 512;
 }
 

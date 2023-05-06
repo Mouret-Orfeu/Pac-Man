@@ -9,7 +9,7 @@ const Position init_pos_Inky = Position((WINDOW_WIDTH-1)/2-2*TILE_SIZE, 17*TILE_
 const Tile scatter_target_tile_Inky = {WINDOW_ROWS-1,WINDOW_COLS-1};
 
 Inky::Inky(GameModel& gameModel, PacMan& pacman, std::unique_ptr<Ghost>& blinky_uniq_ptr)
-:Ghost(gameModel, Ghost::Type::INKY, init_pos_Inky, Direction::UP, scatter_target_tile_Inky, false, pacman),
+:Ghost(gameModel, Ghost::Type::INKY, init_pos_Inky, Direction::UP, scatter_target_tile_Inky, false,false, pacman),
 blinky_uniq_ptr(blinky_uniq_ptr)
 {}
 

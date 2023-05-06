@@ -3,13 +3,14 @@
 #include "common/Direction.h"
 #include "GameModel.h"
 #include "PacMan.h"
+#include "MonsterDen.h"
 
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>
 #include <set>
 
-Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman)
+Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman)
 :Character(gameModel, initial_position, direction),
  ghost_type(ghost_type),
  ghost_mode(Mode::SCATTER),
@@ -278,12 +279,17 @@ Ghost::Mode Ghost::getPreviousMode() const
     return previous_ghost_mode;
 }
 
+bool Ghost::isOutOfDen()
+{
+    return out_of_den;
+}
+
 void Ghost::move(int count) {
     (void)count;
 
     updateTargetTile();
 
-    if(out_of_den==false)
+    if(out_of_den==false && can_leave_den==true)
     {
         leaveTheDen();
     }
@@ -295,6 +301,14 @@ void Ghost::move(int count) {
         updateDirection();
     }
 
-    //printDirection(direction);
-    updatePosition();
+    if(can_leave_den==true){
+        updatePosition();
+
+        //DEBUG
+        if(ghost_type==Type::BLINKY){
+            if(can_leave_den==true){
+                std::cout<<"Blinky can leave the den"<<std::endl;
+            }
+        }
+    }
 }
