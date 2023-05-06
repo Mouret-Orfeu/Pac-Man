@@ -19,6 +19,4 @@ public:
     void leaveTheDen() override;
 
     void updateTargetTile() override;
-
-    void move(int count) override;
 };

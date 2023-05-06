@@ -33,8 +33,8 @@ public:
 
     Type getType() const;
 
-    void setMode(Mode mode);
-    Mode getMode() const;
+    void setMod(Mode mode);
+    Mode getMod() const;
 
     Tile getScatterTargetTile() const;
 
@@ -47,6 +47,14 @@ public:
     virtual void updateTargetTile() =0;
 
     void printType(Type ghost_type) const;
+
+    void move(int count) override;
+
+    void setModHasChanged(bool mod_has_changed);
+    bool getModHasChanged() const;
+
+    void setModJustChanged(bool mod_just_changed);
+    bool getModJustChanged() const;
 
     
 
@@ -66,4 +74,10 @@ protected:
     bool out_of_den;
 
     PacMan& pacman;
+
+    //vrai si le mod a changé depuis le début de la partie (se réinitialise quand le fantome meurt)
+    bool mod_has_changed;
+
+    //vrai si le mod vient de changé, devient quand le fantome atteint le prochain centre de tile
+    bool mod_just_changed;
 };

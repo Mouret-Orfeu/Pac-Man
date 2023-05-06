@@ -40,27 +40,6 @@ void Clyde::updateTargetTile()
     }
 }
 
-void Clyde::move(int count) {
-    (void)count;
-
-    updateTargetTile();
-
-    if(out_of_den==false)
-    {
-        leaveTheDen();
-    }
-
-    if(position.isCenteredOnTile() && out_of_den==true){
-        //DEBUG
-        //printDirection(direction);
-        
-        updateDirection();
-    }
-
-    //printDirection(direction);
-    updatePosition();
-}
-
 void Clyde::leaveTheDen()
 {
     if(position==init_pos_Clyde)

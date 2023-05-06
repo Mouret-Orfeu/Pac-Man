@@ -51,27 +51,6 @@ void Inky::updateTargetTile()
     }
 }
 
-void Inky::move(int count) {
-    (void)count;
-
-    updateTargetTile();
-
-    if(out_of_den==false)
-    {
-        leaveTheDen();
-    }
-
-    if(position.isCenteredOnTile() && out_of_den==true){
-        //DEBUG
-        //printDirection(direction);
-        
-        updateDirection();
-    }
-
-    //printDirection(direction);
-    updatePosition();
-}
-
 void Inky::leaveTheDen()
 {
     if(position==init_pos_Inky)

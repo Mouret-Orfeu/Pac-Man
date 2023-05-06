@@ -11,5 +11,5 @@ public:
     void run();
 private:
     bool sdl_initialized;
-    int second_count;
+    float time_count;
 };

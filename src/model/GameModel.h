@@ -18,7 +18,7 @@ public:
     GameModel();
     ~GameModel();
 
-    void update(Direction input_direction, int second_count);
+    void update(Direction input_direction, float time_count);
 
     PacMan& getPacMan();
     std::array<std::unique_ptr<Ghost>, 4>& getGhosts();
@@ -44,7 +44,7 @@ public:
     */
     bool isTileLegal(Tile tile);
 
-    void GhostSwitchMode(int second_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts);
+    void GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts);
 
 private:
     PacMan pacman;

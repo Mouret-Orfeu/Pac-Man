@@ -21,8 +21,6 @@ public:
     void leaveTheDen() override;
 
     void updateTargetTile() override;
-
-    void move(int count) override;
 private:
     std::unique_ptr<Ghost>& blinky_uniq_ptr;
 };

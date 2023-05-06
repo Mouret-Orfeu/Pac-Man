@@ -54,25 +54,3 @@ void Blinky::updateTargetTile()
     }
 }
 
-
-
-void Blinky::move(int count) {
-    (void)count;
-
-    updateTargetTile();
-
-    if(out_of_den==false)
-    {
-        leaveTheDen();
-    }
-
-    if(position.isCenteredOnTile()){
-        //DEBUG
-        //printDirection(direction);
-        
-        updateDirection();
-    }
-
-    //printDirection(direction);
-    updatePosition();
-}

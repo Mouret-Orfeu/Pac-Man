@@ -14,7 +14,7 @@ public:
     Blinky(GameModel& gameModel, PacMan& pacman);
     ~Blinky();
 
-    void move(int count) override;
+    
 
     void leaveTheDen() override;
 

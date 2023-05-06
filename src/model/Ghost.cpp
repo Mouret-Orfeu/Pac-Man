@@ -15,7 +15,9 @@ Ghost::Ghost(GameModel& gameModel, Ghost::Type ghost_type, Position initial_posi
  current_target_tile(scatter_target_tile),
  out_of_den_position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2),
  center_den_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2),
- pacman(pacman)
+ pacman(pacman),
+ mod_has_changed(false),
+ mod_just_changed(false)
 {}
 
 Ghost::~Ghost() {
@@ -26,7 +28,7 @@ Ghost::Type Ghost::getType() const {
     return ghost_type;
 }
 
-Ghost::Mode Ghost::getMode() const {
+Ghost::Mode Ghost::getMod() const {
     return ghost_mode;
 }
 
@@ -35,7 +37,7 @@ Tile Ghost::getScatterTargetTile() const
     return scatter_target_tile;
 }
 
-void Ghost::setMode(Mode mode)
+void Ghost::setMod(Mode mode)
 {
     ghost_mode=mode;
 }
@@ -77,6 +79,16 @@ void Ghost::printType(Ghost::Type ghost_type) const
 
 
 void Ghost::updateDirection() {
+
+    if(mod_just_changed==true)
+    {
+        direction=getOppositeDirection(direction);
+        mod_just_changed=false;
+
+        //DEBUG
+        std::cout<<"mod_just_changed"<<std::endl;
+    }
+
 
     bool forbiden_tile_up= false;
     bool forbiden_tile_down= false;
@@ -204,4 +216,45 @@ void Ghost::updateDirection() {
     return;
 
 
+}
+
+void Ghost::setModHasChanged(bool mod_has_changed_bool)
+{
+    mod_has_changed=mod_has_changed_bool;
+}
+
+bool Ghost::getModHasChanged() const
+{
+    return mod_has_changed;
+}
+
+void Ghost::setModJustChanged(bool mod_just_changed_bool)
+{
+    mod_just_changed=mod_just_changed_bool;
+}
+
+bool Ghost::getModJustChanged() const
+{
+    return mod_just_changed;
+}
+
+void Ghost::move(int count) {
+    (void)count;
+
+    updateTargetTile();
+
+    if(out_of_den==false)
+    {
+        leaveTheDen();
+    }
+
+    if(position.isCenteredOnTile() && out_of_den==true){
+        //DEBUG
+        //printDirection(direction);
+        
+        updateDirection();
+    }
+
+    //printDirection(direction);
+    updatePosition();
 }
