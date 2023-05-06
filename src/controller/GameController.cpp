@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cmath>
 
-GameController::GameController() : sdl_initialized(false), time_count(0.0f){}
+GameController::GameController() : sdl_initialized(false), time_count(0.0f), fright_time_count(0.0f){}
 
 GameController::~GameController() {
     if (sdl_initialized) {
@@ -67,7 +67,7 @@ void GameController::run() {
             input_direction = Direction::DOWN;
 
         //là dedans y'a move pour tous les persos
-        gameModel.update(input_direction, time_count);
+        gameModel.update(input_direction, time_count, fright_time_count);
 
         // AFFICHAGE
 		gameView.draw();
@@ -117,18 +117,21 @@ void GameController::run() {
         }
         frameStartTime = SDL_GetTicks64();
 
-        if(!gameModel.getFrightenedTime())
+        if(!gameModel.getFrightenedBool())
             time_count += 1.0f/60.0f;
+        else
+            fright_time_count += 1.0f/60.0f;
+
+        if(fright_time_count > 7.1f)
+            fright_time_count = 0.0f;
 
         //DEBUG
         //std::cout << "time_count: " << time_count << std::endl;
 
         //DEBUG
         it++;
-
-        //DEBUG
         if(it%60==0){
-            std::cout << "Second: " << static_cast<int>(time_count) << std::endl;
+            std::cout << "Second fright: " << static_cast<int>(fright_time_count) << std::endl;
             it=0;
         }
 

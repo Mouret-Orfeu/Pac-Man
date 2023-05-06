@@ -18,7 +18,7 @@ public:
     GameModel();
     ~GameModel();
 
-    void update(Direction input_direction, float time_count);
+    void update(Direction input_direction, float time_count, float fright_time_count);
 
     PacMan& getPacMan();
     std::array<std::unique_ptr<Ghost>, 4>& getGhosts();
@@ -44,16 +44,17 @@ public:
     */
     bool isTileLegal(Tile tile);
 
-    void GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts);
+    void GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts, float fright_time_count);
 
-    bool getFrightenedTime() const;
+    bool getFrightenedBool() const;
 
 private:
     PacMan pacman;
     std::array<std::unique_ptr<Ghost>, 4> ghosts;
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
-    bool frightenedTime;
+    bool frightened_bool;
+    
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;

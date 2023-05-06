@@ -248,9 +248,9 @@ void Ghost::updateDirection() {
 
 }
 
-void Ghost::setModeHasChanged(bool mod_has_changed_bool)
+void Ghost::setModeHasChanged(bool mod_has_changed)
 {
-    mode_has_changed=mod_has_changed_bool;
+    this->mode_has_changed=mod_has_changed;
 }
 
 bool Ghost::getModeHasChanged() const
@@ -258,14 +258,24 @@ bool Ghost::getModeHasChanged() const
     return mode_has_changed;
 }
 
-void Ghost::setModeJustChanged(bool mod_just_changed_bool)
+void Ghost::setModeJustChanged(bool mod_just_changed)
 {
-    mode_just_changed=mod_just_changed_bool;
+    this->mode_just_changed=mod_just_changed;
 }
 
 bool Ghost::getModeJustChanged() const
 {
     return mode_just_changed;
+}
+
+void Ghost::setPreviousMode(Mode previous_ghost_mode)
+{
+    this->previous_ghost_mode=previous_ghost_mode;
+}
+
+Ghost::Mode Ghost::getPreviousMode() const
+{
+    return previous_ghost_mode;
 }
 
 void Ghost::move(int count) {

@@ -56,6 +56,9 @@ public:
     void setModeJustChanged(bool mod_just_changed);
     bool getModeJustChanged() const;
 
+    void setPreviousMode(Mode previous_ghost_mode);
+    Mode getPreviousMode() const;
+
     
 
 protected:
@@ -80,4 +83,7 @@ protected:
 
     //vrai si le mod vient de changé, devient quand le fantome atteint le prochain centre de tile
     bool mode_just_changed;
+
+    //previews_ghost_mode va enregistrer le mode avant de passer en mode frightened, pour pouvoir y revenir après
+    Mode previous_ghost_mode;
 };

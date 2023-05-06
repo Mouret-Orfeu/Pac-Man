@@ -73,6 +73,9 @@ public:
 
     Direction getMemoryDirection() const;
 
+    void setEnergized(bool energized);
+    bool isEnergized() const;
+
 private:
     Direction intended_direction;
     int score;
@@ -89,4 +92,6 @@ private:
     //Pour savoir quel type de cornering il faut faire
     Center_passed is_center_passed;
     int dots_eaten;
+
+    bool energized;
 };

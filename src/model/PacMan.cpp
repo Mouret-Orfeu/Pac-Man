@@ -20,7 +20,8 @@ PacMan::PacMan(GameModel& gameModel)
  cornering(false),
  is_center_passed(Center_passed::NOT_PASSED),
  dots_eaten(0),
- memory_direction(Direction::LEFT)
+ memory_direction(Direction::LEFT),
+ energized(false)
 {}
 
 PacMan::~PacMan() {}
@@ -60,6 +61,7 @@ void PacMan::eat() {
             gameModel.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=50;
             frames_to_drop = 3;
+            energized = true;
             break;
         default:
             break;
@@ -481,4 +483,14 @@ void PacMan::resetDotsEaten() {
 Direction PacMan::getMemoryDirection() const
 {
     return memory_direction;
+}
+
+void PacMan::setEnergized(bool energized)
+{
+    this->energized = energized;
+}
+
+bool PacMan::isEnergized() const
+{
+    return energized;
 }
