@@ -7,6 +7,8 @@ public:
 
     bool init();
     void run();
+
+    void limitFramerate(Uint64& frameStartTime);
 private:
     bool sdl_initialized;
 };

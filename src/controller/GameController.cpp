@@ -26,6 +26,16 @@ bool GameController::init() {
     return true;
 }
 
+void GameController::limitFramerate(Uint64& frameStartTime) {
+    const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
+    Uint64 currentTime = SDL_GetTicks64();
+    Uint64 elapsedTime = currentTime - frameStartTime;
+    if (elapsedTime < desiredFrameTime) {
+        SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
+    }
+    frameStartTime = SDL_GetTicks64();
+}
+
 void GameController::run() {
     if (!sdl_initialized) {
         return;
@@ -35,18 +45,19 @@ void GameController::run() {
     GameView gameView(gameModel);
 
     // Main game loop
-	bool quit = false;
-	while (!quit) {
-		SDL_Event event;
-		while (!quit && SDL_PollEvent(&event)) {
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				quit = true;
-				break;
-			default: break;
-			}
-		}
+    bool quit = false;
+    Uint64 frameStartTime = SDL_GetTicks64();
+    while (!quit) {
+        SDL_Event event;
+        while (!quit && SDL_PollEvent(&event)) {
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                quit = true;
+                break;
+            default: break;
+            }
+        }
 
         // Gestion du clavier
         const Uint8* keys = SDL_GetKeyboardState(nullptr);
@@ -68,7 +79,7 @@ void GameController::run() {
         gameModel.update(input_direction);
 
         // AFFICHAGE
-		gameView.draw();
+        gameView.draw();
 
         //DEBUG
         //SDL_Delay(200);
@@ -77,43 +88,27 @@ void GameController::run() {
         if (gameModel.getPacMan().isDead()) {
             for (int death_sprite_num = 0; death_sprite_num < 11; death_sprite_num++) {
                 SDL_Event event;
-	        	while (!quit && SDL_PollEvent(&event))
-	        	{
-	        		switch (event.type)
-	        		{
-	        		case SDL_QUIT:
-	        			quit = true;
-	        			break;
-	        		default: break;
-	        		}
-	        	}
+                while (!quit && SDL_PollEvent(&event))
+                {
+                    switch (event.type)
+                    {
+                    case SDL_QUIT:
+                        quit = true;
+                        break;
+                    default: break;
+                    }
+                }
 
                 // AFFICHAGE
-	        	gameView.drawDeathAnimation(death_sprite_num);
-                SDL_Delay(100);
+                gameView.drawDeathAnimation(death_sprite_num);
 
                 // LIMITE A 60 FPS
-                const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
-                Uint64 currentTime = SDL_GetTicks64();
-                Uint64 frameStartTime = currentTime;
-                Uint64 elapsedTime = currentTime - frameStartTime;
-                if (elapsedTime < desiredFrameTime) {
-                    SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
-                }
-                frameStartTime = SDL_GetTicks64();
+                limitFramerate(frameStartTime);
             }
             gameModel.getPacMan().setIsDead(false);
         }
 
         // LIMITE A 60 FPS
-        const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
-        Uint64 currentTime = SDL_GetTicks64();
-        Uint64 frameStartTime = currentTime;
-        Uint64 elapsedTime = currentTime - frameStartTime;
-        if (elapsedTime < desiredFrameTime) {
-            SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
-        }
-        frameStartTime = SDL_GetTicks64();
-	}
-
+        limitFramerate(frameStartTime);
+    }
 }
