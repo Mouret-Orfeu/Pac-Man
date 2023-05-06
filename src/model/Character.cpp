@@ -57,6 +57,13 @@ void Character::updatePosition () {
         default:
             break;
     }
+    // Make the character teleport from one side to the other
+    if (position.getX() < -TILE_SIZE) {
+        position.setX(WINDOW_WIDTH + TILE_SIZE - 1);
+    }
+    else if (position.getX() >= WINDOW_WIDTH + TILE_SIZE) {
+        position.setX(-TILE_SIZE);
+    }
 }
 
 Tile Character::getTeleportationTileRight() const
