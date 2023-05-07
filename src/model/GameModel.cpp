@@ -31,7 +31,7 @@ GameModel::GameModel()
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
     resetTilesMatrix();
-   
+
 }
 
 GameModel::~GameModel() {
@@ -84,8 +84,6 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
     }
 
     if (pacman.isEnergized() && frightened_bool == true) {
-        // print frightened counter after conversion to int
-        std::cout << "frightened counter: " << frightened_counter << std::endl;
         frightened_counter++;
     }
 
