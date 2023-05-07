@@ -27,6 +27,16 @@ bool GameController::init() {
     return true;
 }
 
+void GameController::limitFramerate(Uint64& frameStartTime) {
+    const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
+    Uint64 currentTime = SDL_GetTicks64();
+    Uint64 elapsedTime = currentTime - frameStartTime;
+    if (elapsedTime < desiredFrameTime) {
+        SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
+    }
+    frameStartTime = SDL_GetTicks64();
+}
+
 void GameController::run() {
 
     if (!sdl_initialized) {
@@ -37,11 +47,12 @@ void GameController::run() {
     GameView gameView(game_model);
 
     // Main game loop
-    
+
     //DEBUG
     //int it=0;
 
 	bool quit = false;
+    Uint64 frameStartTime = SDL_GetTicks64();
 	while (!quit) {
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
@@ -81,7 +92,7 @@ void GameController::run() {
         game_model.update(input_direction, time_count, fright_time_count);
 
         // AFFICHAGE
-		gameView.draw();
+        gameView.draw();
 
         //DEBUG
         //SDL_Delay(500);
@@ -90,44 +101,30 @@ void GameController::run() {
         if (game_model.getPacMan().isDead()) {
             for (int death_sprite_num = 0; death_sprite_num < 11; death_sprite_num++) {
                 SDL_Event event;
-	        	while (!quit && SDL_PollEvent(&event))
-	        	{
-	        		switch (event.type)
-	        		{
-	        		case SDL_QUIT:
-	        			quit = true;
-	        			break;
-	        		default: break;
-	        		}
-	        	}
+                while (!quit && SDL_PollEvent(&event))
+                {
+                    switch (event.type)
+                    {
+                    case SDL_QUIT:
+                        quit = true;
+                        break;
+                    default: break;
+                    }
+                }
 
                 // AFFICHAGE
-	        	gameView.drawDeathAnimation(death_sprite_num);
+                gameView.drawDeathAnimation(death_sprite_num);
                 SDL_Delay(100);
 
                 // LIMITE A 60 FPS
-                const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
-                Uint64 currentTime = SDL_GetTicks64();
-                Uint64 frameStartTime = currentTime;
-                Uint64 elapsedTime = currentTime - frameStartTime;
-                if (elapsedTime < desiredFrameTime) {
-                    SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
-                }
-                frameStartTime = SDL_GetTicks64();
+                limitFramerate(frameStartTime);
             }
             game_model.getPacMan().setPosition(game_model.getPacMan().getInitPos());
             game_model.getPacMan().setIsDead(false);
         }
 
         // LIMITE A 60 FPS
-        const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
-        Uint64 currentTime = SDL_GetTicks64();
-        Uint64 frameStartTime = currentTime;
-        Uint64 elapsedTime = currentTime - frameStartTime;
-        if (elapsedTime < desiredFrameTime) {
-            SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
-        }
-        frameStartTime = SDL_GetTicks64();
+        limitFramerate(frameStartTime);
 
         if(!game_model.getFrightenedBool())
             time_count += 1.0f/60.0f;
@@ -136,7 +133,7 @@ void GameController::run() {
 
         if(fright_time_count > 7.1f)
             fright_time_count = 0.0f;
-        
+
         //On fait avancer le timer qui compte le temps que pacman à passé à rien manger (on le remet à 0 quand il mange qlq chose)
         game_model.setLastTimeDotEatenTimer(game_model.getLastTimeDotEatenTimer() + 1.0f/60.0f);
 

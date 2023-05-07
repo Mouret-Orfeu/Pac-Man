@@ -77,7 +77,7 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
 
 
     //Si pacman n'a pas mangé d'energizer, on switch les modes des fantomes en fonction du temps
-    for (std::unique_ptr<Ghost>& ghost : ghosts) { 
+    for (std::unique_ptr<Ghost>& ghost : ghosts) {
 
         //On ne change pas le mode si il vient juste de changer
         if (ghost->getModeJustChanged() != true) {
@@ -96,7 +96,7 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
             else if  (std::fabs(time_count - 27.0f) < 0.0001f ||
                       std::fabs(time_count - 54.0f) < 0.0001f ||
                       std::fabs(time_count - 79.0f) < 0.0001f) {
-                
+
                 ghost->setMode(Ghost::Mode::SCATTER);
                 ghost->setModeHasChanged(true);
                 ghost->setModeJustChanged(true);
@@ -116,17 +116,17 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
             //    std::cout<<"mod just changed"<<std::endl;
             //}
 
-        }   
-            
-                 
+        }
+
+
     }
 
-    
+
 }
 
 void GameModel::HandlePacGhostCollision()
 {
-    
+
     for(std::unique_ptr<Ghost>& ghost : ghosts){
         if(pacman.getPosition().toTile() == ghost->getPosition().toTile()){
             if(frightened_bool==false){
@@ -136,17 +136,17 @@ void GameModel::HandlePacGhostCollision()
                 pacman.setDirection(Direction::RIGHT);
                 pacman.setIntendedDirection(Direction::RIGHT);
                 pacman.setMemoryDirection(Direction::RIGHT);
-        
+
             }
 
             else if(frightened_bool==true){
                 pacman.setScore(pacman.getScore()+200);
-    
+
             }
         }
     }
 
-   
+
 }
 
 void GameModel::update(Direction input_direction, float time_count, float fright_time_count) {
@@ -155,7 +155,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
 
     //On libère les fantomes qui doivent l'être
     monster_den.updateMonsterDen();
-    
+
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
 
@@ -174,7 +174,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     //    //std::cout<<"frighten change"<<std::endl;
     //}
 
-    
+
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts){
         //DEBUG
@@ -197,7 +197,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     // Make PacMan move
     pacman.move(count);
 
-    
+
 
 
     // Update the count, (je pense que ça sert plus à rien ça)
@@ -224,6 +224,8 @@ void GameModel::setCount(int count) {
 }
 
 GameModel::TileType GameModel::getTile(Tile tile) const {
+    if (tile.j < 0 || tile.j >= WINDOW_COLS)
+        return GameModel::TileType::EMPTY;
     return tilesMatrix[tile.i][tile.j];
 }
 
