@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cmath>
 
-GameController::GameController() : sdl_initialized(false){}
+GameController::GameController() : sdl_initialized(false), gameView(gameModel) {}
 
 GameController::~GameController() {
     if (sdl_initialized)
@@ -31,9 +31,6 @@ void GameController::run() {
     if (!sdl_initialized) {
         return;
     }
-
-    GameModel game_model;
-    GameView gameView(game_model);
 
     // Main game loop
 
@@ -72,7 +69,7 @@ void GameController::run() {
 
 
         //là dedans y'a move pour tous les persos
-        game_model.update(input_direction);
+        gameModel.update(input_direction);
 
         // AFFICHAGE
         gameView.draw();
@@ -81,7 +78,7 @@ void GameController::run() {
         //SDL_Delay(500);
 
         //Animation de la mort
-        if (game_model.getPacMan().isDead()) {
+        if (gameModel.getPacMan().isDead()) {
             int slowdown_factor = 8;
             for (int i = 0; i < slowdown_factor*11; i++) {
                 int death_sprite_num = i / slowdown_factor;
@@ -111,30 +108,30 @@ void GameController::run() {
                 // LIMITE A 60 FPS
                 limitFramerate(frameStartTime);
             }
-            game_model.getPacMan().setPosition(game_model.getPacMan().getSpawnPos());
-            game_model.getPacMan().setIsDead(false);
+            gameModel.getPacMan().setPosition(gameModel.getPacMan().getSpawnPos());
+            gameModel.getPacMan().setIsDead(false);
         }
 
         // LIMITE A 60 FPS
         limitFramerate(frameStartTime);
 
-        if(!game_model.getFrightenedBool())
-            game_model.setTimeCount(game_model.getTimeCount()+ 1.0f/60.0f) ;
+        if(!gameModel.getFrightenedBool())
+            gameModel.setTimeCount(gameModel.getTimeCount()+ 1.0f/60.0f) ;
         else
-            game_model.setFrightTimeCount(game_model.getFrightTimeCount()+ 1.0f/60.0f) ;
+            gameModel.setFrightTimeCount(gameModel.getFrightTimeCount()+ 1.0f/60.0f) ;
 
-        if(game_model.getFrightTimeCount() > 7.1f)
-            
-            game_model.setFrightTimeCount(0.0f);
+        if(gameModel.getFrightTimeCount() > 7.1f)
+
+            gameModel.setFrightTimeCount(0.0f);
 
         //On fait avancer le timer qui compte le temps que pacman à passé à rien manger (on le remet à 0 quand il mange qlq chose)
-        game_model.setLastTimeDotEatenTimer(game_model.getLastTimeDotEatenTimer() + 1.0f/60.0f);
+        gameModel.setLastTimeDotEatenTimer(gameModel.getLastTimeDotEatenTimer() + 1.0f/60.0f);
 
         //DEBUG
-        //std::cout<<"last eaten dot timer: "<<game_model.getLastTimeDotEatenTimer()<<std::endl;
+        //std::cout<<"last eaten dot timer: "<<gameModel.getLastTimeDotEatenTimer()<<std::endl;
 
         //DEBUG
-        std::cout << "time_count: " << game_model.getTimeCount() << std::endl;
+        std::cout << "time_count: " << gameModel.getTimeCount() << std::endl;
 
         //DEBUG
         //it++;
