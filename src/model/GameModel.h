@@ -63,6 +63,7 @@ private:
     bool frightened_bool;
     float last_time_dot_eaten_timer;
     
+    int nb_point_eat_ghost;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;

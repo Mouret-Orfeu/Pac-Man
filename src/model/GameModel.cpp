@@ -25,7 +25,8 @@ GameModel::GameModel()
     std::make_unique<Pinky>(*this, pacman, monster_den),
     std::make_unique<Inky>(*this, pacman, ghosts[0], monster_den),
     std::make_unique<Clyde>(*this, pacman, monster_den)},
-    frightened_bool(false)
+    frightened_bool(false),
+    nb_point_eat_ghost(200)
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -66,6 +67,7 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
 
         pacman.setEnergized(false);
         frightened_bool = false;
+        nb_point_eat_ghost = 200;
 
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
             ghost->setMode(ghost->getPreviousMode());
@@ -135,12 +137,22 @@ void GameModel::HandlePacGhostCollision()
                 //DEBUG
                 //std::cout<<"pacman before dead"<<std::endl;
                 pacman.die();
+
+                //tous les fantomes reviennent à leur spawn_position
+                for(std::unique_ptr<Ghost>& ghost : ghosts){
+                    ghost->setPosition(ghost->getSpawnPosition());
+                    ghost->setDirection(ghost->getSpawnDirection()); 
+                    if(ghost->getType()!=Ghost::Type::BLINKY){
+                        ghost->setOutOfDen(false);
+                    }
+                }
         
                 //DEBUG
                 //std::cout<<"pacman after dead"<<std::endl;
             }
             else if(frightened_bool==true){
-                pacman.setScore(pacman.getScore()+200);
+                pacman.setScore(pacman.getScore()+nb_point_eat_ghost);
+                nb_point_eat_ghost*=2;
                 pacman.setFramesToDrop(60);
                 ghost->die();
 
