@@ -118,35 +118,7 @@ void GameController::run() {
 
         // LIMITE A 60 FPS
         limitFramerate(frameStartTime);
-
-        if(!gameModel.getFrightenedBool())
-            gameModel.setTimeCount(gameModel.getTimeCount()+ 1.0f/60.0f) ;
-        else
-            gameModel.setFrightTimeCount(gameModel.getFrightTimeCount()+ 1.0f/60.0f) ;
-
-        if(gameModel.getFrightTimeCount() > 7.1f)
-
-            gameModel.setFrightTimeCount(0.0f);
-
-        //On fait avancer le timer qui compte le temps que pacman à passé à rien manger (on le remet à 0 quand il mange qlq chose)
-        gameModel.setLastTimeDotEatenTimer(gameModel.getLastTimeDotEatenTimer() + 1.0f/60.0f);
-
-        //DEBUG
-        //std::cout<<"last eaten dot timer: "<<gameModel.getLastTimeDotEatenTimer()<<std::endl;
-
-        //DEBUG
-        std::cout << "time_count: " << gameModel.getTimeCount() << std::endl;
-
-        //DEBUG
-        //it++;
-        //if(it%60==0){
-        //    std::cout << "Second fright: " << static_cast<int>(fright_time_count) << std::endl;
-        //    it=0;
-        //}
-
-
 	}
-
 }
 
 void GameController::limitFramerate(Uint64& frameStartTime) {
