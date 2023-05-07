@@ -5,7 +5,6 @@
 #include "common/GameDimensions.h"
 
 #include <SDL.h>
-#include <map>
 
 
 class GameView {
@@ -16,13 +15,14 @@ public:
     void draw();
     void drawDeathAnimation(int death_sprite_count);
 
+    void drawBlackBackground();
+    void drawMaze();
+    void drawDots();
+
     void drawGhosts();
     void drawPacMan();
 
     void drawHUD();
-    void drawMaze();
-    void drawDots();
-
     void drawScoreHelper(int score, bool highscore);
     void drawScore();
     void drawHighScore();

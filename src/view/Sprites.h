@@ -2,6 +2,8 @@
 
 #include "common/GameDimensions.h"
 
+#include <map>
+
 // Map sprites
 static constexpr SDL_Rect maze_Namco = { 28*TILE_SIZE+TILE_SIZE/2,0, MAZE_COLS*TILE_SIZE,MAZE_ROWS*TILE_SIZE }; // x,y, w,h (0,0) en haut a gauche
 static constexpr SDL_Rect maze_NES = { 200,3, 168,216 };

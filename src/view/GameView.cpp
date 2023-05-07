@@ -66,6 +66,7 @@ GameView::~GameView() {
 }
 
 void GameView::draw() {
+    drawBlackBackground();
     drawMaze();
     drawDots();
     drawHUD();
@@ -91,6 +92,10 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
     drawCharacterSprite(spriteSheet_Namco, &pacman_death_sprites[death_sprite_num], position, true);
 
     SDL_UpdateWindowSurface(pWindow);
+}
+
+void GameView::drawBlackBackground() {
+    SDL_FillRect(win_surf, NULL, SDL_MapRGB(win_surf->format, 0, 0, 0));
 }
 
 void GameView::drawPacMan() {
@@ -136,8 +141,6 @@ void GameView::drawPacMan() {
     //drawTileOutline(game_model.getGhosts()[1]->getScatterTargetTile());
     //drawTileOutline(game_model.getGhosts()[2]->getScatterTargetTile());
     //drawTileOutline(game_model.getGhosts()[3]->getScatterTargetTile());
-
-
 }
 
 void GameView::drawGhosts() {
@@ -168,29 +171,12 @@ void GameView::drawGhosts() {
             //if(ghost->getType() == Ghost::Type::CLYDE)
             //    drawTileOutline(ghost->getCurrentTargetTile(), orange);
         }
-
     }
- 
-
 }
 
 void GameView::drawMaze() {
     drawSprite(spriteSheet_Namco, &maze_Namco, Tile({3,0}), false);
 }
-
-// class GameModel {
-// public:
-//     // Maze cells
-//     enum class TileType {
-//         WALL = -1,
-//         EMPTY = 0,
-//         DOT = 1,
-//         ENERGIZER = 2,
-//         // FRUIT = 3,
-//     };
-
-//     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
-// }
 
 void GameView::drawDots() {
     for (int i = 0; i < WINDOW_ROWS; i++) {
@@ -211,11 +197,12 @@ void GameView::drawDots() {
     }
 }
 
-void GameView::drawHUD() {
-    drawScore();
-    drawHighScore();
-    drawLives();
-    drawText(); // "1UP" and "HIGH SCORE"
+void GameView::drawCharacterSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Position position, bool transparency) {
+    drawSprite(sprite_sheet, sprite, position.toTopLeft(), transparency);
+}
+
+void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Tile tile, bool transparency) {
+    drawSprite(sprite_sheet, sprite, SDL_Point({tile.j*TILE_SIZE, tile.i*TILE_SIZE}), transparency);
 }
 
 void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency) {
@@ -240,55 +227,6 @@ void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL
         printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
     }
 }
-
-void GameView::drawCharacterSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Position position, bool transparency) {
-    drawSprite(sprite_sheet, sprite, position.toTopLeft(), transparency);
-}
-
-void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Tile tile, bool transparency) {
-    drawSprite(sprite_sheet, sprite, SDL_Point({tile.j*TILE_SIZE, tile.i*TILE_SIZE}), transparency);
-}
-
-// // DEBUG
-// void GameView::drawSpriteAlpha(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency, Uint8 alpha) {
-//     // Set the black pixels transparency
-//     // SDL_SetColorKey(sprite_sheet, transparency, 0);
-//     SDL_SetColorKey(sprite_sheet, transparency ? SDL_TRUE : SDL_FALSE, 0);
-
-
-//     // Get the sprite size
-//     int w, h;
-//     if (sprite != NULL) {
-//         w = sprite->w;
-//         h = sprite->h;
-//     } else {
-//         w = sprite_sheet->w;
-//         h = sprite_sheet->h;
-//     }
-
-//     // Create an upscaled sprite at the right position
-//     SDL_Rect sprite_out = { UPSCALING_FACTOR * top_left_position.x, UPSCALING_FACTOR * top_left_position.y, UPSCALING_FACTOR * w, UPSCALING_FACTOR * h };
-
-//     // Create a texture from the sprite sheet
-//     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, sprite_sheet);
-
-//     // Enable blending for the texture
-//     if (transparency) {
-//         SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-//     }
-
-//     // Set the alpha value for the texture
-//     SDL_SetTextureAlphaMod(texture, alpha);
-
-//     // Copy the texture to the renderer
-//     if (SDL_RenderCopy(renderer, texture, sprite, &sprite_out) < 0) {
-//         printf("SDL_RenderCopy failed: %s\n", SDL_GetError());
-//     }
-
-//     // Destroy the texture
-//     SDL_DestroyTexture(texture);
-// }
-
 // DEBUG
 void GameView::drawPacmanPosition() {
     // Get Pac-Man's center position
@@ -327,6 +265,8 @@ void GameView::drawGhostPosition(std::unique_ptr<Ghost> ghost) {
     // Free the temporary surface
     SDL_FreeSurface(redPixel);
 }
+
+
 
 //DEBUG
 void GameView::drawTileOutline(Tile tile, const SDL_Color& color) {
@@ -389,6 +329,15 @@ void GameView::drawAllColoredTiles() {
             SDL_FreeSurface(coloredTile);
         }
     }
+}
+
+
+
+void GameView::drawHUD() {
+    drawScore();
+    drawHighScore();
+    drawLives();
+    drawText(); // "1UP" and "HIGH SCORE"
 }
 
 void GameView::drawScore() {
