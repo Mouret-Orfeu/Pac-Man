@@ -10,12 +10,19 @@ Character::Character(GameModel& game_model, Position spawn_position, Direction s
  spawn_position(spawn_position),
  position(spawn_position),
  direction(spawn_direction),
+ spawn_direction(spawn_direction),
  frames_to_drop(0),
  TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
  TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
 {}
 
 Character::~Character() {}
+
+void Character::reset(){
+    position = spawn_position;
+    direction = spawn_direction;
+    frames_to_drop = 0;
+}
 
 
 Position Character::getPosition() const {

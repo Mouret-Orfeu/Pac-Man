@@ -54,6 +54,12 @@ public:
 
     void HandlePacGhostCollision();
 
+
+    /**
+    * @brief QUand toutes les gommes sont mangées, on réinitialise tout sauf le hight score et les constantes de jeu
+    */
+    void game_reset();
+
 private:
     MonsterDen monster_den;
     PacMan pacman;

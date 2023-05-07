@@ -17,6 +17,8 @@ public:
     Character(GameModel& game_model, Position spawn_position, Direction spawn_direction);
     virtual ~Character();
 
+    void reset();
+
     /**
     * @brief Traite la logique de déplacement des personnages et met à jour leur position
     *
@@ -54,6 +56,7 @@ protected:
     const Position spawn_position;
     Position position;
     Direction direction;
+    const Direction spawn_direction;
     int frames_to_drop;
 
     //static constexpr Tile TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1);

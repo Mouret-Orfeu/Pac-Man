@@ -291,3 +291,22 @@ float GameModel::getLastTimeDotEatenTimer() const
     return last_time_dot_eaten_timer;
 }
 
+void GameModel::game_reset()
+{
+    //Ghosts
+    for(std::unique_ptr<Ghost>& ghost : ghosts){
+        ghost->reset();
+    }
+
+    //Pacman
+    pacman.reset();
+
+    //MonsterDen
+    monster_den.reset();
+
+    //GameModel:
+    frightened_bool = false;
+    last_time_dot_eaten_timer=0.0f;
+    nb_point_eat_ghost=200;
+}
+

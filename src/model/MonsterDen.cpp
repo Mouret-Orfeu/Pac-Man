@@ -248,6 +248,20 @@ int MonsterDen::getCouterDotPacDeath() const{
     return count_eaten_dots_after_pac_death;
 }
 
+void MonsterDen::reset()
+{
+    ghosts_in_den.clear();
+    mode_after_pac_death=false;
+    count_eaten_dots_Pinky=0;
+    count_eaten_dots_Inky=0;
+    count_eaten_dots_Clyde=0;
+    count_eaten_dots_after_pac_death=0;
+    can_leave_den_Blinky=true;
+    can_leave_den_Pinky=false;
+    can_leave_den_Inky=false;
+    can_leave_den_Clyde=false;
+}
+
 
 
 

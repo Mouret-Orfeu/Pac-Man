@@ -23,12 +23,29 @@ PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
  cornering(false),
  is_center_passed(Center_passed::NOT_PASSED),
  dots_eaten(0),
- memory_direction(Direction::LEFT),
+ memory_direction(Direction::RIGHT),
  energized(false)
 
 {}
 
 PacMan::~PacMan() {}
+
+void PacMan::reset()
+{
+    Character::reset();
+    intended_direction=Direction::RIGHT;
+    score=0;
+    lives=3;
+    is_dead=false;
+    cornering_direction=Cornering::NONE;
+    cornering=false;
+    is_center_passed=Center_passed::NOT_PASSED;
+    dots_eaten=0;
+    memory_direction=Direction::RIGHT;
+    energized=false;
+}
+
+
 
 // Implement PacMan-specific methods here
 void PacMan::move(int count) {

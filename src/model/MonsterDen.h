@@ -15,6 +15,8 @@ public:
     MonsterDen(GameModel& game_model);
     ~MonsterDen();
 
+    void reset();
+
     void updateMonsterDen();
 
     /**

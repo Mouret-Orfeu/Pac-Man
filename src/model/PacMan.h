@@ -21,6 +21,8 @@ public:
 
     ~PacMan();
 
+    void reset();
+
     void move(int count) override;
 
     void eat();

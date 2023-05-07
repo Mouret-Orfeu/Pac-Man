@@ -27,6 +27,12 @@ Blinky::~Blinky() {
     // Clean up Blinky-specific data here
 }
 
+void Blinky::reset()
+{
+    Ghost::reset();
+    current_speed=speed1;
+}
+
 void Blinky::leaveTheDen()
 {
     if(position==center_den_position)

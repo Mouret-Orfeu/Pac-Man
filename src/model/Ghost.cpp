@@ -32,6 +32,16 @@ Ghost::~Ghost() {
     // Clean up Ghost-specific data here
 }
 
+void Ghost::reset()
+{
+    Character::reset();
+    ghost_mode=Mode::SCATTER;
+    out_of_den=false;
+    mode_has_changed=false;
+    mode_just_changed=false;
+    previous_ghost_mode=Mode::SCATTER;
+}
+
 Ghost::Type Ghost::getType() const {
     return ghost_type;
 }

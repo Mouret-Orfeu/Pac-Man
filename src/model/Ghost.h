@@ -35,6 +35,8 @@ public:
     Ghost(GameModel& game_model, Type ghost_type, Position spawn_position,Position respawn_position, Direction respawn_direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den);
     virtual ~Ghost();
 
+    virtual void reset();
+
     Type getType() const;
 
     void setMode(Mode mode);
