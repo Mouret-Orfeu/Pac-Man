@@ -141,6 +141,11 @@ void GameModel::HandlePacGhostCollision()
 
             else if(frightened_bool==true){
                 pacman.setScore(pacman.getScore()+200);
+                ghost->setDirection(ghost->getSpawnDirection());
+                ghost->setPosition(ghost->getRespawnPosition());
+                ghost->setOutOfDen(false);
+
+                
     
             }
         }

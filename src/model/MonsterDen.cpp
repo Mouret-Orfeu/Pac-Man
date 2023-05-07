@@ -114,6 +114,7 @@ void MonsterDen::updateMonsterDen(){
                 //std::cout << "count_eaten_dots_Clyde : " << count_eaten_dots_Clyde << std::endl;
                 if(count_eaten_dots_Clyde>=dot_limit_clyde){
                     can_leave_den_Clyde=true;
+                    //si blinky est à sa speed1, le mettre en speed2
                 }
                 break;
             default:
@@ -151,9 +152,11 @@ void MonsterDen::updateMonsterDen(){
                 if(game_model.getLastTimeDotEatenTimer()-limit_last_dot_eaten_timer>0.0001f){
                     can_leave_den_Clyde=true;
                     game_model.setLastTimeDotEatenTimer(0.0f);
+                    //si blinky est à sa speed1, le mettre en speed2
                 }
                 if(count_eaten_dots_after_pac_death>=dot_limit_clyde_after_pac_death){
                     can_leave_den_Clyde=true;
+                    //si blinky est à sa speed1, le mettre en speed2
                 }
                 break;
             default:
