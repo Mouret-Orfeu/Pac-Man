@@ -127,7 +127,7 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
 }
 
 void GameModel::HandlePacGhostCollision()
-{  
+{
     bool ghost_die=false;
 
     for(std::unique_ptr<Ghost>& ghost : ghosts){
@@ -141,12 +141,12 @@ void GameModel::HandlePacGhostCollision()
                 //tous les fantomes reviennent à leur spawn_position
                 for(std::unique_ptr<Ghost>& ghost : ghosts){
                     ghost->setPosition(ghost->getSpawnPosition());
-                    ghost->setDirection(ghost->getSpawnDirection()); 
+                    ghost->setDirection(ghost->getSpawnDirection());
                     if(ghost->getType()!=Ghost::Type::BLINKY){
                         ghost->setOutOfDen(false);
                     }
                 }
-        
+
                 //DEBUG
                 //std::cout<<"pacman after dead"<<std::endl;
             }
@@ -175,7 +175,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
 
     //DEBUG
     //std::cout<<"before handle collision"<<std::endl;
-    
+
     HandlePacGhostCollision();
 
     //DEBUG
@@ -186,7 +186,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
 
     //DEBUG
     //std::cout<<"after update monsterden"<<std::endl;
-    
+
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
 
@@ -238,7 +238,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     //DEBUG
     //std::cout<<"pacman after move"<<std::endl;
 
-    
+
 
 
     // Update the count, (je pense que ça sert plus à rien ça)
@@ -265,8 +265,14 @@ void GameModel::setCount(int count) {
 }
 
 GameModel::TileType GameModel::getTile(Tile tile) const {
-    if (tile.j < 0 || tile.j >= WINDOW_COLS)
-        return GameModel::TileType::EMPTY;
+    if ((tile.j < 0 || tile.j >= WINDOW_COLS)) {
+        if (tile.i == 17)
+            return GameModel::TileType::EMPTY;
+        else
+            return GameModel::TileType::WALL;
+    }
+
+
     return tilesMatrix[tile.i][tile.j];
 }
 
