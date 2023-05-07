@@ -97,6 +97,14 @@ void GameController::run() {
                     }
                 }
 
+                // Gestion du clavier
+                const Uint8* keys = SDL_GetKeyboardState(nullptr);
+                if (keys[SDL_SCANCODE_ESCAPE])
+                    quit = true;
+
+                if (quit)
+                    break;
+
                 // AFFICHAGE
                 gameView.drawDeathAnimation(death_sprite_num);
 
