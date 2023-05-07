@@ -190,7 +190,6 @@ void MonsterDen::incrementDotCounter()
             count_eaten_dots_Clyde++;
             break;
         default:
-            std::cout << "Error incrementDotCounter(), no ghost in den" << std::endl;
             break;
         }
     }

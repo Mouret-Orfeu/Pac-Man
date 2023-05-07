@@ -162,14 +162,14 @@ void GameView::drawGhosts() {
             drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
 
             //DEBUG
-            //if(ghost->getType() == Ghost::Type::PINKY)
-            //    drawTileOutline(ghost->getCurrentTargetTile(), pink);
-            //if(ghost->getType() == Ghost::Type::BLINKY)
-            //    drawTileOutline(ghost->getCurrentTargetTile(), red);
-            //if(ghost->getType() == Ghost::Type::INKY)
-            //    drawTileOutline(ghost->getCurrentTargetTile(), blue);
-            //if(ghost->getType() == Ghost::Type::CLYDE)
-            //    drawTileOutline(ghost->getCurrentTargetTile(), orange);
+            if(ghost->getType() == Ghost::Type::PINKY)
+                drawTileOutline(ghost->getCurrentTargetTile(), pink);
+            if(ghost->getType() == Ghost::Type::BLINKY)
+                drawTileOutline(ghost->getCurrentTargetTile(), red);
+            if(ghost->getType() == Ghost::Type::INKY)
+                drawTileOutline(ghost->getCurrentTargetTile(), blue);
+            if(ghost->getType() == Ghost::Type::CLYDE)
+                drawTileOutline(ghost->getCurrentTargetTile(), orange);
         }
     }
 }

@@ -30,17 +30,22 @@ GameModel::GameModel()
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
+    resetTilesMatrix();
+   
+}
 
+GameModel::~GameModel() {
+    // Clean up if necessary
+}
+
+void GameModel::resetTilesMatrix()
+{
     // Copy the initial matrix to the editable matrix
     for (int i = 0; i < WINDOW_ROWS; ++i) {
         for (int j = 0; j < WINDOW_COLS; ++j) {
             tilesMatrix[i][j] = INITIAL_TILES_MATRIX[i][j];
         }
     }
-}
-
-GameModel::~GameModel() {
-    // Clean up if necessary
 }
 
 void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts, float fright_time_count)
@@ -173,7 +178,7 @@ void GameModel::HandlePacGhostCollision()
 
 void GameModel::update(Direction input_direction, float time_count, float fright_time_count) {
 
-    if(pacman.getDotsEaten()== 244){
+    if(pacman.getDotsEaten()== 244 || pacman.getLives()==-1){
         game_reset();
     }
 
@@ -285,5 +290,8 @@ void GameModel::game_reset()
     frightened_bool = false;
     last_time_dot_eaten_timer=0.0f;
     nb_point_eat_ghost=200;
+
+    //TilesMatrix
+    resetTilesMatrix();
 }
 

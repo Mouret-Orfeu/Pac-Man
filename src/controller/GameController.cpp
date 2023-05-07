@@ -64,12 +64,6 @@ void GameController::run() {
 			}
 		}
 
-        if(game_model.getPacMan().getLives()==-1)
-        {
-            quit = true;
-            break;
-        }
-
         // Gestion du clavier
         const Uint8* keys = SDL_GetKeyboardState(nullptr);
 

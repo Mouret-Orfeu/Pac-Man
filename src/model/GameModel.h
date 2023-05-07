@@ -60,6 +60,8 @@ public:
     */
     void game_reset();
 
+    void resetTilesMatrix();
+
 private:
     MonsterDen monster_den;
     PacMan pacman;

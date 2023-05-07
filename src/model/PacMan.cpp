@@ -121,6 +121,7 @@ void PacMan::eat() {
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=50;
             frames_to_drop = 3;
+            dots_eaten++;
             energized = true;
             game_model.setLastTimeDotEatenTimer(0.0f);
             break;
