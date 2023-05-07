@@ -23,7 +23,7 @@ Tile Clyde::findChaseTargetTile()
     Tile Clyde_tile=position.toTile();
     Tile pacman_tile=pacman.getPosition().toTile();
 
-    if(position.distance_tile(Clyde_tile, pacman_tile)>8){
+    if(position.distanceTile(Clyde_tile, pacman_tile)>8){
         return pacman.getPosition().toTile();
     }
     else{

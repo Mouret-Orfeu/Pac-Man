@@ -75,5 +75,13 @@ int Blinky::getSpeed3() const
     return speed3;
 }
 
+void Blinky::die()
+{
+    direction=spawn_direction;
+    position=respawn_position;
+    out_of_den=false;
+    current_speed=speed1;
+}
+
 
 

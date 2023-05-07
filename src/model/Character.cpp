@@ -5,11 +5,11 @@
 
 #include <iostream>
 
-Character::Character(GameModel& game_model, Position initial_position, Direction direction)
+Character::Character(GameModel& game_model, Position spawn_position, Direction spawn_direction)
 :game_model(game_model),
- initial_position(initial_position),
- position(initial_position),
- direction(direction),
+ spawn_position(spawn_position),
+ position(spawn_position),
+ direction(spawn_direction),
  frames_to_drop(0),
  TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
  TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
@@ -79,7 +79,11 @@ void Character::setPosition(Position position) {
     this->position = position;
 }
 
-Position Character::getInitPos() const {
-    return initial_position;
+Position Character::getSpawnPos() const {
+    return spawn_position;
+}
+
+void Character::setFramesToDrop(int frames) {
+    frames_to_drop = frames;
 }
 

@@ -24,6 +24,8 @@ public:
     int getSpeed3() const;
     int getCurrentSpeed() const;
 
+    void die() override;
+
 
 private:
     //pour l'instant je met 1, 2, 3 mais faudra mettre les vraies vitesse (vitesse2 c'est celle de PacMan)

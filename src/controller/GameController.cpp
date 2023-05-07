@@ -115,7 +115,7 @@ void GameController::run() {
                 }
                 frameStartTime = SDL_GetTicks64();
             }
-            game_model.getPacMan().setPosition(game_model.getPacMan().getInitPos());
+            game_model.getPacMan().setPosition(game_model.getPacMan().getSpawnPos());
             game_model.getPacMan().setIsDead(false);
         }
 

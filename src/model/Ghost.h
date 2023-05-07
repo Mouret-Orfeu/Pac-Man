@@ -32,7 +32,7 @@ public:
     };
 
     //Les ghosts ont besoin d'un pacman pour calculer leur target tile
-    Ghost(GameModel& game_model, Type ghost_type, Position spawn_position,Position respawn_position, Direction init_direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den);
+    Ghost(GameModel& game_model, Type ghost_type, Position spawn_position,Position respawn_position, Direction respawn_direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den);
     virtual ~Ghost();
 
     Type getType() const;
@@ -71,6 +71,8 @@ public:
     Position getSpawnPosition() const;
 
     Position getRespawnPosition() const;
+
+    virtual void die() override;
     
 
 protected:

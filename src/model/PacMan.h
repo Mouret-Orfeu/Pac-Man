@@ -80,6 +80,8 @@ public:
 
     void setMemoryDirection(Direction direction);
 
+    void die() override;
+
 private:
     MonsterDen& monster_den;
     Direction intended_direction;

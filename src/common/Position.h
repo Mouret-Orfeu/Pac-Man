@@ -50,7 +50,9 @@ public:
     bool isCenteredVerticallyOnTile() const;
     bool isCenteredOnTile() const;
 
-    int distance_tile(Tile& t1, Tile& t2) const;
+    int distanceTile(Tile& t1, Tile& t2) const;
+
+    int distancePosition(const Position& p2) const;
 
     bool operator==(const Tile& T2) const;
 

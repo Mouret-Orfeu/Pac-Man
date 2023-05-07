@@ -9,10 +9,10 @@
 
 #include <iostream>
 
-const Position init_pos_pacman=Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2);
+const Position spawn_pos_pacman=Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2);
 
 PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
-:Character(gameModel, init_pos_pacman, Direction::RIGHT),
+:Character(gameModel, spawn_pos_pacman, Direction::RIGHT),
  monster_den(monster_den),
  intended_direction(Direction::RIGHT),
  score(0),
@@ -36,8 +36,14 @@ void PacMan::move(int count) {
 
     // WARNNING: we check too many things at each frame, this is not efficient
 
+    //DEBUG
+    //std::cout<<"before eat"<<std::endl;
+
     // Eat dots and energizers
     eat();
+
+    //DEBUG
+    //std::cout<<"after eat"<<std::endl;
 
      
     // if(position.isCenteredOnTile()){
@@ -50,18 +56,35 @@ void PacMan::move(int count) {
     else {
         if (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile())
             updateDirection();
+        
+        //DEBUG
+        //std::cout<<"after update direction"<<std::endl;
         updatePosition();
+
+        //DEBUG
+        //std::cout<<"after update position"<<std::endl;
     }
 }
 
 void PacMan::eat() {
 
+    //DEBUG
+    //std::cout<<"eat"<<std::endl; 
+
     Tile current_tile = position.toTile();
+
+    //DEBUG
+    //std::cout<<"current tile: "<<current_tile.i<<" "<<current_tile.j<<std::endl;
+
+    //DEBUG
+    //std::cout<<"get current tile done"<<std::endl; 
 
     switch (game_model.getTile(current_tile)) {
         case GameModel::TileType::DOT:
+            
             //DEBUG
-            //std::cout<<"TEST"<<std::endl; 
+            //std::cout<<"DOT"<<std::endl; 
+
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=10;
             frames_to_drop = 1;
@@ -74,6 +97,10 @@ void PacMan::eat() {
 
             break;
         case GameModel::TileType::ENERGIZER:
+
+            //DEBUG
+            //std::cout<<"ENERGIZER"<<std::endl; 
+
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=50;
             frames_to_drop = 3;
@@ -81,6 +108,8 @@ void PacMan::eat() {
             game_model.setLastTimeDotEatenTimer(0.0f);
             break;
         default:
+            //DEBUG
+            //std::cout<<"EMPTY"<<std::endl; 
             break;
     }
     if (score > highscore)
@@ -515,4 +544,13 @@ bool PacMan::isEnergized() const
 void PacMan::setMemoryDirection(Direction memory_direction)
 {
     this->memory_direction = memory_direction;
+}
+
+void PacMan::die()
+{
+    is_dead = true;
+    lives--;
+    direction = Direction::RIGHT;
+    intended_direction = Direction::RIGHT;
+    memory_direction = Direction::RIGHT;
 }

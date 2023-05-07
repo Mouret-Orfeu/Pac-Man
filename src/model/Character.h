@@ -14,7 +14,7 @@ class GameModel;
 
 class Character : public GameObject {
 public:
-    Character(GameModel& game_model, Position initial_position, Direction direction);
+    Character(GameModel& game_model, Position spawn_position, Direction spawn_direction);
     virtual ~Character();
 
     /**
@@ -43,11 +43,15 @@ public:
     //DEBUG
     void printDirection(Direction d) const;
 
-    Position getInitPos() const;
+    Position getSpawnPos() const;
+
+    virtual void die() =0;
+
+    void setFramesToDrop(int frames);
 
 protected:
     GameModel& game_model;
-    const Position initial_position;
+    const Position spawn_position;
     Position position;
     Direction direction;
     int frames_to_drop;
