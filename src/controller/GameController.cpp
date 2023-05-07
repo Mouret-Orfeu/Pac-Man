@@ -10,7 +10,11 @@
 #include <iostream>
 #include <cmath>
 
-GameController::GameController() : sdl_initialized(false){}
+GameController::GameController() : sdl_initialized(false), gameView(gameModel)
+{
+    gameStartTime = SDL_GetTicks64();
+    total_frame_count = 0;
+}
 
 GameController::~GameController() {
     if (sdl_initialized)
@@ -32,16 +36,12 @@ void GameController::run() {
         return;
     }
 
-    GameModel game_model;
-    GameView gameView(game_model);
-
     // Main game loop
 
     //DEBUG
     //int it=0;
 
 	bool quit = false;
-    Uint64 frameStartTime = SDL_GetTicks64();
 	while (!quit) {
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
@@ -72,7 +72,7 @@ void GameController::run() {
 
 
         //là dedans y'a move pour tous les persos
-        game_model.update(input_direction);
+        gameModel.update(input_direction);
 
         // AFFICHAGE
         gameView.draw();
@@ -81,7 +81,7 @@ void GameController::run() {
         //SDL_Delay(500);
 
         //Animation de la mort
-        if (game_model.getPacMan().isDead()) {
+        if (gameModel.getPacMan().isDead()) {
             int slowdown_factor = 8;
             for (int i = 0; i < slowdown_factor*11; i++) {
                 int death_sprite_num = i / slowdown_factor;
@@ -109,32 +109,32 @@ void GameController::run() {
                 gameView.drawDeathAnimation(death_sprite_num);
 
                 // LIMITE A 60 FPS
-                limitFramerate(frameStartTime);
+                limitFramerate();
             }
-            game_model.getPacMan().setPosition(game_model.getPacMan().getSpawnPos());
-            game_model.getPacMan().setIsDead(false);
+            gameModel.getPacMan().setPosition(gameModel.getPacMan().getSpawnPos());
+            gameModel.getPacMan().setIsDead(false);
         }
 
         // LIMITE A 60 FPS
-        limitFramerate(frameStartTime);
+        limitFramerate();
 
-        if(!game_model.getFrightenedBool())
-            game_model.setTimeCount(game_model.getTimeCount()+ 1.0f/60.0f) ;
+        if(!gameModel.getFrightenedBool())
+            gameModel.setTimeCount(gameModel.getTimeCount()+ 1.0f/60.0f) ;
         else
-            game_model.setFrightTimeCount(game_model.getFrightTimeCount()+ 1.0f/60.0f) ;
+            gameModel.setFrightTimeCount(gameModel.getFrightTimeCount()+ 1.0f/60.0f) ;
 
-        if(game_model.getFrightTimeCount() > 7.1f)
-            
-            game_model.setFrightTimeCount(0.0f);
+        if(gameModel.getFrightTimeCount() > 7.1f)
+
+            gameModel.setFrightTimeCount(0.0f);
 
         //On fait avancer le timer qui compte le temps que pacman à passé à rien manger (on le remet à 0 quand il mange qlq chose)
-        game_model.setLastTimeDotEatenTimer(game_model.getLastTimeDotEatenTimer() + 1.0f/60.0f);
+        gameModel.setLastTimeDotEatenTimer(gameModel.getLastTimeDotEatenTimer() + 1.0f/60.0f);
 
         //DEBUG
-        //std::cout<<"last eaten dot timer: "<<game_model.getLastTimeDotEatenTimer()<<std::endl;
+        //std::cout<<"last eaten dot timer: "<<gameModel.getLastTimeDotEatenTimer()<<std::endl;
 
         //DEBUG
-        std::cout << "time_count: " << game_model.getTimeCount() << std::endl;
+        std::cout << "time_count: " << gameModel.getTimeCount() << std::endl;
 
         //DEBUG
         //it++;
@@ -142,18 +142,16 @@ void GameController::run() {
         //    std::cout << "Second fright: " << static_cast<int>(fright_time_count) << std::endl;
         //    it=0;
         //}
-
-
 	}
 
 }
 
-void GameController::limitFramerate(Uint64& frameStartTime) {
-    const Uint64 desiredFrameTime = 1000 / 60; // 60 FPS -> 1000 ms for 60 frames
-    Uint64 currentTime = SDL_GetTicks64();
-    Uint64 elapsedTime = currentTime - frameStartTime;
-    if (elapsedTime < desiredFrameTime) {
-        SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
+void GameController::limitFramerate() {
+    const Uint64 framerate = 60;
+    Uint64 elapsedTime = SDL_GetTicks64() - gameStartTime;
+    Uint64 elapsedTimeSinceLastFrame = elapsedTime - total_frame_count * 1000 / framerate;
+    if (elapsedTimeSinceLastFrame < 1000 / framerate) {
+        SDL_Delay(1000 / framerate - elapsedTimeSinceLastFrame);
     }
-    frameStartTime = SDL_GetTicks64();
+    total_frame_count++;
 }

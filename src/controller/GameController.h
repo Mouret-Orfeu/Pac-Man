@@ -1,5 +1,8 @@
 #pragma once
 
+#include "model/GameModel.h"
+#include "view/GameView.h"
+
 #include <SDL.h>
 
 class GameController {
@@ -10,8 +13,11 @@ public:
     bool init();
     void run();
 
-    void limitFramerate(Uint64& frameStartTime);
+    void limitFramerate();
 private:
+    GameModel gameModel;
+    GameView gameView;
     bool sdl_initialized;
-    
+    Uint64 gameStartTime;
+    Uint64 total_frame_count;
 };
