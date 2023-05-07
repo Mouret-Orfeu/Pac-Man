@@ -127,9 +127,15 @@ void GameController::run() {
 
         if(fright_time_count > 7.1f)
             fright_time_count = 0.0f;
+        
+        //On fait avancer le timer qui compte le temps que pacman à passé à rien manger (on le remet à 0 quand il mange qlq chose)
+        game_model.setLastTimeDotEatenTimer(game_model.getLastTimeDotEatenTimer() + 1.0f/60.0f);
 
         //DEBUG
-        //std::cout << "time_count: " << time_count << std::endl;
+        //std::cout<<"last eaten dot timer: "<<game_model.getLastTimeDotEatenTimer()<<std::endl;
+
+        //DEBUG
+        std::cout << "time_count: " << time_count << std::endl;
 
         //DEBUG
         //it++;

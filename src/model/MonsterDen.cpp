@@ -11,13 +11,19 @@ MonsterDen::MonsterDen(GameModel& game_model):game_model(game_model),
 count_eaten_dots_Pinky(0),
 count_eaten_dots_Inky(0),
 count_eaten_dots_Clyde(0),
+count_eaten_dots_after_pac_death(0),
 dot_limit_pinky(0),
 dot_limit_inky(30),
 dot_limit_clyde(60),
+dot_limit_pinky_after_pac_death(7),
+dot_limit_inky_after_pac_death(17),
+dot_limit_clyde_after_pac_death(32),
 can_leave_den_Blinky(true),
 can_leave_den_Pinky(false),
 can_leave_den_Inky(false),
-can_leave_den_Clyde(false)
+can_leave_den_Clyde(false),
+mode_after_pac_death(false),
+limit_last_dot_eaten_timer(4.0f)
 {}
 MonsterDen::~MonsterDen(){}
 
@@ -56,6 +62,12 @@ void MonsterDen::setGhostsInDen()
                 //DEBUG
                 //ghost->printType(ghost->getType());
 
+                //Si Clyde est dans la Den, quand on est en mode "pacman est mort au moins une fois", et que le conteur de dot correspondant est à 32, ce compteur est reset
+                if(ghost->getType()==Ghost::Type::CLYDE && count_eaten_dots_after_pac_death==32){
+                    count_eaten_dots_after_pac_death=0;
+                    mode_after_pac_death=false;
+                }
+
                 
             }
         }
@@ -72,43 +84,85 @@ void MonsterDen::updateMonsterDen(){
 
     MonsterDen::setGhostsInDen();
 
-    //DEBUG
-    //std::cout << "size ghost in den : " << ghosts_in_den.size() <<std::endl;
-    //std::cout << "type ghost : " <<std::endl;
-    //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(game_model.getGhosts()[(int)Ghost::Type::INKY]->getType());
-    //Ghost::Type type= ghosts_in_den[0];
-    //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(type);
+
+    if(mode_after_pac_death==false){
+
+        //DEBUG
+        //std::cout << "size ghost in den : " << ghosts_in_den.size() <<std::endl;
+        //std::cout << "type ghost : " <<std::endl;
+        //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(game_model.getGhosts()[(int)Ghost::Type::INKY]->getType());
+        //Ghost::Type type= ghosts_in_den[0];
+        //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(type);
 
 
-    //set can_leave_den to true if the ghost in the den has eaten enough dots
-    if(ghosts_in_den.size()>0){
-        switch (ghosts_in_den[0])
-        {
-        case Ghost::Type::PINKY:
-            if(count_eaten_dots_Pinky>=dot_limit_pinky){
-                can_leave_den_Pinky=true;
+        //set can_leave_den to true if the ghost in the den has eaten enough dots
+        if(ghosts_in_den.size()>0){
+            switch (ghosts_in_den[0])
+            {
+            case Ghost::Type::PINKY:
+                if(count_eaten_dots_Pinky>=dot_limit_pinky){
+                    can_leave_den_Pinky=true;
+                }
+                break;
+            case Ghost::Type::INKY:
+                if(count_eaten_dots_Inky>=dot_limit_inky){
+                    can_leave_den_Inky=true;
+                }
+                break;
+            case Ghost::Type::CLYDE:
+                //DEBUG
+                //std::cout << "count_eaten_dots_Clyde : " << count_eaten_dots_Clyde << std::endl;
+                if(count_eaten_dots_Clyde>=dot_limit_clyde){
+                    can_leave_den_Clyde=true;
+                }
+                break;
+            default:
+                std::cout << "Error updateMonsterDen(), no ghost in den" << std::endl;
+                break;
             }
-            break;
-        case Ghost::Type::INKY:
-            if(count_eaten_dots_Inky>=dot_limit_inky){
-                can_leave_den_Inky=true;
-            }
-            break;
-        case Ghost::Type::CLYDE:
-            //DEBUG
-            //std::cout << "count_eaten_dots_Clyde : " << count_eaten_dots_Clyde << std::endl;
-            if(count_eaten_dots_Clyde>=dot_limit_clyde){
-                can_leave_den_Clyde=true;
-            }
-            break;
-        default:
-            std::cout << "Error updateMonsterDen(), no ghost in den" << std::endl;
-            break;
         }
-    }
 
     
-    
+    }
+    else if(mode_after_pac_death==true){
+        
+        if(ghosts_in_den.size()>0){
+            switch (ghosts_in_den[0])
+            {
+            case Ghost::Type::PINKY:
+                if(game_model.getLastTimeDotEatenTimer()-limit_last_dot_eaten_timer>0.0001f){
+                    can_leave_den_Pinky=true;
+                    game_model.setLastTimeDotEatenTimer(0.0f);
+                }
+                if(count_eaten_dots_after_pac_death>=dot_limit_pinky_after_pac_death){
+                    can_leave_den_Pinky=true;
+                }
+                break;
+            case Ghost::Type::INKY:
+                if(game_model.getLastTimeDotEatenTimer()-limit_last_dot_eaten_timer>0.0001f){
+                    can_leave_den_Inky=true;
+                    game_model.setLastTimeDotEatenTimer(0.0f);
+                }
+                if(count_eaten_dots_after_pac_death>=dot_limit_inky_after_pac_death){
+                    can_leave_den_Inky=true;
+                }
+                break;
+            case Ghost::Type::CLYDE:
+                if(game_model.getLastTimeDotEatenTimer()-limit_last_dot_eaten_timer>0.0001f){
+                    can_leave_den_Clyde=true;
+                    game_model.setLastTimeDotEatenTimer(0.0f);
+                }
+                if(count_eaten_dots_after_pac_death>=dot_limit_clyde_after_pac_death){
+                    can_leave_den_Clyde=true;
+                }
+                break;
+            default:
+                std::cout << "Error updateMonsterDen(), no ghost in den" << std::endl;
+                break;
+            }
+        }
+
+    }
 
 
 }
@@ -120,22 +174,26 @@ std::vector<Ghost::Type> MonsterDen::getGhostsInDen() const
 
 void MonsterDen::incrementDotCounter()
 {
-    switch (ghosts_in_den[0])
-    {
-    case Ghost::Type::PINKY:
-        count_eaten_dots_Pinky++;
-        break;
-    case Ghost::Type::INKY:
-        count_eaten_dots_Inky++;
-        break;
-    case Ghost::Type::CLYDE:
-        count_eaten_dots_Clyde++;
-        break;
-    default:
-        std::cout << "Error incrementDotCounter(), no ghost in den" << std::endl;
-        break;
+    if(mode_after_pac_death==false){
+        switch (ghosts_in_den[0])
+        {
+        case Ghost::Type::PINKY:
+            count_eaten_dots_Pinky++;
+            break;
+        case Ghost::Type::INKY:
+            count_eaten_dots_Inky++;
+            break;
+        case Ghost::Type::CLYDE:
+            count_eaten_dots_Clyde++;
+            break;
+        default:
+            std::cout << "Error incrementDotCounter(), no ghost in den" << std::endl;
+            break;
+        }
     }
-    
+    else{
+        count_eaten_dots_after_pac_death++;
+    }
     
 }
 
@@ -181,6 +239,10 @@ bool MonsterDen::getCanLeaveDen(Ghost::Type ghost_type) const
         exit(1);
         break;
     }
+}
+
+int MonsterDen::getCouterDotPacDeath() const{
+    return count_eaten_dots_after_pac_death;
 }
 
 

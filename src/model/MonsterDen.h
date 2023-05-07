@@ -32,6 +32,8 @@ public:
     void printCounterDot(Ghost::Type ghost_type) const;
 
     bool getCanLeaveDen(Ghost::Type ghost_type) const;
+
+    int getCouterDotPacDeath() const;
     
 
 
@@ -44,13 +46,25 @@ private:
     int count_eaten_dots_Inky;
     int count_eaten_dots_Clyde;
 
+    int count_eaten_dots_after_pac_death;
+
     int dot_limit_pinky;
     int dot_limit_inky;
     int dot_limit_clyde;
+
+    int dot_limit_pinky_after_pac_death;
+    int dot_limit_inky_after_pac_death;
+    int dot_limit_clyde_after_pac_death;
 
     bool can_leave_den_Blinky;
     bool can_leave_den_Pinky;
     bool can_leave_den_Inky;
     bool can_leave_den_Clyde;
+
+    //Quand pacman meurt et respawn, la manière de compter les gommes mangées pour libérer les fantomes change
+    bool mode_after_pac_death;
+
+    //la limite après laquelle on force les fantomes à sortir quand pacman mange pas de dot (ce timer est dans game_model)
+    float limit_last_dot_eaten_timer;
     
 };

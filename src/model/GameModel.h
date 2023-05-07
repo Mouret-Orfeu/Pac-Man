@@ -49,6 +49,9 @@ public:
 
     bool getFrightenedBool() const;
 
+    float getLastTimeDotEatenTimer() const;
+    void setLastTimeDotEatenTimer(float last_time_dot_eaten_timer);
+
 private:
     MonsterDen monster_den;
     PacMan pacman;
@@ -56,6 +59,7 @@ private:
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
     bool frightened_bool;
+    float last_time_dot_eaten_timer;
     
 
     // Maze layout

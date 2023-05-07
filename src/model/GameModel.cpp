@@ -213,3 +213,13 @@ bool GameModel::getFrightenedBool() const
 {
     return frightened_bool;
 }
+
+void GameModel::setLastTimeDotEatenTimer(float time)
+{
+    last_time_dot_eaten_timer = time;
+}
+
+float GameModel::getLastTimeDotEatenTimer() const
+{
+    return last_time_dot_eaten_timer;
+}

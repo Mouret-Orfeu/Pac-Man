@@ -59,9 +59,10 @@ void PacMan::eat() {
             frames_to_drop = 1;
             dots_eaten++;
             monster_den.incrementDotCounter();
+            game_model.setLastTimeDotEatenTimer(0.0f);
 
             //DEBUG
-            std::cout<<"nb dots eaten: "<<dots_eaten<<std::endl;
+            std::cout<<"couter dots pac death: "<<monster_den.getCouterDotPacDeath()<<std::endl;
 
             break;
         case GameModel::TileType::ENERGIZER:
@@ -69,6 +70,7 @@ void PacMan::eat() {
             score+=50;
             frames_to_drop = 3;
             energized = true;
+            game_model.setLastTimeDotEatenTimer(0.0f);
             break;
         default:
             break;
