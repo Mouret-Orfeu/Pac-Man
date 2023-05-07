@@ -50,23 +50,17 @@ void GameModel::resetTilesMatrix()
 
 void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts, float fright_time_count)
 {
-    //Activer mode frightened quand pacman mange un energizer
     if(pacman.isEnergized() && frightened_bool == false){
         //DEBUG
         //std::cout<<"frightened mode ON"<<std::endl;
 
         frightened_bool = true;
+        //loop throught ghosts apply switchMode
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
-            ghost->setPreviousMode(ghost->getMode());
-            ghost->setMode(Ghost::Mode::FRIGHTENED);
-            ghost->setModeHasChanged(true);
-            ghost->setModeJustChanged(true);
+            ghost->switchModeFrightened(time_count, fright_time_count, frightened_bool);
         }
-        return;
     }
-
-    //Desactiver mode frightened au bout de 7 secondes
-    if(pacman.isEnergized() && frightened_bool == true && std::fabs(fright_time_count - 7.0f)<0.0001f){
+    else if(pacman.isEnergized() && frightened_bool == true && std::fabs(fright_time_count - 7.0f)<0.0001f){
         //DEBUG
         //std::cout<<"frightened mode OFF"<<std::endl;
 
@@ -75,61 +69,18 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
         nb_point_eat_ghost = 200;
 
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
-            ghost->setMode(ghost->getPreviousMode());
-            ghost->setModeHasChanged(true);
-            ghost->setModeJustChanged(true);
+            ghost->cancelModeFrightened(time_count, fright_time_count, frightened_bool);
         }
-        return;
+    
     }
-
-
-    //Si pacman n'a pas mangé d'energizer, on switch les modes des fantomes en fonction du temps
-    for (std::unique_ptr<Ghost>& ghost : ghosts) {
-
-        //On ne change pas le mode si il vient juste de changer
-        if (ghost->getModeJustChanged() != true) {
-
-            if (std::fabs(time_count - 7.0f) < 0.0001f ||
-                std::fabs(time_count - 34.0f) < 0.0001f ||
-                std::fabs(time_count - 59.0f) < 0.0001f ||
-                std::fabs(time_count - 84.0f) < 0.0001f) {
-                ghost->setMode(Ghost::Mode::CHASE);
-                ghost->setModeHasChanged(true);
-                ghost->setModeJustChanged(true);
-
-                //DEBUG
-                //std::cout << "Chase" << std::endl;
-            }
-            else if  (std::fabs(time_count - 27.0f) < 0.0001f ||
-                      std::fabs(time_count - 54.0f) < 0.0001f ||
-                      std::fabs(time_count - 79.0f) < 0.0001f) {
-
-                ghost->setMode(Ghost::Mode::SCATTER);
-                ghost->setModeHasChanged(true);
-                ghost->setModeJustChanged(true);
-
-                //DEBUG
-                //std::cout << "Scatter" << std::endl;
-            }
-            else {
-                //DEBUG
-                //std::cout << "pas de switch" << std::endl;
-                return;
-            }
-
-            //DEBUG
-            //if(ghost->getModJustChanged() == true){
-            //    ghost->printType(ghost->getType());
-            //    std::cout<<"mod just changed"<<std::endl;
-            //}
-
+    else{
+        for (std::unique_ptr<Ghost>& ghost : ghosts) {
+            ghost->TimeBasedModeUpdate(time_count, fright_time_count, frightened_bool);
         }
-
-
     }
-
 
 }
+
 
 void GameModel::HandlePacGhostCollision()
 {
