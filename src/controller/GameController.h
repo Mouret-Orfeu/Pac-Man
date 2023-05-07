@@ -13,8 +13,5 @@ public:
     void limitFramerate(Uint64& frameStartTime);
 private:
     bool sdl_initialized;
-    float time_count;
-
-    //on compte le temps durant lequel les fantomes sont frightened
-    float fright_time_count;
+    
 };

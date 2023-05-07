@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cmath>
 
-GameController::GameController() : sdl_initialized(false), time_count(0.0f), fright_time_count(0.0f){}
+GameController::GameController() : sdl_initialized(false){}
 
 GameController::~GameController() {
     if (sdl_initialized)
@@ -72,7 +72,7 @@ void GameController::run() {
 
 
         //là dedans y'a move pour tous les persos
-        game_model.update(input_direction, time_count, fright_time_count);
+        game_model.update(input_direction);
 
         // AFFICHAGE
         gameView.draw();
@@ -119,12 +119,13 @@ void GameController::run() {
         limitFramerate(frameStartTime);
 
         if(!game_model.getFrightenedBool())
-            time_count += 1.0f/60.0f;
+            game_model.setTimeCount(game_model.getTimeCount()+ 1.0f/60.0f) ;
         else
-            fright_time_count += 1.0f/60.0f;
+            game_model.setFrightTimeCount(game_model.getFrightTimeCount()+ 1.0f/60.0f) ;
 
-        if(fright_time_count > 7.1f)
-            fright_time_count = 0.0f;
+        if(game_model.getFrightTimeCount() > 7.1f)
+            
+            game_model.setFrightTimeCount(0.0f);
 
         //On fait avancer le timer qui compte le temps que pacman à passé à rien manger (on le remet à 0 quand il mange qlq chose)
         game_model.setLastTimeDotEatenTimer(game_model.getLastTimeDotEatenTimer() + 1.0f/60.0f);
@@ -133,7 +134,7 @@ void GameController::run() {
         //std::cout<<"last eaten dot timer: "<<game_model.getLastTimeDotEatenTimer()<<std::endl;
 
         //DEBUG
-        //std::cout << "time_count: " << time_count << std::endl;
+        std::cout << "time_count: " << game_model.getTimeCount() << std::endl;
 
         //DEBUG
         //it++;

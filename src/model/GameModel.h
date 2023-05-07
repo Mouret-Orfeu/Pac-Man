@@ -19,7 +19,7 @@ public:
     GameModel();
     ~GameModel();
 
-    void update(Direction input_direction, float time_count, float fright_time_count);
+    void update(Direction input_direction);
 
     PacMan& getPacMan();
     std::array<std::unique_ptr<Ghost>, 4>& getGhosts();
@@ -45,7 +45,7 @@ public:
     */
     bool isTileLegal(Tile tile);
 
-    void GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts, float fright_time_count);
+    void GhostSwitchMode();
 
     bool getFrightenedBool() const;
     Uint64 getFrightenedCounter() const;
@@ -63,6 +63,12 @@ public:
 
     void resetTilesMatrix();
 
+    void setTimeCount(float time_count);
+    float getTimeCount() const;
+
+    void setFrightTimeCount(float fright_time_count);
+    float getFrightTimeCount() const;
+
 private:
     MonsterDen monster_den;
     PacMan pacman;
@@ -74,6 +80,11 @@ private:
     float last_time_dot_eaten_timer;
 
     int nb_point_eat_ghost;
+
+    float time_count;
+
+    //on compte le temps durant lequel les fantomes sont frightened
+    float fright_time_count;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;
