@@ -4,12 +4,14 @@
 #include "common/Direction.h"
 #include "GameModel.h"
 #include "Ghost.h"
+#include "PacMan.h"
+#include "MonsterDen.h"
 
 const Position init_pos_Clyde = Position((WINDOW_WIDTH-1)/2+2*TILE_SIZE, 17*TILE_SIZE + (TILE_SIZE-1)/2);
 const Tile scatter_target_tile_Clyde = {WINDOW_ROWS-1,0};
 
-Clyde::Clyde(GameModel& game_model, PacMan& pacman)
-:Ghost(game_model, Ghost::Type::CLYDE, init_pos_Clyde, Direction::UP, scatter_target_tile_Clyde, false,false, pacman)
+Clyde::Clyde(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
+:Ghost(game_model, Ghost::Type::CLYDE, init_pos_Clyde, Direction::UP, scatter_target_tile_Clyde, false, pacman, monster_den)
 {}
 
 Clyde::~Clyde() {

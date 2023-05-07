@@ -4,6 +4,7 @@
 
 #include "common/Position.h"
 #include "PacMan.h"
+#include "MonsterDen.h"
 
 #include <SDL.h>
 
@@ -11,7 +12,7 @@ class GameModel;
 
 class Blinky : public Ghost {
 public:
-    Blinky(GameModel& game_model, PacMan& pacman);
+    Blinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den);
     ~Blinky();
 
     

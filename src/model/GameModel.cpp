@@ -21,10 +21,10 @@ GameModel::GameModel()
  pacman(*this, monster_den),
  ghosts {
     //!!Ne pas changer l'ordre de rangement des fantomes dans ghosts!! (utilisé dans MonsterDen::updateMonsterDen())
-    std::make_unique<Blinky>(*this, pacman),
-    std::make_unique<Pinky>(*this, pacman),
-    std::make_unique<Inky>(*this, pacman, ghosts[0]),
-    std::make_unique<Clyde>(*this, pacman)},
+    std::make_unique<Blinky>(*this, pacman, monster_den),
+    std::make_unique<Pinky>(*this, pacman, monster_den),
+    std::make_unique<Inky>(*this, pacman, ghosts[0], monster_den),
+    std::make_unique<Clyde>(*this, pacman, monster_den)},
     frightened_bool(false)
 {
     //DEBUG
@@ -132,6 +132,8 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
 
+
+
     //DEBUG
     //test de FRIGHTENED (faut commenter GhostSwitchMode au dessus pour ce test)
     //if(std::fabs(time_count - 7.0f) < 0.0001f && frightened_bool == false){
@@ -146,11 +148,22 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     //    //DEBUG
     //    //std::cout<<"frighten change"<<std::endl;
     //}
+
     
     // Make the ghosts move
-    for (std::unique_ptr<Ghost>& ghost : ghosts)
+    for (std::unique_ptr<Ghost>& ghost : ghosts){
+        //DEBUG
+        //std::cout<<"boucle ghost"<<std::endl;
+
+        //DEBUG
+        //ghost->printType(ghost->getType());
+
         ghost->move(count);
 
+        //DEBUG
+        //std::cout<<"après move "<<std::endl;
+    }
+        
 
 
     // Update PacMan's intended direction based on user input
@@ -160,8 +173,12 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     // Make PacMan move
     pacman.move(count);
 
+
     // Update the count, (je pense que ça sert plus à rien ça)
     count = (count + 1) % 512;
+
+    //DEBUG
+    //monster_den.printCounterDot(Ghost::Type::INKY);
 }
 
 std::array<std::unique_ptr<Ghost>, 4>& GameModel::getGhosts() {

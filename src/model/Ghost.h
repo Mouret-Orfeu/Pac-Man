@@ -32,7 +32,7 @@ public:
     };
 
     //Les ghosts ont besoin d'un pacman pour calculer leur target tile
-    Ghost(GameModel& game_model, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman);
+    Ghost(GameModel& game_model, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den);
     virtual ~Ghost();
 
     Type getType() const;
@@ -65,8 +65,6 @@ public:
 
     bool isOutOfDen();
 
-    void setCanLeaveDen(bool can_leave_den);
-
     
 
 protected:
@@ -83,9 +81,9 @@ protected:
     Position center_den_position;
 
     bool out_of_den;
-    bool can_leave_den;
 
     PacMan& pacman;
+    MonsterDen& monster_den;
 
     //vrai si le mod a changé depuis le début de la partie (se réinitialise quand le fantome meurt)
     bool mode_has_changed;

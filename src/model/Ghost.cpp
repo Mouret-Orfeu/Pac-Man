@@ -10,17 +10,17 @@
 #include <cstdlib>
 #include <set>
 
-Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, bool can_leave_den, PacMan& pacman)
+Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den)
 :Character(game_model, initial_position, direction),
  ghost_type(ghost_type),
  ghost_mode(Mode::SCATTER),
  scatter_target_tile(scatter_target_tile),
  out_of_den(out_of_den),
- can_leave_den(can_leave_den),
  current_target_tile(scatter_target_tile),
  out_of_den_position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2),
  center_den_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2),
  pacman(pacman),
+ monster_den(monster_den),
  mode_has_changed(false),
  mode_just_changed(false)
 {}
@@ -64,19 +64,19 @@ void Ghost::printType(Ghost::Type ghost_type) const
     switch (ghost_type)
     {
     case Ghost::Type::BLINKY:
-        std::cout << "BLINKY";
+        std::cout << "BLINKY"<<std::endl;
         break;
     case Ghost::Type::PINKY:
-        std::cout << "PINKY";
+        std::cout << "PINKY"<<std::endl;
         break;
     case Ghost::Type::INKY:
-        std::cout << "INKY";
+        std::cout << "INKY"<<std::endl;
         break;
     case Ghost::Type::CLYDE:
-        std::cout << "CLYDE";
+        std::cout << "CLYDE"<<std::endl;
         break;
     default:
-        std::cout << "ERROR printType()";
+        std::cout << "ERROR printType()"<<std::endl;
         break;
     }
 }
@@ -286,20 +286,22 @@ bool Ghost::isOutOfDen()
     return out_of_den;
 }
 
-void Ghost::setCanLeaveDen(bool can_leave_den)
-{
-    this->can_leave_den=can_leave_den;
-}
-
 void Ghost::move(int count) {
     (void)count;
 
     updateTargetTile();
 
-    if(out_of_den==false && can_leave_den==true)
+    //DEBUG
+    //printType(ghost_type);
+
+
+    if(out_of_den==false && monster_den.getCanLeaveDen(ghost_type)==true)
     {
         leaveTheDen();
     }
+
+    //DEBUG
+    //std::cout<<"après if can leave "<<std::endl;
 
     if(position.isCenteredOnTile() && out_of_den==true){
         //DEBUG
@@ -308,7 +310,7 @@ void Ghost::move(int count) {
         updateDirection();
     }
 
-    if(can_leave_den==true){
+    if(monster_den.getCanLeaveDen(ghost_type)==true){
         updatePosition();
     }
 }

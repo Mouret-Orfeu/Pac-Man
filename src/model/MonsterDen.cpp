@@ -8,10 +8,16 @@
 #include <algorithm>
 
 MonsterDen::MonsterDen(GameModel& game_model):game_model(game_model),
-dot_limit_blinky(0),
+count_eaten_dots_Pinky(0),
+count_eaten_dots_Inky(0),
+count_eaten_dots_Clyde(0),
 dot_limit_pinky(0),
 dot_limit_inky(30),
-dot_limit_clyde(60)
+dot_limit_clyde(60),
+can_leave_den_Blinky(true),
+can_leave_den_Pinky(false),
+can_leave_den_Inky(false),
+can_leave_den_Clyde(false)
 {}
 MonsterDen::~MonsterDen(){}
 
@@ -28,9 +34,51 @@ bool compareGhostType( Ghost::Type t1, Ghost::Type t2){
     return priorityMap[t1] > priorityMap[t2];
 }
 
+
+void MonsterDen::setGhostsInDen()
+{
+    //DEBUG
+    //std::cout << "set ghost in den: " <<std::endl;
+
+    ghosts_in_den.clear(); // Clear the vector before filling it up with new values
+    
+    for(std::unique_ptr<Ghost>& ghost : game_model.getGhosts()){
+
+        //DEBUG
+        //ghost->printType(ghost->getType());
+        //std::cout<<ghost->isOutOfDen() <<std::endl;
+
+        //si out_of_den du fantome est false, et si son type n'est pas deja dans ghost_in_den, le rajouter
+        if(!ghost->isOutOfDen()){
+            if(std::find(ghosts_in_den.begin(), ghosts_in_den.end(), ghost->getType()) == ghosts_in_den.end()){
+                ghosts_in_den.push_back(ghost->getType());
+
+                //DEBUG
+                //ghost->printType(ghost->getType());
+
+                
+            }
+        }
+        
+    }
+    //DEBUG
+    //std::cout <<std::endl;
+
+    std::sort(ghosts_in_den.begin(), ghosts_in_den.end(), compareGhostType);
+    
+}
+
 void MonsterDen::updateMonsterDen(){
 
     MonsterDen::setGhostsInDen();
+
+    //DEBUG
+    //std::cout << "size ghost in den : " << ghosts_in_den.size() <<std::endl;
+    //std::cout << "type ghost : " <<std::endl;
+    //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(game_model.getGhosts()[(int)Ghost::Type::INKY]->getType());
+    //Ghost::Type type= ghosts_in_den[0];
+    //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(type);
+
 
     //set can_leave_den to true if the ghost in the den has eaten enough dots
     if(ghosts_in_den.size()>0){
@@ -38,17 +86,19 @@ void MonsterDen::updateMonsterDen(){
         {
         case Ghost::Type::PINKY:
             if(count_eaten_dots_Pinky>=dot_limit_pinky){
-                game_model.getGhosts()[(int)Ghost::Type::PINKY]->setCanLeaveDen(true);
+                can_leave_den_Pinky=true;
             }
             break;
         case Ghost::Type::INKY:
             if(count_eaten_dots_Inky>=dot_limit_inky){
-                game_model.getGhosts()[(int)Ghost::Type::INKY]->setCanLeaveDen(true);
+                can_leave_den_Inky=true;
             }
             break;
         case Ghost::Type::CLYDE:
+            //DEBUG
+            //std::cout << "count_eaten_dots_Clyde : " << count_eaten_dots_Clyde << std::endl;
             if(count_eaten_dots_Clyde>=dot_limit_clyde){
-                game_model.getGhosts()[(int)Ghost::Type::CLYDE]->setCanLeaveDen(true);
+                can_leave_den_Clyde=true;
             }
             break;
         default:
@@ -61,18 +111,6 @@ void MonsterDen::updateMonsterDen(){
     
 
 
-}
-
-void MonsterDen::setGhostsInDen()
-{
-    for(std::unique_ptr<Ghost>& ghost : game_model.getGhosts()){
-        if(!ghost->isOutOfDen()){
-            ghosts_in_den.push_back(ghost->getType());
-        }
-    }
-
-    std::sort(ghosts_in_den.begin(), ghosts_in_den.end(), compareGhostType);
-    
 }
 
 std::vector<Ghost::Type> MonsterDen::getGhostsInDen() const
@@ -100,4 +138,51 @@ void MonsterDen::incrementDotCounter()
     
     
 }
+
+void MonsterDen::printCounterDot(Ghost::Type ghost_type) const
+{
+    switch (ghost_type)
+    {
+    case Ghost::Type::PINKY:
+        std::cout << "Pinky: " << count_eaten_dots_Pinky << std::endl;
+        break;
+    case Ghost::Type::INKY:
+        std::cout << "Inky: " << count_eaten_dots_Inky << std::endl;
+        break;
+    case Ghost::Type::CLYDE:
+        std::cout << "Clyde: " << count_eaten_dots_Clyde << std::endl;
+        break;
+    default:
+        std::cout << "Error printCounterDot(), no ghost in den" << std::endl;
+        break;
+    }
+}
+
+bool MonsterDen::getCanLeaveDen(Ghost::Type ghost_type) const
+{
+    switch (ghost_type)
+    {
+    case Ghost::Type::PINKY:
+        return can_leave_den_Pinky;
+        break;
+    case Ghost::Type::INKY:
+        //DEBUG
+        //std::cout << "can leave den inky : " << can_leave_den_Inky << std::endl;
+        return can_leave_den_Inky;
+        break;
+    case Ghost::Type::CLYDE:
+        return can_leave_den_Clyde;
+        break;
+    case Ghost::Type::BLINKY:
+        return true;
+        break;
+    default:
+        std::cout << "Error getCanLeaveDenGhost(), wrong ghost type" << std::endl;
+        exit(1);
+        break;
+    }
+}
+
+
+
 

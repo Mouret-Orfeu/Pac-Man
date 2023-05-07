@@ -29,19 +29,28 @@ public:
     */
     void incrementDotCounter();
 
+    void printCounterDot(Ghost::Type ghost_type) const;
+
+    bool getCanLeaveDen(Ghost::Type ghost_type) const;
+    
+
+
 private:
     GameModel& game_model;
     std::vector<Ghost::Type> ghosts_in_den;
 
 
-    int count_eaten_dots_Blinky;
     int count_eaten_dots_Pinky;
     int count_eaten_dots_Inky;
     int count_eaten_dots_Clyde;
 
-    int dot_limit_blinky;
     int dot_limit_pinky;
     int dot_limit_inky;
     int dot_limit_clyde;
+
+    bool can_leave_den_Blinky;
+    bool can_leave_den_Pinky;
+    bool can_leave_den_Inky;
+    bool can_leave_den_Clyde;
     
 };
