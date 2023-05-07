@@ -7,8 +7,6 @@ public:
     GameController();
     ~GameController();
 
-    int getTimeCount() const;
-
     bool init();
     void run();
 

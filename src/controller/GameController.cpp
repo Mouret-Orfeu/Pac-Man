@@ -13,9 +13,8 @@
 GameController::GameController() : sdl_initialized(false), time_count(0.0f), fright_time_count(0.0f){}
 
 GameController::~GameController() {
-    if (sdl_initialized) {
+    if (sdl_initialized)
         SDL_Quit();
-    }
 }
 
 bool GameController::init() {
@@ -28,7 +27,7 @@ bool GameController::init() {
 }
 
 void GameController::limitFramerate(Uint64& frameStartTime) {
-    const Uint64 desiredFrameTime = 16; // 60 FPS = 1000 ms -> ~16 ms per frame
+    const Uint64 desiredFrameTime = 1000 / 60; // 60 FPS -> 1000 ms for 60 frames
     Uint64 currentTime = SDL_GetTicks64();
     Uint64 elapsedTime = currentTime - frameStartTime;
     if (elapsedTime < desiredFrameTime) {
@@ -99,7 +98,9 @@ void GameController::run() {
 
         //Animation de la mort
         if (game_model.getPacMan().isDead()) {
-            for (int death_sprite_num = 0; death_sprite_num < 11; death_sprite_num++) {
+            int slowdown_factor = 8;
+            for (int i = 0; i < slowdown_factor*11; i++) {
+                int death_sprite_num = i / slowdown_factor;
                 SDL_Event event;
                 while (!quit && SDL_PollEvent(&event))
                 {
@@ -114,7 +115,6 @@ void GameController::run() {
 
                 // AFFICHAGE
                 gameView.drawDeathAnimation(death_sprite_num);
-                SDL_Delay(100);
 
                 // LIMITE A 60 FPS
                 limitFramerate(frameStartTime);
@@ -153,9 +153,4 @@ void GameController::run() {
 
 	}
 
-}
-
-int GameController::getTimeCount() const
-{
-    return time_count;
 }
