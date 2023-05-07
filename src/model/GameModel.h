@@ -54,6 +54,12 @@ public:
 
     void HandlePacGhostCollision();
 
+
+    /**
+    * @brief QUand toutes les gommes sont mangées, on réinitialise tout sauf le hight score et les constantes de jeu
+    */
+    void game_reset();
+
 private:
     MonsterDen monster_den;
     PacMan pacman;
@@ -63,6 +69,7 @@ private:
     bool frightened_bool;
     float last_time_dot_eaten_timer;
     
+    int nb_point_eat_ghost;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;

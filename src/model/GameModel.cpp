@@ -25,7 +25,8 @@ GameModel::GameModel()
     std::make_unique<Pinky>(*this, pacman, monster_den),
     std::make_unique<Inky>(*this, pacman, ghosts[0], monster_den),
     std::make_unique<Clyde>(*this, pacman, monster_den)},
-    frightened_bool(false)
+    frightened_bool(false),
+    nb_point_eat_ghost(200)
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -47,7 +48,7 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
     //Activer mode frightened quand pacman mange un energizer
     if(pacman.isEnergized() && frightened_bool == false){
         //DEBUG
-        std::cout<<"frightened mode ON"<<std::endl;
+        //std::cout<<"frightened mode ON"<<std::endl;
 
         frightened_bool = true;
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
@@ -62,10 +63,11 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
     //Desactiver mode frightened au bout de 7 secondes
     if(pacman.isEnergized() && frightened_bool == true && std::fabs(fright_time_count - 7.0f)<0.0001f){
         //DEBUG
-        std::cout<<"frightened mode OFF"<<std::endl;
+        //std::cout<<"frightened mode OFF"<<std::endl;
 
         pacman.setEnergized(false);
         frightened_bool = false;
+        nb_point_eat_ghost = 200;
 
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
             ghost->setMode(ghost->getPreviousMode());
@@ -125,24 +127,44 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
 }
 
 void GameModel::HandlePacGhostCollision()
-{
+{  
+    bool ghost_die=false;
 
     for(std::unique_ptr<Ghost>& ghost : ghosts){
-        if(pacman.getPosition().toTile() == ghost->getPosition().toTile()){
+        if(pacman.getPosition().distancePosition(ghost->getPosition())<TILE_SIZE){
             if(frightened_bool==false){
 
-                pacman.setIsDead(true);
-                pacman.setLives(pacman.getLives()-1);
-                pacman.setDirection(Direction::RIGHT);
-                pacman.setIntendedDirection(Direction::RIGHT);
-                pacman.setMemoryDirection(Direction::RIGHT);
+                //DEBUG
+                //std::cout<<"pacman before dead"<<std::endl;
+                pacman.die();
 
+                //tous les fantomes reviennent à leur spawn_position
+                for(std::unique_ptr<Ghost>& ghost : ghosts){
+                    ghost->setPosition(ghost->getSpawnPosition());
+                    ghost->setDirection(ghost->getSpawnDirection()); 
+                    if(ghost->getType()!=Ghost::Type::BLINKY){
+                        ghost->setOutOfDen(false);
+                    }
+                }
+        
+                //DEBUG
+                //std::cout<<"pacman after dead"<<std::endl;
             }
-
             else if(frightened_bool==true){
-                pacman.setScore(pacman.getScore()+200);
+                pacman.setScore(pacman.getScore()+nb_point_eat_ghost);
+                nb_point_eat_ghost*=2;
+                pacman.setFramesToDrop(60);
+                ghost->die();
 
+                ghost_die=true;
             }
+        }
+    }
+
+    for(std::unique_ptr<Ghost>& ghost : ghosts){
+
+        if(ghost_die==true){
+            ghost->setFramesToDrop(60);
         }
     }
 
@@ -151,13 +173,25 @@ void GameModel::HandlePacGhostCollision()
 
 void GameModel::update(Direction input_direction, float time_count, float fright_time_count) {
 
+    //DEBUG
+    //std::cout<<"before handle collision"<<std::endl;
+    
     HandlePacGhostCollision();
+
+    //DEBUG
+    //std::cout<<"after handle collision"<<std::endl;
 
     //On libère les fantomes qui doivent l'être
     monster_den.updateMonsterDen();
 
+    //DEBUG
+    //std::cout<<"after update monsterden"<<std::endl;
+    
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
+
+    //DEBUG
+    //std::cout<<"after ghosSwitchMode"<<std::endl;
 
     //DEBUG
     //test de FRIGHTENED (faut commenter GhostSwitchMode au dessus pour ce test)
@@ -186,6 +220,10 @@ void GameModel::update(Direction input_direction, float time_count, float fright
         ghost->move(count);
 
         //DEBUG
+        //ghost->printType(ghost->getType());
+        //std::cout<<"after move"<<std::endl;
+
+        //DEBUG
         //std::cout<<"après move "<<std::endl;
     }
 
@@ -197,7 +235,10 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     // Make PacMan move
     pacman.move(count);
 
+    //DEBUG
+    //std::cout<<"pacman after move"<<std::endl;
 
+    
 
 
     // Update the count, (je pense que ça sert plus à rien ça)
@@ -250,5 +291,24 @@ void GameModel::setLastTimeDotEatenTimer(float time)
 float GameModel::getLastTimeDotEatenTimer() const
 {
     return last_time_dot_eaten_timer;
+}
+
+void GameModel::game_reset()
+{
+    //Ghosts
+    for(std::unique_ptr<Ghost>& ghost : ghosts){
+        ghost->reset();
+    }
+
+    //Pacman
+    pacman.reset();
+
+    //MonsterDen
+    monster_den.reset();
+
+    //GameModel:
+    frightened_bool = false;
+    last_time_dot_eaten_timer=0.0f;
+    nb_point_eat_ghost=200;
 }
 

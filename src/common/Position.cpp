@@ -5,6 +5,8 @@
 #include "model/GameModel.h"
 #include "model/Character.h" // TODO: Put Direction in common/Direction.h
 
+#include <cmath>
+
 Position::Position(int x, int y, CoordinateSystem coordinateSystem) {
     switch (coordinateSystem) {
         case CoordinateSystem::CENTER:
@@ -133,7 +135,12 @@ bool Position::isCenteredOnTile() const {
     return isCenteredHorizontallyOnTile() && isCenteredVerticallyOnTile();
 }
 
-int Position::distance_tile(Tile& t1, Tile& t2) const
+int Position::distanceTile(Tile& t1, Tile& t2) const
 {
     return abs(t1.i-t2.i)+abs(t1.j-t2.j);
+}
+
+int Position::distancePosition(const Position& p2) const
+{
+    return abs(getX()-p2.getX())+abs(getY()-p2.getY());
 }

@@ -32,8 +32,10 @@ public:
     };
 
     //Les ghosts ont besoin d'un pacman pour calculer leur target tile
-    Ghost(GameModel& game_model, Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den);
+    Ghost(GameModel& game_model, Type ghost_type, Position spawn_position,Position respawn_position, Direction respawn_direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den);
     virtual ~Ghost();
+
+    virtual void reset();
 
     Type getType() const;
 
@@ -63,8 +65,16 @@ public:
     void setPreviousMode(Mode previous_ghost_mode);
     Mode getPreviousMode() const;
 
+    void setOutOfDen(bool out_of_den);
     bool isOutOfDen();
 
+    Direction getSpawnDirection() const;
+
+    Position getSpawnPosition() const;
+
+    Position getRespawnPosition() const;
+
+    virtual void die() override;
     
 
 protected:
@@ -93,4 +103,8 @@ protected:
 
     //previews_ghost_mode va enregistrer le mode avant de passer en mode frightened, pour pouvoir y revenir après
     Mode previous_ghost_mode;
+
+    Direction spawn_direction;
+    Position spawn_position;
+    Position respawn_position;
 };

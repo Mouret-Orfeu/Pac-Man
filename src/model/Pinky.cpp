@@ -7,11 +7,11 @@
 #include "PacMan.h"
 #include "MonsterDen.h"
 
-const Position init_pos_Pinky = Position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2);
+const Position spawn_pos_Pinky = Position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2);
 const Tile scatter_target_tile_Pinky = {0,2};
 
 Pinky::Pinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
-:Ghost(game_model, Ghost::Type::PINKY, init_pos_Pinky, Direction::DOWN, scatter_target_tile_Pinky, false, pacman, monster_den)
+:Ghost(game_model, Ghost::Type::PINKY, spawn_pos_Pinky, spawn_pos_Pinky, Direction::DOWN, scatter_target_tile_Pinky, false, pacman, monster_den)
 {}
 
 Pinky::~Pinky() {
@@ -48,7 +48,7 @@ void Pinky::updateTargetTile()
 
 void Pinky::leaveTheDen()
 {
-    if(position==init_pos_Pinky)
+    if(position==spawn_pos_Pinky)
     {
         direction=Direction::UP;
         return;

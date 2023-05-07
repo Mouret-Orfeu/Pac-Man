@@ -407,7 +407,7 @@ void GameView::drawLives() {
     int lives = game_model.getPacMan().getLives();
 
     //DEBUG
-    std::cout << "Lives: " << lives << std::endl;
+    //std::cout << "Lives: " << lives << std::endl;
 
 
     // Clear the area where the lives are drawn

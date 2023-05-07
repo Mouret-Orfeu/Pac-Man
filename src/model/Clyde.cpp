@@ -7,11 +7,11 @@
 #include "PacMan.h"
 #include "MonsterDen.h"
 
-const Position init_pos_Clyde = Position((WINDOW_WIDTH-1)/2+2*TILE_SIZE, 17*TILE_SIZE + (TILE_SIZE-1)/2);
+const Position spawn_pos_Clyde = Position((WINDOW_WIDTH-1)/2+2*TILE_SIZE, 17*TILE_SIZE + (TILE_SIZE-1)/2);
 const Tile scatter_target_tile_Clyde = {WINDOW_ROWS-1,0};
 
 Clyde::Clyde(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
-:Ghost(game_model, Ghost::Type::CLYDE, init_pos_Clyde, Direction::UP, scatter_target_tile_Clyde, false, pacman, monster_den)
+:Ghost(game_model, Ghost::Type::CLYDE, spawn_pos_Clyde, spawn_pos_Clyde, Direction::UP, scatter_target_tile_Clyde, false, pacman, monster_den)
 {}
 
 Clyde::~Clyde() {
@@ -23,7 +23,7 @@ Tile Clyde::findChaseTargetTile()
     Tile Clyde_tile=position.toTile();
     Tile pacman_tile=pacman.getPosition().toTile();
 
-    if(position.distance_tile(Clyde_tile, pacman_tile)>8){
+    if(position.distanceTile(Clyde_tile, pacman_tile)>8){
         return pacman.getPosition().toTile();
     }
     else{
@@ -44,7 +44,7 @@ void Clyde::updateTargetTile()
 
 void Clyde::leaveTheDen()
 {
-    if(position==init_pos_Clyde)
+    if(position==spawn_pos_Clyde)
     {
         direction=Direction::LEFT;
         return;

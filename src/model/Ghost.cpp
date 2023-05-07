@@ -10,8 +10,8 @@
 #include <cstdlib>
 #include <set>
 
-Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position initial_position, Direction direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den)
-:Character(game_model, initial_position, direction),
+Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_position, Position respawn_position, Direction spawn_direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den)
+:Character(game_model, spawn_position, spawn_direction),
  ghost_type(ghost_type),
  ghost_mode(Mode::SCATTER),
  scatter_target_tile(scatter_target_tile),
@@ -22,11 +22,24 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position initial_pos
  pacman(pacman),
  monster_den(monster_den),
  mode_has_changed(false),
- mode_just_changed(false)
+ mode_just_changed(false),
+ spawn_direction(spawn_direction),
+ spawn_position(spawn_position), 
+ respawn_position(respawn_position)
 {}
 
 Ghost::~Ghost() {
     // Clean up Ghost-specific data here
+}
+
+void Ghost::reset()
+{
+    Character::reset();
+    ghost_mode=Mode::SCATTER;
+    out_of_den=false;
+    mode_has_changed=false;
+    mode_just_changed=false;
+    previous_ghost_mode=Mode::SCATTER;
 }
 
 Ghost::Type Ghost::getType() const {
@@ -206,13 +219,13 @@ void Ghost::updateDirection() {
             /*On vérifie que la direction n'est pas celle d'une tile interdite 
             (ily a des tiles (non mur) qui sont interdites dans certaines directions)*/
             Tile next_possible_tile=position.getNextTile(d);
-            if(position.distance_tile(next_possible_tile, current_target_tile)<min_distance && !(forbiden_tile_down && d==Direction::DOWN) && !(forbiden_tile_up && d==Direction::UP)){
+            if(position.distanceTile(next_possible_tile, current_target_tile)<min_distance && !(forbiden_tile_down && d==Direction::DOWN) && !(forbiden_tile_up && d==Direction::UP)){
                 best_directions.clear();
                 best_directions.push_back(d);
 
-                min_distance=position.distance_tile(next_possible_tile, current_target_tile);
+                min_distance=position.distanceTile(next_possible_tile, current_target_tile);
             }
-            else if(position.distance_tile(next_possible_tile, current_target_tile)==min_distance && !(forbiden_tile_down && d==Direction::DOWN) && !(forbiden_tile_up && d==Direction::UP)){
+            else if(position.distanceTile(next_possible_tile, current_target_tile)==min_distance && !(forbiden_tile_down && d==Direction::DOWN) && !(forbiden_tile_up && d==Direction::UP)){
                 best_directions.push_back(d);
             }
         }
@@ -286,9 +299,37 @@ Ghost::Mode Ghost::getPreviousMode() const
     return previous_ghost_mode;
 }
 
+void Ghost::setOutOfDen(bool out_of_den)
+{
+    this->out_of_den=out_of_den;
+}
+
 bool Ghost::isOutOfDen()
 {
     return out_of_den;
+}
+
+
+Direction Ghost::getSpawnDirection() const
+{
+    return spawn_direction;
+}
+
+Position Ghost::getSpawnPosition() const
+{
+    return spawn_position;
+}
+
+Position Ghost::getRespawnPosition() const
+{
+    return respawn_position;
+}
+
+void Ghost::die()
+{
+    direction=spawn_direction;
+    position=respawn_position;
+    out_of_den=false;
 }
 
 void Ghost::move(int count) {
@@ -297,25 +338,36 @@ void Ghost::move(int count) {
     updateTargetTile();
 
     //DEBUG
-    //printType(ghost_type);
+    //std::cout<<"***************"<<std::endl;
 
 
     if(out_of_den==false && monster_den.getCanLeaveDen(ghost_type)==true)
     {
+        //DEBUG
+        //printType(ghost_type);
+        //std::cout<<"leave den"<<std::endl;
+
         leaveTheDen();
     }
 
     //DEBUG
+    //std::cout<<"***************"<<std::endl;
+
+    //DEBUG
     //std::cout<<"après if can leave "<<std::endl;
+    if (frames_to_drop > 0)
+        frames_to_drop--;
+    else
+    {
+        if(position.isCenteredOnTile() && out_of_den==true){
+            //DEBUG
+            //printDirection(direction);
 
-    if(position.isCenteredOnTile() && out_of_den==true){
-        //DEBUG
-        //printDirection(direction);
-        
-        updateDirection();
-    }
+            updateDirection();
+        }
 
-    if(monster_den.getCanLeaveDen(ghost_type)==true){
-        updatePosition();
+        if(monster_den.getCanLeaveDen(ghost_type)==true){
+            updatePosition();
+        }
     }
 }

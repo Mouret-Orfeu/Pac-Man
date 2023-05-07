@@ -114,6 +114,7 @@ void MonsterDen::updateMonsterDen(){
                 //std::cout << "count_eaten_dots_Clyde : " << count_eaten_dots_Clyde << std::endl;
                 if(count_eaten_dots_Clyde>=dot_limit_clyde){
                     can_leave_den_Clyde=true;
+                    //si blinky est à sa speed1, le mettre en speed2
                 }
                 break;
             default:
@@ -151,9 +152,11 @@ void MonsterDen::updateMonsterDen(){
                 if(game_model.getLastTimeDotEatenTimer()-limit_last_dot_eaten_timer>0.0001f){
                     can_leave_den_Clyde=true;
                     game_model.setLastTimeDotEatenTimer(0.0f);
+                    //si blinky est à sa speed1, le mettre en speed2
                 }
                 if(count_eaten_dots_after_pac_death>=dot_limit_clyde_after_pac_death){
                     can_leave_den_Clyde=true;
+                    //si blinky est à sa speed1, le mettre en speed2
                 }
                 break;
             default:
@@ -243,6 +246,20 @@ bool MonsterDen::getCanLeaveDen(Ghost::Type ghost_type) const
 
 int MonsterDen::getCouterDotPacDeath() const{
     return count_eaten_dots_after_pac_death;
+}
+
+void MonsterDen::reset()
+{
+    ghosts_in_den.clear();
+    mode_after_pac_death=false;
+    count_eaten_dots_Pinky=0;
+    count_eaten_dots_Inky=0;
+    count_eaten_dots_Clyde=0;
+    count_eaten_dots_after_pac_death=0;
+    can_leave_den_Blinky=true;
+    can_leave_den_Pinky=false;
+    can_leave_den_Inky=false;
+    can_leave_den_Clyde=false;
 }
 
 

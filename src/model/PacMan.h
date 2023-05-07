@@ -21,6 +21,8 @@ public:
 
     ~PacMan();
 
+    void reset();
+
     void move(int count) override;
 
     void eat();
@@ -79,6 +81,8 @@ public:
     bool isEnergized() const;
 
     void setMemoryDirection(Direction direction);
+
+    void die() override;
 
 private:
     MonsterDen& monster_den;
