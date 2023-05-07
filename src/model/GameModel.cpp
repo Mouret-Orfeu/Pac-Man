@@ -173,58 +173,29 @@ void GameModel::HandlePacGhostCollision()
 
 void GameModel::update(Direction input_direction, float time_count, float fright_time_count) {
 
-    //DEBUG
-    //std::cout<<"before handle collision"<<std::endl;
+    if(pacman.getDotsEaten()== 244){
+        game_reset();
+    }
+
     
     HandlePacGhostCollision();
 
-    //DEBUG
-    //std::cout<<"after handle collision"<<std::endl;
+   
 
     //On libère les fantomes qui doivent l'être
     monster_den.updateMonsterDen();
 
-    //DEBUG
-    //std::cout<<"after update monsterden"<<std::endl;
     
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
 
-    //DEBUG
-    //std::cout<<"after ghosSwitchMode"<<std::endl;
-
-    //DEBUG
-    //test de FRIGHTENED (faut commenter GhostSwitchMode au dessus pour ce test)
-    //if(std::fabs(time_count - 7.0f) < 0.0001f && frightened_bool == false){
-    //    for(std::unique_ptr<Ghost>& ghost : ghosts){
-    //        frightened_bool = true;
-    //        ghost->setPreviousMode(ghost->getMode());
-    //        ghost->setMode(Ghost::Mode::FRIGHTENED);
-    //        ghost->setModeHasChanged(true);
-    //        ghost->setModeJustChanged(true);
-    //    }
-//
-    //    //DEBUG
-    //    //std::cout<<"frighten change"<<std::endl;
-    //}
 
 
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts){
-        //DEBUG
-        //std::cout<<"boucle ghost"<<std::endl;
 
-        //DEBUG
-        //ghost->printType(ghost->getType());
 
         ghost->move(count);
-
-        //DEBUG
-        //ghost->printType(ghost->getType());
-        //std::cout<<"after move"<<std::endl;
-
-        //DEBUG
-        //std::cout<<"après move "<<std::endl;
     }
 
 
@@ -235,8 +206,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     // Make PacMan move
     pacman.move(count);
 
-    //DEBUG
-    //std::cout<<"pacman after move"<<std::endl;
+
 
     
 
@@ -244,8 +214,7 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     // Update the count, (je pense que ça sert plus à rien ça)
     count = (count + 1) % 512;
 
-    //DEBUG
-    //monster_den.printCounterDot(Ghost::Type::INKY);
+
 }
 
 std::array<std::unique_ptr<Ghost>, 4>& GameModel::getGhosts() {
