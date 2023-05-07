@@ -49,6 +49,12 @@ public:
 
     void updateDirection();
 
+    void switchModeFrightened(float time_count, float fright_time_count, bool frightened_bool);
+
+    void cancelModeFrightened(float time_count, float fright_time_count, bool frightened_bool);
+
+    void TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool);
+
     virtual void leaveTheDen() =0;
     virtual void updateTargetTile() =0;
 

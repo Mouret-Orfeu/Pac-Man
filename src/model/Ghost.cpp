@@ -269,6 +269,55 @@ void Ghost::updateDirection() {
 
 }
 
+void Ghost::switchModeFrightened(float time_count, float fright_time_count, bool frightened_bool)
+{
+    previous_ghost_mode=ghost_mode;
+    ghost_mode=Ghost::Mode::FRIGHTENED;
+    mode_has_changed=true;
+    mode_just_changed=true;
+        
+    return;
+}
+
+void Ghost::cancelModeFrightened(float time_count, float fright_time_count, bool frightened_bool)
+{  
+    ghost_mode=previous_ghost_mode;
+    mode_has_changed=true;
+    mode_just_changed=true;
+}
+
+void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool)
+{
+
+    //Si pacman n'a pas mangé d'energizer, on switch les modes des fantomes en fonction du temps
+    
+
+    //On ne change pas le mode si il vient juste de changer
+    if (mode_just_changed != true) {
+        if ((std::fabs(time_count - 7.0f) < 0.001f && std::fabs(time_count - 7.0f)>0.0) ||
+            (std::fabs(time_count - 34.0f) < 0.001f && std::fabs(time_count - 34.0f)>0.0)||
+            (std::fabs(time_count - 59.0f) < 0.001f && std::fabs(time_count - 59.0f)>0.0)||
+            (std::fabs(time_count - 84.0f) < 0.001f && std::fabs(time_count - 84.0f)>0.0)){
+            
+            ghost_mode=Ghost::Mode::CHASE;
+            mode_has_changed=true;
+            mode_just_changed=true;
+        }
+        else if  ((std::fabs(time_count - 27.0f) < 0.001f && std::fabs(time_count - 27.0f)>0.0)||
+                  (std::fabs(time_count - 54.0f) < 0.001f && std::fabs(time_count - 54.0f)>0.0)||
+                  (std::fabs(time_count - 79.0f) < 0.001f) && std::fabs(time_count - 79.0f)>0.0){
+            
+            ghost_mode=Ghost::Mode::SCATTER;
+            mode_has_changed=true;
+            mode_just_changed=true;
+        }
+        else {
+            return;
+        }
+        
+    }
+}
+
 void Ghost::setModeHasChanged(bool mod_has_changed)
 {
     this->mode_has_changed=mod_has_changed;
