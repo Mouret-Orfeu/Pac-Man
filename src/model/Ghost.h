@@ -60,7 +60,7 @@ public:
 
     void printType(Type ghost_type) const;
 
-    void move(int count) override;
+    void move() override;
 
     void setModeHasChanged(bool mod_has_changed);
     bool getModeHasChanged() const;
@@ -81,7 +81,7 @@ public:
     Position getRespawnPosition() const;
 
     virtual void die() override;
-    
+
 
 protected:
     Type ghost_type;

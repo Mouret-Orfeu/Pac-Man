@@ -23,7 +23,7 @@ public:
 
     void reset();
 
-    void move(int count) override;
+    void move() override;
 
     void eat();
 

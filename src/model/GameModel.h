@@ -24,8 +24,7 @@ public:
     PacMan& getPacMan();
     std::array<std::unique_ptr<Ghost>, 4>& getGhosts();
 
-    int getCount() const;
-    void setCount(int count);
+    int getFrameCount() const;
 
     // Maze cells
     enum class TileType {
@@ -71,12 +70,12 @@ public:
 
 
     void setFrightenedCounter(Uint64 frightened_counter);
-    
+
 private:
     MonsterDen monster_den;
     PacMan pacman;
     std::array<std::unique_ptr<Ghost>, 4> ghosts;
-    int count;
+    Uint64 frame_count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
     bool frightened_bool;
     Uint64 frightened_counter;

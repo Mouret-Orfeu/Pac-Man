@@ -22,13 +22,11 @@ public:
     /**
     * @brief Traite la logique de déplacement des personnages et met à jour leur position
     *
-    * @param count est un compteur qui sert pour l'instant à boucler le mouvement du fantome
     */
-    virtual void move(const int count) = 0;
+    virtual void move() = 0;
 
     /**
     * @brief Sous fonction de move, ne sert qu'à changer top_left_position et center_position en fonction de la direction calculée dans move
-    *
     *
     */
     virtual void updatePosition();

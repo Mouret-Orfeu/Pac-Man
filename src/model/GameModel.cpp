@@ -16,7 +16,7 @@
 
 
 GameModel::GameModel()
-:count(0),
+:frame_count(0),
  monster_den(*this),
  pacman(*this, monster_den),
  ghosts {
@@ -169,7 +169,7 @@ void GameModel::update(Direction input_direction) {
 
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts){
-        ghost->move(count);
+        ghost->move();
     }
 
     // Update PacMan's intended direction based on user input
@@ -177,10 +177,10 @@ void GameModel::update(Direction input_direction) {
         pacman.setIntendedDirection(input_direction);
 
     // Make PacMan move
-    pacman.move(count);
+    pacman.move();
 
-    // Update the count, (je pense que ça sert plus à rien ça)
-    count = (count + 1) % 512;
+    // Update the frame_count, (je pense que ça sert plus à rien ça)
+    frame_count = (frame_count + 1) % 512;
 }
 
 std::array<std::unique_ptr<Ghost>, 4>& GameModel::getGhosts() {
@@ -191,12 +191,8 @@ PacMan& GameModel::getPacMan() {
     return pacman;
 }
 
-int GameModel::getCount() const {
-    return count;
-}
-
-void GameModel::setCount(int count) {
-    this->count = count;
+int GameModel::getFrameCount() const {
+    return frame_count;
 }
 
 GameModel::TileType GameModel::getTile(Tile tile) const {

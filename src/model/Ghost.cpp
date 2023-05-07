@@ -24,7 +24,7 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_posit
  mode_has_changed(false),
  mode_just_changed(false),
  spawn_direction(spawn_direction),
- spawn_position(spawn_position), 
+ spawn_position(spawn_position),
  respawn_position(respawn_position)
 {}
 
@@ -118,13 +118,13 @@ void Ghost::updateDirection() {
         std::vector<Direction> not_turnaround_directions={Direction::UP, Direction::LEFT, Direction::DOWN, Direction::RIGHT};
         not_turnaround_directions.erase(std::remove(not_turnaround_directions.begin(), not_turnaround_directions.end(), getOppositeDirection(direction)), not_turnaround_directions.end());
 
-        //Si la direction aléatoire est légale (pas un mur) on la choisit        
+        //Si la direction aléatoire est légale (pas un mur) on la choisit
         if(game_model.isTileLegal(position.getNextTile(not_turnaround_directions[random]))){
 
             direction=not_turnaround_directions[random];
             return;
         }
-        //Si la direction aléatoire est bloqué par un mur (donc illégal) on choisit la direction légal par ordre de preference up, left, down, right (sans faire demi tour) 
+        //Si la direction aléatoire est bloqué par un mur (donc illégal) on choisit la direction légal par ordre de preference up, left, down, right (sans faire demi tour)
         else{
             for (Direction d : {Direction::UP, Direction::LEFT, Direction::DOWN, Direction::RIGHT}) {
                 if (d != getOppositeDirection(direction)) {
@@ -157,7 +157,7 @@ void Ghost::updateDirection() {
             //std::cout<<std::endl;
 
             Tile next_possible_tile=position.getNextTile(d);
-            
+
             if(game_model.isTileLegal(next_possible_tile)){
                 auto iter_1 = std::find(forbiden_tiles_UP.begin(), forbiden_tiles_UP.end(), next_possible_tile);
                 auto iter_2 = std::find(forbiden_tiles_DOWN.begin(), forbiden_tiles_DOWN.end(), next_possible_tile);
@@ -167,12 +167,12 @@ void Ghost::updateDirection() {
                     forbiden_tile_down=true;
 
                 next_legal_directions.push_back(d);
-                
+
             }
         }
     }
 
-    
+
     //DEBUG
     //std::cout<<std::endl;
     ////loop on next_legal_directions and printDirection()
@@ -203,7 +203,7 @@ void Ghost::updateDirection() {
         direction = next_legal_directions[0];
         return;
     }
-    /*Si le tournant est un carrefour (plusieurs issues possibles), 
+    /*Si le tournant est un carrefour (plusieurs issues possibles),
     on calcule la distance de la tile sortante de chaque issue à la target tile, et on choisit la direction qui minimise cette distance*/
     std::vector<Direction> best_directions;
     if(nb_legal_direction>1 && nb_legal_direction<5)
@@ -213,10 +213,10 @@ void Ghost::updateDirection() {
 
         /*best_directions va stoquer la directions des prochaines tile apres le carrefour,
         dont la distance à la target tile est minimale (les tiles à égalité)*/
-        
+
         for(Direction d : next_legal_directions){
 
-            /*On vérifie que la direction n'est pas celle d'une tile interdite 
+            /*On vérifie que la direction n'est pas celle d'une tile interdite
             (ily a des tiles (non mur) qui sont interdites dans certaines directions)*/
             Tile next_possible_tile=position.getNextTile(d);
             if(position.distanceTile(next_possible_tile, current_target_tile)<min_distance && !(forbiden_tile_down && d==Direction::DOWN) && !(forbiden_tile_up && d==Direction::UP)){
@@ -234,7 +234,7 @@ void Ghost::updateDirection() {
         //std::cout<<nb_legal_direction<<" directions possibles (apres filtrage): "<<std::endl;
         //for(Direction d : best_directions){
         //    printDirection(d);
-        //    
+        //
         //}
     }
     else if(nb_legal_direction==0){
@@ -275,12 +275,12 @@ void Ghost::switchModeFrightened(float time_count, float fright_time_count, bool
     ghost_mode=Ghost::Mode::FRIGHTENED;
     mode_has_changed=true;
     mode_just_changed=true;
-        
+
     return;
 }
 
 void Ghost::cancelModeFrightened(float time_count, float fright_time_count, bool frightened_bool)
-{  
+{
     ghost_mode=previous_ghost_mode;
     mode_has_changed=true;
     mode_just_changed=true;
@@ -290,7 +290,7 @@ void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool 
 {
 
     //Si pacman n'a pas mangé d'energizer, on switch les modes des fantomes en fonction du temps
-    
+
 
     //On ne change pas le mode si il vient juste de changer
     if (mode_just_changed != true) {
@@ -298,7 +298,7 @@ void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool 
             (std::fabs(time_count - 34.0f) < 0.001f && std::fabs(time_count - 34.0f)>0.0)||
             (std::fabs(time_count - 59.0f) < 0.001f && std::fabs(time_count - 59.0f)>0.0)||
             (std::fabs(time_count - 84.0f) < 0.001f && std::fabs(time_count - 84.0f)>0.0)){
-            
+
             ghost_mode=Ghost::Mode::CHASE;
             mode_has_changed=true;
             mode_just_changed=true;
@@ -306,7 +306,7 @@ void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool 
         else if  ((std::fabs(time_count - 27.0f) < 0.001f && std::fabs(time_count - 27.0f)>0.0)||
                   (std::fabs(time_count - 54.0f) < 0.001f && std::fabs(time_count - 54.0f)>0.0)||
                   (std::fabs(time_count - 79.0f) < 0.001f) && std::fabs(time_count - 79.0f)>0.0){
-            
+
             ghost_mode=Ghost::Mode::SCATTER;
             mode_has_changed=true;
             mode_just_changed=true;
@@ -314,7 +314,7 @@ void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool 
         else {
             return;
         }
-        
+
     }
 }
 
@@ -381,8 +381,7 @@ void Ghost::die()
     out_of_den=false;
 }
 
-void Ghost::move(int count) {
-    (void)count;
+void Ghost::move() {
 
     updateTargetTile();
 

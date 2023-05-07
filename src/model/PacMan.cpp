@@ -48,9 +48,7 @@ void PacMan::reset()
 
 
 // Implement PacMan-specific methods here
-void PacMan::move(int count) {
-    (void)count;
-
+void PacMan::move() {
     // WARNNING: we check too many things at each frame, this is not efficient
 
     //DEBUG
@@ -62,7 +60,7 @@ void PacMan::move(int count) {
     //DEBUG
     //std::cout<<"after eat"<<std::endl;
 
-     
+
     // if(position.isCenteredOnTile()){
     //     eat();
     // }
@@ -73,7 +71,7 @@ void PacMan::move(int count) {
     else {
         if (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile())
             updateDirection();
-        
+
         //DEBUG
         //std::cout<<"after update direction"<<std::endl;
         updatePosition();
@@ -86,7 +84,7 @@ void PacMan::move(int count) {
 void PacMan::eat() {
 
     //DEBUG
-    //std::cout<<"eat"<<std::endl; 
+    //std::cout<<"eat"<<std::endl;
 
     Tile current_tile = position.toTile();
 
@@ -94,13 +92,13 @@ void PacMan::eat() {
     //std::cout<<"current tile: "<<current_tile.i<<" "<<current_tile.j<<std::endl;
 
     //DEBUG
-    //std::cout<<"get current tile done"<<std::endl; 
+    //std::cout<<"get current tile done"<<std::endl;
 
     switch (game_model.getTile(current_tile)) {
         case GameModel::TileType::DOT:
-            
+
             //DEBUG
-            //std::cout<<"DOT"<<std::endl; 
+            //std::cout<<"DOT"<<std::endl;
 
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=10;
@@ -116,7 +114,7 @@ void PacMan::eat() {
         case GameModel::TileType::ENERGIZER:
 
             //DEBUG
-            //std::cout<<"ENERGIZER"<<std::endl; 
+            //std::cout<<"ENERGIZER"<<std::endl;
 
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=50;
@@ -129,7 +127,7 @@ void PacMan::eat() {
             break;
         default:
             //DEBUG
-            //std::cout<<"EMPTY"<<std::endl; 
+            //std::cout<<"EMPTY"<<std::endl;
             break;
     }
     if (score > highscore)

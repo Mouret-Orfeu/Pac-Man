@@ -102,7 +102,7 @@ void GameView::drawPacMan() {
     const PacMan& pacman = game_model.getPacMan();
 
     // ici on change entre les 2 sprites sources pour une jolie animation.
-    int sprite_num = (game_model.getCount() / 4) % 4;
+    int sprite_num = (game_model.getFrameCount() / 4) % 4;
 
     SDL_Rect pacman_sprite_in;
     Direction sprite_orientation = pacman.getDirection();
@@ -155,7 +155,7 @@ void GameView::drawGhosts() {
             else
                 ghost_sprite = ghost_sprites[ghost_type][sprite_orientation];
             // Here we change between the 2 source sprites for a nice animation.
-            if ((game_model.getCount() / 16) % 2) {
+            if ((game_model.getFrameCount() / 16) % 2) {
                 // The second sprite is just next to the first one
                 ghost_sprite.x += SPRITE_SIZE;
                 if (ghost->getMode()==Ghost::Mode::FRIGHTENED && game_model.getFrightenedCounter()>5*60) {
@@ -192,7 +192,7 @@ void GameView::drawDots() {
                 drawSprite(spriteSheet_Namco, &dot_sprite, tile, true);
                 break;
             case GameModel::TileType::ENERGIZER:
-                if ((game_model.getCount() / 16) % 2)
+                if ((game_model.getFrameCount() / 16) % 2)
                     drawSprite(spriteSheet_Namco, &power_pellet_sprite, tile, true);
                 break;
             default:
