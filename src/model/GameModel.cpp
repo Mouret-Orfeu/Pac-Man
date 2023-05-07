@@ -51,6 +51,7 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
         //std::cout<<"frightened mode ON"<<std::endl;
 
         frightened_bool = true;
+        frightened_counter = 0;
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
             ghost->setPreviousMode(ghost->getMode());
             ghost->setMode(Ghost::Mode::FRIGHTENED);
@@ -75,6 +76,12 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
             ghost->setModeJustChanged(true);
         }
         return;
+    }
+
+    if (pacman.isEnergized() && frightened_bool == true) {
+        // print frightened counter after conversion to int
+        std::cout << "frightened counter: " << frightened_counter << std::endl;
+        frightened_counter++;
     }
 
 
@@ -177,15 +184,15 @@ void GameModel::update(Direction input_direction, float time_count, float fright
         game_reset();
     }
 
-    
+
     HandlePacGhostCollision();
 
-   
+
 
     //On libère les fantomes qui doivent l'être
     monster_den.updateMonsterDen();
 
-    
+
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
 
@@ -206,15 +213,8 @@ void GameModel::update(Direction input_direction, float time_count, float fright
     // Make PacMan move
     pacman.move(count);
 
-
-
-
-
-
     // Update the count, (je pense que ça sert plus à rien ça)
     count = (count + 1) % 512;
-
-
 }
 
 std::array<std::unique_ptr<Ghost>, 4>& GameModel::getGhosts() {
@@ -256,6 +256,11 @@ bool GameModel::isTileLegal(Tile tile) {
 bool GameModel::getFrightenedBool() const
 {
     return frightened_bool;
+}
+
+Uint64 GameModel::getFrightenedCounter() const
+{
+    return frightened_counter;
 }
 
 void GameModel::setLastTimeDotEatenTimer(float time)
