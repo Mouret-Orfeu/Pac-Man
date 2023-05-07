@@ -78,6 +78,8 @@ public:
     void setEnergized(bool energized);
     bool isEnergized() const;
 
+    void setMemoryDirection(Direction direction);
+
 private:
     MonsterDen& monster_den;
     Direction intended_direction;
@@ -88,7 +90,7 @@ private:
     Cornering cornering_direction;
     bool cornering;
 
-    //J'ai besoin de ça pourpouvoir calculer des target tile quand pacman.direction=NONE
+    //J'ai besoin de ça pour pouvoir calculer des target tile quand pacman.direction=NONE
     //memory direction est la même chose que direction seulement, elle n'est jamais à NONE
     Direction memory_direction;
 

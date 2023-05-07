@@ -124,15 +124,40 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
     
 }
 
+void GameModel::HandlePacGhostCollision()
+{
+    
+    for(std::unique_ptr<Ghost>& ghost : ghosts){
+        if(pacman.getPosition().toTile() == ghost->getPosition().toTile()){
+            if(frightened_bool==false){
+
+                pacman.setIsDead(true);
+                pacman.setLives(pacman.getLives()-1);
+                pacman.setDirection(Direction::RIGHT);
+                pacman.setIntendedDirection(Direction::RIGHT);
+                pacman.setMemoryDirection(Direction::RIGHT);
+        
+            }
+
+            else if(frightened_bool==true){
+                pacman.setScore(pacman.getScore()+200);
+    
+            }
+        }
+    }
+
+   
+}
+
 void GameModel::update(Direction input_direction, float time_count, float fright_time_count) {
+
+    HandlePacGhostCollision();
 
     //On libère les fantomes qui doivent l'être
     monster_den.updateMonsterDen();
     
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode(time_count, ghosts, fright_time_count);
-
-
 
     //DEBUG
     //test de FRIGHTENED (faut commenter GhostSwitchMode au dessus pour ce test)
@@ -163,7 +188,6 @@ void GameModel::update(Direction input_direction, float time_count, float fright
         //DEBUG
         //std::cout<<"après move "<<std::endl;
     }
-        
 
 
     // Update PacMan's intended direction based on user input
@@ -172,6 +196,8 @@ void GameModel::update(Direction input_direction, float time_count, float fright
 
     // Make PacMan move
     pacman.move(count);
+
+    
 
 
     // Update the count, (je pense que ça sert plus à rien ça)
@@ -223,3 +249,4 @@ float GameModel::getLastTimeDotEatenTimer() const
 {
     return last_time_dot_eaten_timer;
 }
+

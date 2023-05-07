@@ -75,3 +75,11 @@ void Character::printDirection(Direction d) const
     }
 }
 
+void Character::setPosition(Position position) {
+    this->position = position;
+}
+
+Position Character::getInitPos() const {
+    return initial_position;
+}
+

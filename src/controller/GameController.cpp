@@ -28,6 +28,7 @@ bool GameController::init() {
 }
 
 void GameController::run() {
+
     if (!sdl_initialized) {
         return;
     }
@@ -53,6 +54,12 @@ void GameController::run() {
 			}
 		}
 
+        if(game_model.getPacMan().getLives()==-1)
+        {
+            quit = true;
+            break;
+        }
+
         // Gestion du clavier
         const Uint8* keys = SDL_GetKeyboardState(nullptr);
 
@@ -68,6 +75,7 @@ void GameController::run() {
             input_direction = Direction::UP;
         if (keys[SDL_SCANCODE_DOWN])
             input_direction = Direction::DOWN;
+
 
         //là dedans y'a move pour tous les persos
         game_model.update(input_direction, time_count, fright_time_count);
@@ -107,6 +115,7 @@ void GameController::run() {
                 }
                 frameStartTime = SDL_GetTicks64();
             }
+            game_model.getPacMan().setPosition(game_model.getPacMan().getInitPos());
             game_model.getPacMan().setIsDead(false);
         }
 
@@ -135,7 +144,7 @@ void GameController::run() {
         //std::cout<<"last eaten dot timer: "<<game_model.getLastTimeDotEatenTimer()<<std::endl;
 
         //DEBUG
-        std::cout << "time_count: " << time_count << std::endl;
+        //std::cout << "time_count: " << time_count << std::endl;
 
         //DEBUG
         //it++;

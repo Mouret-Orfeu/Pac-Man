@@ -241,6 +241,11 @@ void Ghost::updateDirection() {
 
     //On choisit la direction qui minimise la distance à la target tile, si égalité, se référer à l'ordre de priorité (compareDirections)
     std::sort(best_directions.begin(), best_directions.end(), compareDirections);
+
+    //DEBUG
+    //printType(ghost_type);
+    //std::cout << "best_directions : ";
+
     direction = best_directions[0];
 
     //DEBUG

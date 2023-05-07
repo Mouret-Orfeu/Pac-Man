@@ -43,6 +43,8 @@ public:
     //DEBUG
     void printDirection(Direction d) const;
 
+    Position getInitPos() const;
+
 protected:
     GameModel& game_model;
     const Position initial_position;

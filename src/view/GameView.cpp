@@ -159,14 +159,14 @@ void GameView::drawGhosts() {
             drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
 
             //DEBUG
-            if(ghost->getType() == Ghost::Type::PINKY)
-                drawTileOutline(ghost->getCurrentTargetTile(), pink);
-            if(ghost->getType() == Ghost::Type::BLINKY)
-                drawTileOutline(ghost->getCurrentTargetTile(), red);
-            if(ghost->getType() == Ghost::Type::INKY)
-                drawTileOutline(ghost->getCurrentTargetTile(), blue);
-            if(ghost->getType() == Ghost::Type::CLYDE)
-                drawTileOutline(ghost->getCurrentTargetTile(), orange);
+            //if(ghost->getType() == Ghost::Type::PINKY)
+            //    drawTileOutline(ghost->getCurrentTargetTile(), pink);
+            //if(ghost->getType() == Ghost::Type::BLINKY)
+            //    drawTileOutline(ghost->getCurrentTargetTile(), red);
+            //if(ghost->getType() == Ghost::Type::INKY)
+            //    drawTileOutline(ghost->getCurrentTargetTile(), blue);
+            //if(ghost->getType() == Ghost::Type::CLYDE)
+            //    drawTileOutline(ghost->getCurrentTargetTile(), orange);
         }
 
     }
@@ -456,6 +456,17 @@ void GameView::drawText() {
 
 void GameView::drawLives() {
     int lives = game_model.getPacMan().getLives();
+
+    //DEBUG
+    std::cout << "Lives: " << lives << std::endl;
+
+
+    // Clear the area where the lives are drawn
+    SDL_Surface* cleared_life_surf = SDL_CreateRGBSurface(0, SPRITE_SIZE, SPRITE_SIZE, 32, 0, 0, 0, 0);
+    for(int i=1; i<=3; i++ )
+        drawSprite(cleared_life_surf, NULL, Tile({WINDOW_ROWS-2,2*i}), false);
+
+    // Draw lives
     for (int i = 1; i <= lives; i++)
         drawSprite(spriteSheet_Namco, &life_sprite, Tile({WINDOW_ROWS-2,2*i}), true);
 }

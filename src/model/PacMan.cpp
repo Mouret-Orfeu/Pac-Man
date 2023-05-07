@@ -8,7 +8,8 @@
 #include "MonsterDen.h"
 
 #include <iostream>
-const Position init_pos_pacman = Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2);
+
+const Position init_pos_pacman=Position((WINDOW_WIDTH-1)/2, 26*TILE_SIZE + (TILE_SIZE-1)/2);
 
 PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
 :Character(gameModel, init_pos_pacman, Direction::RIGHT),
@@ -24,6 +25,7 @@ PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
  dots_eaten(0),
  memory_direction(Direction::LEFT),
  energized(false)
+
 {}
 
 PacMan::~PacMan() {}
@@ -36,6 +38,8 @@ void PacMan::move(int count) {
 
     // Eat dots and energizers
     eat();
+
+     
     // if(position.isCenteredOnTile()){
     //     eat();
     // }
@@ -51,9 +55,13 @@ void PacMan::move(int count) {
 }
 
 void PacMan::eat() {
+
     Tile current_tile = position.toTile();
+
     switch (game_model.getTile(current_tile)) {
         case GameModel::TileType::DOT:
+            //DEBUG
+            //std::cout<<"TEST"<<std::endl; 
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=10;
             frames_to_drop = 1;
@@ -62,7 +70,7 @@ void PacMan::eat() {
             game_model.setLastTimeDotEatenTimer(0.0f);
 
             //DEBUG
-            std::cout<<"couter dots pac death: "<<monster_den.getCouterDotPacDeath()<<std::endl;
+            //std::cout<<"couter dots pac death: "<<monster_den.getCouterDotPacDeath()<<std::endl;
 
             break;
         case GameModel::TileType::ENERGIZER:
@@ -502,4 +510,9 @@ void PacMan::setEnergized(bool energized)
 bool PacMan::isEnergized() const
 {
     return energized;
+}
+
+void PacMan::setMemoryDirection(Direction memory_direction)
+{
+    this->memory_direction = memory_direction;
 }

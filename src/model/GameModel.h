@@ -52,6 +52,8 @@ public:
     float getLastTimeDotEatenTimer() const;
     void setLastTimeDotEatenTimer(float last_time_dot_eaten_timer);
 
+    void HandlePacGhostCollision();
+
 private:
     MonsterDen monster_den;
     PacMan pacman;
