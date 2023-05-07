@@ -126,6 +126,8 @@ void GameModel::GhostSwitchMode(float time_count, std::array<std::unique_ptr<Gho
 
 void GameModel::HandlePacGhostCollision()
 {  
+    bool ghost_die=false;
+
     for(std::unique_ptr<Ghost>& ghost : ghosts){
         if(pacman.getPosition().distancePosition(ghost->getPosition())<TILE_SIZE){
             if(frightened_bool==false){
@@ -141,7 +143,16 @@ void GameModel::HandlePacGhostCollision()
                 pacman.setScore(pacman.getScore()+200);
                 pacman.setFramesToDrop(60);
                 ghost->die();
+
+                ghost_die=true;
             }
+        }
+    }
+
+    for(std::unique_ptr<Ghost>& ghost : ghosts){
+
+        if(ghost_die==true){
+            ghost->setFramesToDrop(60);
         }
     }
 

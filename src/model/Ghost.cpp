@@ -320,7 +320,6 @@ void Ghost::die()
     direction=spawn_direction;
     position=respawn_position;
     out_of_den=false;
-    frames_to_drop=60;
 }
 
 void Ghost::move(int count) {
