@@ -26,3 +26,7 @@ Alternatively, you can use `cmake --build ./ -j8` to enable cmake to use 8 cores
 
 Le nombre de points maximum prévu est 1 000 000
 
+## Bug report
+parfois pacman se fige apres avoir perdu une vie
+parfois on ne frize quand on mange un fantome
+
