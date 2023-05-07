@@ -48,6 +48,7 @@ public:
     void GhostSwitchMode(float time_count, std::array<std::unique_ptr<Ghost>, 4>& ghosts, float fright_time_count);
 
     bool getFrightenedBool() const;
+    Uint64 getFrightenedCounter() const;
 
     float getLastTimeDotEatenTimer() const;
     void setLastTimeDotEatenTimer(float last_time_dot_eaten_timer);
@@ -69,8 +70,9 @@ private:
     int count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
     bool frightened_bool;
+    Uint64 frightened_counter;
     float last_time_dot_eaten_timer;
-    
+
     int nb_point_eat_ghost;
 
     // Maze layout

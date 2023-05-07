@@ -158,6 +158,10 @@ void GameView::drawGhosts() {
             if ((game_model.getCount() / 8) % 2) {
                 // The second sprite is just next to the first one
                 ghost_sprite.x += SPRITE_SIZE;
+                if ( game_model.getFrightenedBool() && game_model.getFrightenedCounter()>5*60) {
+                    // The third sprite is just next to the second one
+                    ghost_sprite.x += 2*SPRITE_SIZE;
+                }
             }
             drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
 
