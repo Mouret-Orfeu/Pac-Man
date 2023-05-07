@@ -27,7 +27,7 @@ GameModel::GameModel()
     std::make_unique<Clyde>(*this, pacman, monster_den)},
     frightened_bool(false),
     nb_point_eat_ghost(200),
-    time_count(0.0f), 
+    time_count(0.0f),
     fright_time_count(0.0f)
 {
     //DEBUG
@@ -73,7 +73,7 @@ void GameModel::GhostSwitchMode()
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
             ghost->cancelModeFrightened(time_count, fright_time_count, frightened_bool);
         }
-    
+
     }
     else{
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
@@ -84,6 +84,27 @@ void GameModel::GhostSwitchMode()
     if (pacman.isEnergized() && frightened_bool == true) {
         frightened_counter++;
     }
+
+    if(!getFrightenedBool())
+        setTimeCount(getTimeCount()+ 1.0f/60.0f) ;
+    else
+        setFrightTimeCount(getFrightTimeCount()+ 1.0f/60.0f) ;
+
+    if(getFrightTimeCount() > 7.1f)
+
+        setFrightTimeCount(0.0f);
+
+    //DEBUG
+    std::cout << "time_count: " << getTimeCount() << std::endl;
+
+    //DEBUG
+    //it++;
+    //if(it%60==0){
+    //    std::cout << "Second fright: " << static_cast<int>(fright_time_count) << std::endl;
+    //    it=0;
+    //}
+
+
 }
 
 
@@ -138,27 +159,18 @@ void GameModel::update(Direction input_direction) {
         game_reset();
     }
 
-
     HandlePacGhostCollision();
-
-
 
     //On libère les fantomes qui doivent l'être
     monster_den.updateMonsterDen();
 
-
     //En fonction du temps qui passe, on change le mode des fantomes
     GhostSwitchMode();
 
-
-
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts){
-
-
         ghost->move(count);
     }
-
 
     // Update PacMan's intended direction based on user input
     if (input_direction != Direction::NONE)
@@ -256,7 +268,7 @@ void GameModel::setTimeCount(float time_count)
 {
     this->time_count = time_count;
 }
-    
+
 float GameModel::getTimeCount() const
 {
     return time_count;

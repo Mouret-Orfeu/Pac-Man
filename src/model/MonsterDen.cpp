@@ -35,7 +35,7 @@ bool compareGhostType( Ghost::Type t1, Ghost::Type t2){
         {Ghost::Type::INKY, 2},
         {Ghost::Type::CLYDE, 1}
     };
-    
+
     // Compare the priority of the directions
     return priorityMap[t1] > priorityMap[t2];
 }
@@ -47,7 +47,7 @@ void MonsterDen::setGhostsInDen()
     //std::cout << "set ghost in den: " <<std::endl;
 
     ghosts_in_den.clear(); // Clear the vector before filling it up with new values
-    
+
     for(std::unique_ptr<Ghost>& ghost : game_model.getGhosts()){
 
         //DEBUG
@@ -68,16 +68,16 @@ void MonsterDen::setGhostsInDen()
                     mode_after_pac_death=false;
                 }
 
-                
+
             }
         }
-        
+
     }
     //DEBUG
     //std::cout <<std::endl;
 
     std::sort(ghosts_in_den.begin(), ghosts_in_den.end(), compareGhostType);
-    
+
 }
 
 void MonsterDen::updateMonsterDen(){
@@ -123,10 +123,10 @@ void MonsterDen::updateMonsterDen(){
             }
         }
 
-    
+
     }
     else if(mode_after_pac_death==true){
-        
+
         if(ghosts_in_den.size()>0){
             switch (ghosts_in_den[0])
             {
@@ -167,7 +167,11 @@ void MonsterDen::updateMonsterDen(){
 
     }
 
+    // On fait avancer le timer qui compte le temps que pacman a passé à rien manger (on le remet à 0 quand il mange qlq chose)
+    game_model.setLastTimeDotEatenTimer(game_model.getLastTimeDotEatenTimer() + 1.0f/60.0f);
 
+    // DEBUG
+    // std::cout<<"last eaten dot timer: "<<game_model.getLastTimeDotEatenTimer()<<std::endl;
 }
 
 std::vector<Ghost::Type> MonsterDen::getGhostsInDen() const
@@ -196,7 +200,7 @@ void MonsterDen::incrementDotCounter()
     else{
         count_eaten_dots_after_pac_death++;
     }
-    
+
 }
 
 void MonsterDen::printCounterDot(Ghost::Type ghost_type) const
