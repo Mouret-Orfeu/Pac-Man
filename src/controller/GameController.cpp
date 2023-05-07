@@ -26,16 +26,6 @@ bool GameController::init() {
     return true;
 }
 
-void GameController::limitFramerate(Uint64& frameStartTime) {
-    const Uint64 desiredFrameTime = 1000 / 60; // 60 FPS -> 1000 ms for 60 frames
-    Uint64 currentTime = SDL_GetTicks64();
-    Uint64 elapsedTime = currentTime - frameStartTime;
-    if (elapsedTime < desiredFrameTime) {
-        SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
-    }
-    frameStartTime = SDL_GetTicks64();
-}
-
 void GameController::run() {
 
     if (!sdl_initialized) {
@@ -147,4 +137,14 @@ void GameController::run() {
 
 	}
 
+}
+
+void GameController::limitFramerate(Uint64& frameStartTime) {
+    const Uint64 desiredFrameTime = 1000 / 60; // 60 FPS -> 1000 ms for 60 frames
+    Uint64 currentTime = SDL_GetTicks64();
+    Uint64 elapsedTime = currentTime - frameStartTime;
+    if (elapsedTime < desiredFrameTime) {
+        SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
+    }
+    frameStartTime = SDL_GetTicks64();
 }
