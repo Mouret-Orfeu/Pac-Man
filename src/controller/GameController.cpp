@@ -10,7 +10,11 @@
 #include <iostream>
 #include <cmath>
 
-GameController::GameController() : sdl_initialized(false), gameView(gameModel) {}
+GameController::GameController()
+:sdl_initialized(false),
+ gameModel(),
+ gameView(gameModel)
+{}
 
 GameController::~GameController() {
     if (sdl_initialized)
