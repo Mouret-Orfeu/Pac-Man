@@ -69,6 +69,9 @@ public:
     void setFrightTimeCount(float fright_time_count);
     float getFrightTimeCount() const;
 
+
+    void setFrightenedCounter(Uint64 frightened_counter);
+    
 private:
     MonsterDen monster_den;
     PacMan pacman;

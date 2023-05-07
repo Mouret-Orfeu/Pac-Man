@@ -272,3 +272,8 @@ float GameModel::getFrightTimeCount() const
     return fright_time_count;
 }
 
+void GameModel::setFrightenedCounter(Uint64 frightened_counter)
+{
+    this->frightened_counter = frightened_counter;
+}
+

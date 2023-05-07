@@ -124,6 +124,8 @@ void PacMan::eat() {
             dots_eaten++;
             energized = true;
             game_model.setLastTimeDotEatenTimer(0.0f);
+            game_model.setFrightTimeCount(0.0f);
+            game_model.setFrightenedCounter(0);
             break;
         default:
             //DEBUG
