@@ -23,7 +23,9 @@ public:
     * @brief Traite la logique de déplacement des personnages et met à jour leur position
     *
     */
-    virtual void move() = 0;
+    virtual void move() =0;
+
+    bool should_move();
 
     /**
     * @brief Sous fonction de move, ne sert qu'à changer top_left_position et center_position en fonction de la direction calculée dans move
@@ -49,6 +51,12 @@ public:
 
     void setFramesToDrop(int frames);
 
+    // setter and getter for speed
+    int getSpeed() const;
+    void setSpeed(int speed);
+
+    Uint64 getNbAnimatedFramesSinceLastSpeedChange() const;
+
 protected:
     GameModel& game_model;
     const Position spawn_position;
@@ -56,6 +64,9 @@ protected:
     Direction direction;
     const Direction spawn_direction;
     int frames_to_drop;
+    Uint64 nb_animated_frames_since_last_speed_change;
+    Uint64 frame_count_at_last_speed_change;
+    int speed; // as a percentage of the max speed, i.e. 1 pixel per frame
 
     //static constexpr Tile TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1);
     //static constexpr Tile TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0);

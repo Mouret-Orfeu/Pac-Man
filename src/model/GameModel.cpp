@@ -156,7 +156,7 @@ void GameModel::HandlePacGhostCollision()
 void GameModel::update(Direction input_direction) {
 
     if(pacman.getDotsEaten()== 244 || pacman.getLives()==-1){
-        game_reset();
+        reset();
     }
 
     HandlePacGhostCollision();
@@ -180,7 +180,7 @@ void GameModel::update(Direction input_direction) {
     pacman.move();
 
     // Update the frame_count, (je pense que ça sert plus à rien ça)
-    frame_count = (frame_count + 1) % 512;
+    frame_count++;
 }
 
 std::array<std::unique_ptr<Ghost>, 4>& GameModel::getGhosts() {
@@ -235,7 +235,7 @@ float GameModel::getLastTimeDotEatenTimer() const
     return last_time_dot_eaten_timer;
 }
 
-void GameModel::game_reset()
+void GameModel::reset()
 {
     //Ghosts
     for(std::unique_ptr<Ghost>& ghost : ghosts){
@@ -250,10 +250,11 @@ void GameModel::game_reset()
 
     //GameModel:
     frightened_bool = false;
-    last_time_dot_eaten_timer=0.0f;
-    nb_point_eat_ghost=200;
-    time_count=0.0f;
-    fright_time_count=0.0f;
+    last_time_dot_eaten_timer = 0.0f;
+    nb_point_eat_ghost = 200;
+    time_count = 0.0f;
+    fright_time_count = 0.0f;
+    frame_count = 0;
 
 
     //TilesMatrix

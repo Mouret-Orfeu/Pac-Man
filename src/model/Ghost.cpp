@@ -382,6 +382,8 @@ void Ghost::die()
 }
 
 void Ghost::move() {
+    if (!should_move())
+        return;
 
     updateTargetTile();
 

@@ -58,7 +58,7 @@ public:
     /**
     * @brief QUand toutes les gommes sont mangées, on réinitialise tout sauf le hight score et les constantes de jeu
     */
-    void game_reset();
+    void reset();
 
     void resetTilesMatrix();
 
@@ -72,10 +72,10 @@ public:
     void setFrightenedCounter(Uint64 frightened_counter);
 
 private:
+    Uint64 frame_count;
     MonsterDen monster_den;
     PacMan pacman;
     std::array<std::unique_ptr<Ghost>, 4> ghosts;
-    Uint64 frame_count;
     TileType tilesMatrix[WINDOW_ROWS][WINDOW_COLS];
     bool frightened_bool;
     Uint64 frightened_counter;

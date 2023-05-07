@@ -25,7 +25,6 @@ PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
  dots_eaten(0),
  memory_direction(Direction::RIGHT),
  energized(false)
-
 {}
 
 PacMan::~PacMan() {}
@@ -49,6 +48,14 @@ void PacMan::reset()
 
 // Implement PacMan-specific methods here
 void PacMan::move() {
+    if (!should_move())
+        return;
+
+    // print frame_count
+    std::cout<<"frame count: "<<game_model.getFrameCount()<<std::endl;
+    // print frame_count_since_last_speed_change
+    std::cout<<"frame count since last speed change: "<<game_model.getFrameCount()-frame_count_at_last_speed_change<<std::endl;
+
     // WARNNING: we check too many things at each frame, this is not efficient
 
     //DEBUG

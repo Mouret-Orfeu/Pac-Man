@@ -1,7 +1,7 @@
 #include "common/Position.h"
 #include "Character.h"
 #include "common/Direction.h"
-
+#include "GameModel.h"
 
 #include <iostream>
 
@@ -12,9 +12,12 @@ Character::Character(GameModel& game_model, Position spawn_position, Direction s
  direction(spawn_direction),
  spawn_direction(spawn_direction),
  frames_to_drop(0),
+ nb_animated_frames_since_last_speed_change(0),
  TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
  TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
-{}
+{
+    setSpeed(100);
+}
 
 Character::~Character() {}
 
@@ -22,6 +25,17 @@ void Character::reset(){
     position = spawn_position;
     direction = spawn_direction;
     frames_to_drop = 0;
+    nb_animated_frames_since_last_speed_change = 0;
+    setSpeed(100);
+}
+
+bool Character::should_move() {
+    Uint64 frame_count_since_last_speed_change = game_model.getFrameCount() - frame_count_at_last_speed_change;
+    if (frame_count_since_last_speed_change * speed / 100 <= nb_animated_frames_since_last_speed_change) {
+        return false;
+    }
+    nb_animated_frames_since_last_speed_change++;
+    return true;
 }
 
 
@@ -101,3 +115,15 @@ void Character::setFramesToDrop(int frames) {
     frames_to_drop = frames;
 }
 
+int Character::getSpeed() const {
+    return speed;
+}
+
+void Character::setSpeed(int speed) {
+    frame_count_at_last_speed_change = game_model.getFrameCount();
+    this->speed = speed;
+}
+
+Uint64 Character::getNbAnimatedFramesSinceLastSpeedChange() const {
+    return nb_animated_frames_since_last_speed_change;
+}
