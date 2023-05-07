@@ -155,11 +155,11 @@ void GameView::drawGhosts() {
             else
                 ghost_sprite = ghost_sprites[ghost_type][sprite_orientation];
             // Here we change between the 2 source sprites for a nice animation.
-            if ((game_model.getCount() / 8) % 2) {
+            if ((game_model.getCount() / 16) % 2) {
                 // The second sprite is just next to the first one
                 ghost_sprite.x += SPRITE_SIZE;
-                if ( game_model.getFrightenedBool() && game_model.getFrightenedCounter()>5*60) {
-                    // The third sprite is just next to the second one
+                if (ghost->getMode()==Ghost::Mode::FRIGHTENED && game_model.getFrightenedCounter()>5*60) {
+                    // The white sprites are two sprites next to the blue ones
                     ghost_sprite.x += 2*SPRITE_SIZE;
                 }
             }
@@ -192,7 +192,8 @@ void GameView::drawDots() {
                 drawSprite(spriteSheet_Namco, &dot_sprite, tile, true);
                 break;
             case GameModel::TileType::ENERGIZER:
-                drawSprite(spriteSheet_Namco, &power_pellet_sprite, tile, true);
+                if ((game_model.getCount() / 16) % 2)
+                    drawSprite(spriteSheet_Namco, &power_pellet_sprite, tile, true);
                 break;
             default:
                 break;
