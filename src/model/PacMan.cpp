@@ -17,7 +17,7 @@ PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
  intended_direction(Direction::RIGHT),
  score(0),
  highscore(0),
- lives(3),
+ lives(2),
  is_dead(false),
  cornering_direction(Cornering::NONE),
  cornering(false),
