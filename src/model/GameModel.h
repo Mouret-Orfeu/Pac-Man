@@ -44,7 +44,7 @@ public:
     */
     bool isTileLegal(Tile tile);
 
-    void GhostSwitchMode();
+    void updateGhostMode();
 
     bool getFrightenedBool() const;
     Uint64 getFrightenedCounter() const;
@@ -71,6 +71,8 @@ public:
 
     void setFrightenedCounter(Uint64 frightened_counter);
 
+    int getNbDotTotal() const;
+
 private:
     Uint64 frame_count;
     MonsterDen monster_den;
@@ -87,6 +89,8 @@ private:
 
     //on compte le temps durant lequel les fantomes sont frightened
     float fright_time_count;
+
+    int NB_DOT_TOTAL;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;

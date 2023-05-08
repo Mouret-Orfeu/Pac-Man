@@ -28,7 +28,8 @@ GameModel::GameModel()
     frightened_bool(false),
     nb_point_eat_ghost(200),
     time_count(0.0f),
-    fright_time_count(0.0f)
+    fright_time_count(0.0f),
+    NB_DOT_TOTAL(244)
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -50,7 +51,7 @@ void GameModel::resetTilesMatrix()
     }
 }
 
-void GameModel::GhostSwitchMode()
+void GameModel::updateGhostMode()
 {
     if(pacman.isEnergized() && frightened_bool == false){
         //DEBUG
@@ -67,6 +68,7 @@ void GameModel::GhostSwitchMode()
         //std::cout<<"frightened mode OFF"<<std::endl;
 
         pacman.setEnergized(false);
+        //pacman.setSpeed(80);
         frightened_bool = false;
         nb_point_eat_ghost = 200;
 
@@ -95,7 +97,7 @@ void GameModel::GhostSwitchMode()
         setFrightTimeCount(0.0f);
 
     //DEBUG
-    std::cout << "time_count: " << getTimeCount() << std::endl;
+    //std::cout << "time_count: " << getTimeCount() << std::endl;
 
     //DEBUG
     //it++;
@@ -159,6 +161,7 @@ void GameModel::HandlePacGhostCollision()
 
 void GameModel::update(Direction input_direction) {
 
+    //Traitement du cas où pacman a mangé toutes les gommes ou a perdu toutes ses vies
     if(pacman.getDotsEaten()== 244 || pacman.getLives()==-1){
         reset();
     }
@@ -169,7 +172,7 @@ void GameModel::update(Direction input_direction) {
     monster_den.updateMonsterDen();
 
     //En fonction du temps qui passe, on change le mode des fantomes
-    GhostSwitchMode();
+    updateGhostMode();
 
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts){
@@ -288,5 +291,10 @@ float GameModel::getFrightTimeCount() const
 void GameModel::setFrightenedCounter(Uint64 frightened_counter)
 {
     this->frightened_counter = frightened_counter;
+}
+
+int GameModel::getNbDotTotal() const
+{
+    return NB_DOT_TOTAL;
 }
 

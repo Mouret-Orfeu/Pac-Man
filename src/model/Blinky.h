@@ -26,6 +26,10 @@ public:
     int getSpeed3() const;
     int getCurrentSpeed() const;
 
+    void updateSpeed();
+
+    void TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool);
+
     void die() override;
 
 

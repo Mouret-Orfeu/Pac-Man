@@ -117,8 +117,10 @@ void MonsterDen::updateMonsterDen(){
                     //si blinky est à sa speed1, le mettre en speed2
                 }
                 break;
+            case Ghost::Type::BLINKY:
+                break;
             default:
-                std::cout << "Error updateMonsterDen(), no ghost in den" << std::endl;
+                std::cout << "Error updateMonsterDen()" << std::endl;
                 break;
             }
         }
@@ -250,6 +252,30 @@ bool MonsterDen::getCanLeaveDen(Ghost::Type ghost_type) const
 int MonsterDen::getCouterDotPacDeath() const{
     return count_eaten_dots_after_pac_death;
 }
+
+bool MonsterDen::canLeaveDen(Ghost::Type ghost_type) const
+{
+    switch (ghost_type)
+    {
+    case Ghost::Type::PINKY:
+        return can_leave_den_Pinky;
+        break;
+    case Ghost::Type::INKY:
+        return can_leave_den_Inky;
+        break;
+    case Ghost::Type::CLYDE:
+        return can_leave_den_Clyde;
+        break;
+    case Ghost::Type::BLINKY:
+        return true;
+        break;
+    default:
+        std::cout << "Error canLeaveDen(), wrong ghost type" << std::endl;
+        exit(1);
+        break;
+    }
+}
+
 
 void MonsterDen::reset()
 {

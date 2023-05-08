@@ -25,7 +25,9 @@ PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
  dots_eaten(0),
  memory_direction(Direction::RIGHT),
  energized(false)
-{}
+{
+    setSpeed(80);
+}
 
 PacMan::~PacMan() {}
 
@@ -33,7 +35,11 @@ void PacMan::reset()
 {
     Character::reset();
     intended_direction=Direction::RIGHT;
-    score=0;
+
+    //si pacman n'a pas -1 vie, on continue d'enchainer les parties en accumulant le score
+    if(lives==-1)
+        score=0;
+
     lives=3;
     is_dead=false;
     cornering_direction=Cornering::NONE;
@@ -52,9 +58,9 @@ void PacMan::move() {
         return;
 
     // print frame_count
-    std::cout<<"frame count: "<<game_model.getFrameCount()<<std::endl;
+    //std::cout<<"frame count: "<<game_model.getFrameCount()<<std::endl;
     // print frame_count_since_last_speed_change
-    std::cout<<"frame count since last speed change: "<<game_model.getFrameCount()-frame_count_at_last_speed_change<<std::endl;
+    //std::cout<<"frame count since last speed change: "<<game_model.getFrameCount()-frame_count_at_last_speed_change<<std::endl;
 
     // WARNNING: we check too many things at each frame, this is not efficient
 
@@ -128,6 +134,7 @@ void PacMan::eat() {
             frames_to_drop = 3;
             dots_eaten++;
             energized = true;
+            //setSpeed(90);
             game_model.setLastTimeDotEatenTimer(0.0f);
             game_model.setFrightTimeCount(0.0f);
             game_model.setFrightenedCounter(0);

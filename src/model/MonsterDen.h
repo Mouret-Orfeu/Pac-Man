@@ -36,6 +36,8 @@ public:
     bool getCanLeaveDen(Ghost::Type ghost_type) const;
 
     int getCouterDotPacDeath() const;
+
+    bool canLeaveDen(Ghost::Type ghost_type) const;
     
 
 

@@ -17,6 +17,10 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_posit
  scatter_target_tile(scatter_target_tile),
  out_of_den(out_of_den),
  current_target_tile(scatter_target_tile),
+ forbiden_tiles_UP({{13,12},{13,15}}),
+ forbiden_tiles_DOWN({{25,12},{25,15}}),
+ Slowing_tile_right({17,22}),
+ Slowing_tile_left({17,5}),
  out_of_den_position((WINDOW_WIDTH-1)/2, 14*TILE_SIZE + (TILE_SIZE-1)/2),
  center_den_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2),
  pacman(pacman),
@@ -26,7 +30,9 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_posit
  spawn_direction(spawn_direction),
  spawn_position(spawn_position),
  respawn_position(respawn_position)
-{}
+{
+    setSpeed(75);
+}
 
 Ghost::~Ghost() {
     // Clean up Ghost-specific data here
@@ -273,6 +279,7 @@ void Ghost::switchModeFrightened(float time_count, float fright_time_count, bool
     ghost_mode=Ghost::Mode::FRIGHTENED;
     mode_has_changed=true;
     mode_just_changed=true;
+    //setSpeed(50);
 
     return;
 }
@@ -282,6 +289,7 @@ void Ghost::cancelModeFrightened(float time_count, float fright_time_count, bool
     ghost_mode=previous_ghost_mode;
     mode_has_changed=true;
     mode_just_changed=true;
+    //setSpeed(75);
 }
 
 void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool)
@@ -380,6 +388,25 @@ void Ghost::resetMode()
     mode_just_changed=false;
 }
 
+void Ghost::updateSpeed()
+{
+    //entrée et sortie du couloir de teleportation de gauche
+    if(position.toTile()==Slowing_tile_left && direction==Direction::LEFT){
+        setSpeed(40);
+    }
+    if(position.toTile()==Slowing_tile_left && direction==Direction::RIGHT){
+        setSpeed(speed);
+    }
+
+    //entrée et sortie du couloir de teleportation de droite
+    if(position.toTile()==Slowing_tile_right && direction==Direction::RIGHT){
+        setSpeed(40);
+    }
+    if(position.toTile()==Slowing_tile_right && direction==Direction::LEFT){
+        setSpeed(speed);
+    }
+}
+
 void Ghost::die()
 {
     direction=spawn_direction;
@@ -388,6 +415,9 @@ void Ghost::die()
 }
 
 void Ghost::move() {
+
+    //updateSpeed();
+
     if (!should_move())
         return;
 

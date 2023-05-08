@@ -53,10 +53,11 @@ public:
 
     void cancelModeFrightened(float time_count, float fright_time_count, bool frightened_bool);
 
-    void TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool);
+    void virtual TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool);
 
     virtual void leaveTheDen() =0;
     virtual void updateTargetTile() =0;
+    virtual void updateSpeed();
 
     void printType(Type ghost_type) const;
 
@@ -92,8 +93,10 @@ protected:
     Tile scatter_target_tile;
     Tile current_target_tile;
 
-    std::vector<Tile> forbiden_tiles_UP={{13,12},{13,15}};
-    std::vector<Tile> forbiden_tiles_DOWN={{25,12},{25,15}};
+    std::vector<Tile> forbiden_tiles_UP;
+    std::vector<Tile> forbiden_tiles_DOWN;
+    Tile Slowing_tile_right;
+    Tile Slowing_tile_left;
 
     Position out_of_den_position;
     Position center_den_position;
