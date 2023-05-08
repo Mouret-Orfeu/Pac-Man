@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <set>
+#include <random>
 
 Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_position, Position respawn_position, Direction spawn_direction, Tile scatter_target_tile, bool out_of_den, PacMan& pacman, MonsterDen& monster_den)
 :Character(game_model, spawn_position, spawn_direction),
@@ -116,7 +117,10 @@ void Ghost::updateDirection() {
     if(ghost_mode==Ghost::Mode::FRIGHTENED)
     {
         //En mode FRIGTHENED, les fantomes se déplacent aléatoirement (mais toujours avec la même seed)
-        int random=rand()%3;
+        std::mt19937 gen(8888); // mersenne_twister_engine seeded with rd
+        std::uniform_int_distribution<> dis(0, 2); // di
+
+        int random=dis(gen);
 
         //on extrait les direction qui ne sont pas l'opposé de la direction actuelle
         std::vector<Direction> not_turnaround_directions={Direction::UP, Direction::LEFT, Direction::DOWN, Direction::RIGHT};
