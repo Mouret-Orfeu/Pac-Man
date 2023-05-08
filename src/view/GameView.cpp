@@ -360,7 +360,10 @@ void GameView::drawHUD() {
     drawScore();
     drawHighScore();
     drawLives();
-    drawFruit();
+    
+    if(!game_model.getStartState() || !game_model.getGameOverState())
+        drawFruit();
+
     drawText(); // "1UP" and "HIGH SCORE"
 }
 
