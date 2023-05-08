@@ -431,6 +431,14 @@ void GameView::drawFruit() {
 
     //DEBUG
     //std::cout << "Lives: " << lives << std::endl;
+    if(game_model.getFruit()){
+        
+        drawSprite(spriteSheet_Namco, &cherry_sprite, game_model.getFruitPosition().toTopLeft(), true);
+
+        //DEBUG
+        //drawTileOutline(game_model.getFruitPosition().toTile(), red);
+        
+    }
 
 
 

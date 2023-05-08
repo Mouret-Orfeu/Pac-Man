@@ -73,6 +73,15 @@ public:
 
     int getNbDotTotal() const;
 
+    bool getFruit() const;
+    void setFruit(bool fruit);
+
+    void setFrameFruit(int frame_fruit);
+
+    void upDateFruit();
+
+    Position getFruitPosition() const;
+
 private:
     Uint64 frame_count;
     MonsterDen monster_den;
@@ -91,6 +100,10 @@ private:
     float fright_time_count;
 
     int NB_DOT_TOTAL;
+
+    bool fruit;
+    int frame_fruit;
+    Position fruit_position;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;

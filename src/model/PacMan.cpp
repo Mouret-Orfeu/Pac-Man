@@ -144,6 +144,16 @@ void PacMan::eat() {
             //std::cout<<"EMPTY"<<std::endl;
             break;
     }
+
+    //manger le fruit si necessaire
+    if(game_model.getFruit()){
+        
+        if(position.distancePosition(game_model.getFruitPosition())==0){
+            game_model.setFruit(false);
+            score+=100;
+        }
+    }
+
     if (score > highscore)
         highscore = score;
 }

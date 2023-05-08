@@ -29,7 +29,10 @@ GameModel::GameModel()
     nb_point_eat_ghost(200),
     time_count(0.0f),
     fright_time_count(0.0f),
-    NB_DOT_TOTAL(244)
+    NB_DOT_TOTAL(244),
+    fruit(false),
+    frame_fruit(0),
+    fruit_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2+3*TILE_SIZE)
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -187,6 +190,8 @@ void GameModel::update(Direction input_direction) {
 
     HandlePacGhostCollision();
 
+    upDateFruit();
+
     // Update the frame_count, (je pense que ça sert plus à rien ça)
     frame_count++;
 }
@@ -263,6 +268,8 @@ void GameModel::reset()
     time_count = 0.0f;
     fright_time_count = 0.0f;
     frame_count = 0;
+    fruit= false;
+    frame_fruit= 0;
 
 
     //TilesMatrix
@@ -297,5 +304,49 @@ void GameModel::setFrightenedCounter(Uint64 frightened_counter)
 int GameModel::getNbDotTotal() const
 {
     return NB_DOT_TOTAL;
+}
+
+bool GameModel::getFruit() const 
+{
+    return fruit;
+}
+
+void GameModel::setFruit(bool fruit)
+{
+    this->fruit = fruit;
+}
+
+void GameModel::upDateFruit()
+{
+    if(fruit){
+        frame_fruit++;
+    }
+    
+    if(pacman.getDotsEaten() == 70 || pacman.getDotsEaten() == 170){
+        fruit = true;
+    }
+
+    if(fruit && frame_fruit == 600){
+        fruit = false;
+        frame_fruit = 0;
+    }
+
+    //DEBUG
+    //if(fruit)
+    //    std::cout<<"fruit timer: "<<frame_fruit/60<<std::endl;
+    //else
+    //    std::cout<<"dot count: "<<pacman.getDotsEaten()<<std::endl;
+    
+}
+
+
+Position GameModel::getFruitPosition() const
+{
+    return fruit_position;
+}
+
+void GameModel::setFrameFruit(int frame_fruit)
+{
+    this->frame_fruit = frame_fruit;
 }
 
