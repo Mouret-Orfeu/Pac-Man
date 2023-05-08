@@ -35,11 +35,9 @@ Ghost::~Ghost() {
 void Ghost::reset()
 {
     Character::reset();
-    ghost_mode=Mode::SCATTER;
+    resetMode();
     out_of_den=false;
-    mode_has_changed=false;
-    mode_just_changed=false;
-    previous_ghost_mode=Mode::SCATTER;
+    
 }
 
 Ghost::Type Ghost::getType() const {
@@ -372,6 +370,14 @@ Position Ghost::getSpawnPosition() const
 Position Ghost::getRespawnPosition() const
 {
     return respawn_position;
+}
+
+void Ghost::resetMode()
+{
+    ghost_mode=Ghost::Mode::SCATTER;
+    previous_ghost_mode=Mode::SCATTER;
+    mode_has_changed=false;
+    mode_just_changed=false;
 }
 
 void Ghost::die()

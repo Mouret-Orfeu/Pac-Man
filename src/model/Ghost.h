@@ -80,6 +80,8 @@ public:
 
     Position getRespawnPosition() const;
 
+    void resetMode();
+
     virtual void die() override;
 
 

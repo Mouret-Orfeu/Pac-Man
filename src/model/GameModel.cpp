@@ -120,13 +120,17 @@ void GameModel::HandlePacGhostCollision()
                 //std::cout<<"pacman before dead"<<std::endl;
                 pacman.die();
 
-                //tous les fantomes reviennent à leur spawn_position
+                time_count=0.0f;
+
+                //tous les fantomes reviennent à leur spawn_position, et leur mode de départ
                 for(std::unique_ptr<Ghost>& ghost : ghosts){
                     ghost->setPosition(ghost->getSpawnPosition());
                     ghost->setDirection(ghost->getSpawnDirection());
                     if(ghost->getType()!=Ghost::Type::BLINKY){
                         ghost->setOutOfDen(false);
                     }
+                    ghost->resetMode();
+
                 }
 
                 //DEBUG
