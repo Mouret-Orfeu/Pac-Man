@@ -19,6 +19,7 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
 	spriteSheet_NES = SDL_LoadBMP("./assets/pacman_sprites_NES.bmp");
     spriteSheet_Namco_before_conversion = SDL_LoadBMP("./assets/pacman_sprites_Namco.bmp");
     readySheet = SDL_LoadBMP("./assets/ready.bmp");
+    gameOverSheet = SDL_LoadBMP("./assets/game_over.bmp");
 
     if ((!spriteSheet_NES) || (!spriteSheet_Namco_before_conversion) || (!readySheet)) {
         // Handle error loading bitmap
@@ -74,9 +75,12 @@ void GameView::draw() {
 
     // Draw Characters
     // PacMan
-    drawPacMan();
-    // Ghosts
-    drawGhosts();
+    if(!game_model.getGameOverState()){
+        drawPacMan();
+        // Ghosts
+        drawGhosts();
+    }
+    
 
     // drawAllTileOutlines();
     // drawAllColoredTiles();
@@ -426,6 +430,10 @@ void GameView::drawText() {
 
     if(game_model.getStartState()){
         drawSprite(readySheet, & ready_sprite, Tile({20, 11}), true);
+    }
+
+    if(game_model.getGameOverState()){
+        drawSprite(gameOverSheet, &game_over_sprite, Tile({20, 9}), true);
     }
 }
 

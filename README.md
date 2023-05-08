@@ -22,6 +22,9 @@ cmake --build ./
 
 Alternatively, you can use `cmake --build ./ -j8` to enable cmake to use 8 cores for parallel compilation (change 8 to whatever the number of cores you want to use).
 
+# How to launch
+Se placer dans la Racine du jeu (le dossier "Pac-Man") et executer PacMan avec la commande ./PacMan
+
 # Details & intended limits
 
 Le nombre de points maximum prévu est 1 000 000

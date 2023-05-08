@@ -40,7 +40,7 @@ void GameController::run() {
 
     //DEBUG
     //int it=0;
-
+    int frame_count_game_over = 0;
 	bool quit = false;
     Uint64 frameStartTime = SDL_GetTicks64();
 	while (!quit) {
@@ -75,12 +75,25 @@ void GameController::run() {
         if(input_direction != Direction::NONE)
             gameModel.setStartState(false);
 
-        if(!gameModel.getStartState())
-        //là dedans y'a move pour tous les persos
+        if(!gameModel.getStartState() && !gameModel.getGameOverState()){
+            //là dedans y'a move pour tous les persos
             gameModel.update(input_direction);
+        }
+        
 
         // AFFICHAGE
         gameView.draw();
+
+        //Apres 1 secondes (120 frames) d'affichage de game over on passe dans l'etat start
+        if(gameModel.getGameOverState()){
+            frame_count_game_over++;
+            if(frame_count_game_over == 60){
+                gameModel.setGameOverState(false);
+                frame_count_game_over = 0;
+                gameModel.setStartState(true);
+            }
+                
+        };
 
         //DEBUG
         //SDL_Delay(500);
@@ -118,8 +131,11 @@ void GameController::run() {
             }
             gameModel.getPacMan().setPosition(gameModel.getPacMan().getSpawnPos());
             gameModel.getPacMan().setIsGameOver(false);
-            if(gameModel.getPacMan().getLives() == -1)
-                gameModel.setStartState(true);
+            if(gameModel.getPacMan().getLives() == -1){
+                gameModel.setGameOverState(true);
+                gameModel.resetTilesMatrix();
+            }
+                
         }
 
         // LIMITE A 60 FPS

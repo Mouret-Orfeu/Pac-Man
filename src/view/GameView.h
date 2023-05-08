@@ -53,6 +53,7 @@ private:
     SDL_Surface* spriteSheet_Namco_before_conversion = nullptr;
     SDL_Surface* spriteSheet_Namco = nullptr;
     SDL_Surface* readySheet = nullptr;
+    SDL_Surface* gameOverSheet = nullptr;
     // SDL_Renderer* renderer; // DEBUG
     SDL_Color red = { 255, 0, 0 };
     SDL_Color orange = { 255, 165, 0 };

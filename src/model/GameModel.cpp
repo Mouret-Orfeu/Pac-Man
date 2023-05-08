@@ -33,7 +33,8 @@ GameModel::GameModel()
     fruit(false),
     frame_fruit(0),
     fruit_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2+3*TILE_SIZE),
-    start_state(true)
+    start_state(true),
+    game_over_state(false)
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -271,6 +272,8 @@ void GameModel::reset()
     frame_count = 0;
     fruit= false;
     frame_fruit= 0;
+    start_state=false;
+    game_over_state=false;
 
 
     //TilesMatrix
@@ -359,5 +362,15 @@ bool GameModel::getStartState() const
 void GameModel::setStartState(bool start_state)
 {
     this->start_state = start_state;
+}
+
+bool GameModel::getGameOverState() const
+{
+    return game_over_state;
+}
+
+void GameModel::setGameOverState(bool game_over_state)
+{
+    this->game_over_state = game_over_state;
 }
 

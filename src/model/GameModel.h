@@ -85,6 +85,9 @@ public:
     bool getStartState() const;
     void setStartState(bool start_state);
 
+    bool getGameOverState() const;
+    void setGameOverState(bool game_over_state);
+
 private:
     Uint64 frame_count;
     MonsterDen monster_den;
@@ -109,6 +112,7 @@ private:
     Position fruit_position;
 
     bool start_state;
+    bool game_over_state;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;
