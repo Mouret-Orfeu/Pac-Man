@@ -181,6 +181,7 @@ void GameModel::update(Direction input_direction) {
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts){
         ghost->move();
+        //ghost->updateSpeed();
     }
 
     // Update PacMan's intended direction based on user input
