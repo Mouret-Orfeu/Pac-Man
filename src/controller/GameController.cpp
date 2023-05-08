@@ -84,6 +84,9 @@ void GameController::run() {
         // AFFICHAGE
         gameView.draw();
 
+        //DEBUG
+        //std::cout<<"bool fruit: "<<gameModel.getFruit()<<std::endl;
+
         //Apres 1 secondes (120 frames) d'affichage de game over on passe dans l'etat start
         if(gameModel.getGameOverState()){
             frame_count_game_over++;
@@ -129,6 +132,7 @@ void GameController::run() {
                 // LIMITE A 60 FPS
                 limitFramerate(frameStartTime);
             }
+            
             gameModel.getPacMan().setPosition(gameModel.getPacMan().getSpawnPos());
             gameModel.getPacMan().setIsGameOver(false);
             if(gameModel.getPacMan().getLives() == -1){

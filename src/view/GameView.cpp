@@ -361,8 +361,14 @@ void GameView::drawHUD() {
     drawHighScore();
     drawLives();
     
-    if(!game_model.getStartState() || !game_model.getGameOverState())
+    if(!game_model.getStartState() && !game_model.getGameOverState()){
         drawFruit();
+
+        //DEBUG
+        //std::cout<<"start: "<<game_model.getStartState()<<std::endl;
+        //std::cout<<"gameover: "<<game_model.getGameOverState()<<std::endl;
+    }
+       
 
     drawText(); // "1UP" and "HIGH SCORE"
 }

@@ -258,6 +258,11 @@ void GameModel::reset()
         ghost->reset();
     }
 
+    //9a faut le faire avant de reset pacman
+    if(pacman.getDotsEaten()==NB_DOT_TOTAL){
+        start_state=true;
+    }
+
     //Pacman
     pacman.reset();
 
@@ -273,9 +278,6 @@ void GameModel::reset()
     frame_count = 0;
     fruit= false;
     frame_fruit= 0;
-    start_state=false;
-    game_over_state=false;
-
 
     //TilesMatrix
     resetTilesMatrix();
