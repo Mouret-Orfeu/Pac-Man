@@ -41,6 +41,11 @@ static constexpr int GRID_ORIGIN = 456;
 // Life sprite
 static constexpr SDL_Rect life_sprite = { GRID_ORIGIN+8*SPRITE_SIZE,SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE};
 
+// Fruits sprites
+// Cherry
+static constexpr SDL_Rect cherry_sprite = { GRID_ORIGIN+2*SPRITE_SIZE,3*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
+
+
 // Ghost sprites
 std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghost_sprites = {
     {Ghost::Type::BLINKY, {

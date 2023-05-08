@@ -28,6 +28,7 @@ public:
     void drawHighScore();
     void drawText();
     void drawLives();
+    void drawFruit();
 
     void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency);
     void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Tile tile, bool transparency);

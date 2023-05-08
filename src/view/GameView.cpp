@@ -342,6 +342,7 @@ void GameView::drawHUD() {
     drawScore();
     drawHighScore();
     drawLives();
+    drawFruit();
     drawText(); // "1UP" and "HIGH SCORE"
 }
 
@@ -423,4 +424,16 @@ void GameView::drawLives() {
     // Draw lives
     for (int i = 1; i <= lives; i++)
         drawSprite(spriteSheet_Namco, &life_sprite, Tile({WINDOW_ROWS-2,2*i}), true);
+}
+
+void GameView::drawFruit() {
+    //bool fruit = game_model.getPacMan().getFruit();
+
+    //DEBUG
+    //std::cout << "Lives: " << lives << std::endl;
+
+
+
+    // Draw fruit
+    drawSprite(spriteSheet_Namco, &cherry_sprite, Tile({WINDOW_ROWS-2,24}), true);
 }

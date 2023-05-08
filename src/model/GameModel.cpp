@@ -166,7 +166,6 @@ void GameModel::update(Direction input_direction) {
         reset();
     }
 
-    HandlePacGhostCollision();
 
     //On libère les fantomes qui doivent l'être
     monster_den.updateMonsterDen();
@@ -185,6 +184,8 @@ void GameModel::update(Direction input_direction) {
 
     // Make PacMan move
     pacman.move();
+
+    HandlePacGhostCollision();
 
     // Update the frame_count, (je pense que ça sert plus à rien ça)
     frame_count++;
