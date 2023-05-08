@@ -18,7 +18,7 @@ PacMan::PacMan(GameModel& gameModel, MonsterDen& monster_den)
  score(0),
  highscore(0),
  lives(2),
- is_dead(false),
+ game_over(false),
  cornering_direction(Cornering::NONE),
  cornering(false),
  is_center_passed(Center_passed::NOT_PASSED),
@@ -41,7 +41,7 @@ void PacMan::reset()
         score=0;
 
     lives=3;
-    is_dead=false;
+    game_over=false;
     cornering_direction=Cornering::NONE;
     cornering=false;
     is_center_passed=Center_passed::NOT_PASSED;
@@ -527,12 +527,12 @@ void PacMan::setLives(int lives) {
     this->lives = lives;
 }
 
-bool PacMan::isDead() const {
-    return is_dead;
+bool PacMan::isGameOver() const {
+    return game_over;
 }
 
-void PacMan::setIsDead(bool is_dead) {
-    this->is_dead = is_dead;
+void PacMan::setIsGameOver(bool game_over) {
+    this->game_over = game_over;
 }
 
 void PacMan::printCornering() const
@@ -590,7 +590,7 @@ void PacMan::setMemoryDirection(Direction memory_direction)
 
 void PacMan::die()
 {
-    is_dead = true;
+    game_over = true;
     lives--;
     direction = Direction::RIGHT;
     intended_direction = Direction::RIGHT;

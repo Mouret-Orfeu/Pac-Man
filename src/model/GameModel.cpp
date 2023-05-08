@@ -32,7 +32,8 @@ GameModel::GameModel()
     NB_DOT_TOTAL(244),
     fruit(false),
     frame_fruit(0),
-    fruit_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2+3*TILE_SIZE)
+    fruit_position((WINDOW_WIDTH-1)/2, 17*TILE_SIZE + (TILE_SIZE-1)/2+3*TILE_SIZE),
+    start_state(true)
 {
     //DEBUG
     //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
@@ -348,5 +349,15 @@ Position GameModel::getFruitPosition() const
 void GameModel::setFrameFruit(int frame_fruit)
 {
     this->frame_fruit = frame_fruit;
+}
+
+bool GameModel::getStartState() const
+{
+    return start_state;
+}
+
+void GameModel::setStartState(bool start_state)
+{
+    this->start_state = start_state;
 }
 

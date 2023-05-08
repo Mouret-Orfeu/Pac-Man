@@ -46,8 +46,8 @@ public:
     int getLives() const;
     void setLives(int lives);
 
-    bool isDead() const;
-    void setIsDead(bool death);
+    bool isGameOver() const;
+    void setIsGameOver(bool death);
 
     int getDotsEaten() const;
     void resetDotsEaten();
@@ -90,7 +90,7 @@ private:
     int score;
     int highscore;
     int lives;
-    bool is_dead;
+    bool game_over;
     Cornering cornering_direction;
     bool cornering;
 

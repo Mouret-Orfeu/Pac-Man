@@ -82,6 +82,9 @@ public:
 
     Position getFruitPosition() const;
 
+    bool getStartState() const;
+    void setStartState(bool start_state);
+
 private:
     Uint64 frame_count;
     MonsterDen monster_den;
@@ -104,6 +107,8 @@ private:
     bool fruit;
     int frame_fruit;
     Position fruit_position;
+
+    bool start_state;
 
     // Maze layout
     static constexpr TileType W = TileType::WALL;

@@ -33,6 +33,8 @@ static constexpr SDL_Rect C_sprite = { 27,61, TILE_SIZE,TILE_SIZE };
 static constexpr SDL_Rect O_sprite = { 123,61, TILE_SIZE,TILE_SIZE };
 static constexpr SDL_Rect R_sprite = { 19,69, TILE_SIZE,TILE_SIZE };
 static constexpr SDL_Rect E_sprite = { 43,61, TILE_SIZE,TILE_SIZE };
+static constexpr SDL_Rect T_sprite = { 35,69, TILE_SIZE,TILE_SIZE};
+static constexpr SDL_Rect A_sprite = { 12,61, TILE_SIZE,TILE_SIZE };
 
 // Coordinates of the top left corner of the character sprite grid
 // in the Namco sprite sheet
@@ -45,6 +47,8 @@ static constexpr SDL_Rect life_sprite = { GRID_ORIGIN+8*SPRITE_SIZE,SPRITE_SIZE,
 // Cherry
 static constexpr SDL_Rect cherry_sprite = { GRID_ORIGIN+2*SPRITE_SIZE,3*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
 
+// Ready sprite
+static constexpr SDL_Rect ready_sprite = { 0,0, 45,11};
 
 // Ghost sprites
 std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghost_sprites = {

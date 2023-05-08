@@ -18,8 +18,9 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
     //On utilise des sprites venant des ces 2 fichiers
 	spriteSheet_NES = SDL_LoadBMP("./assets/pacman_sprites_NES.bmp");
     spriteSheet_Namco_before_conversion = SDL_LoadBMP("./assets/pacman_sprites_Namco.bmp");
+    readySheet = SDL_LoadBMP("./assets/ready.bmp");
 
-    if ((!spriteSheet_NES) || (!spriteSheet_Namco_before_conversion)) {
+    if ((!spriteSheet_NES) || (!spriteSheet_Namco_before_conversion) || (!readySheet)) {
         // Handle error loading bitmap
         std::cerr << "Failed to load bitmap: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(pWindow);
@@ -100,29 +101,38 @@ void GameView::drawBlackBackground() {
 
 void GameView::drawPacMan() {
     const PacMan& pacman = game_model.getPacMan();
-
-    // ici on change entre les 2 sprites sources pour une jolie animation.
-    int sprite_num = (pacman.getNbAnimatedFramesSinceLastSpeedChange() / 4) % 4;
-
     SDL_Rect pacman_sprite_in;
-    Direction sprite_orientation = pacman.getDirection();
-    switch (sprite_orientation) {
-        case Direction::RIGHT:
-            pacman_sprite_in = pacman_sprites_r[sprite_num];
-            break;
-        case Direction::DOWN:
-            pacman_sprite_in = pacman_sprites_d[sprite_num];
-            break;
-        case Direction::LEFT:
-            pacman_sprite_in = pacman_sprites_l[sprite_num];
-            break;
-        case Direction::UP:
-            pacman_sprite_in = pacman_sprites_u[sprite_num];
-            break;
-        case Direction::NONE:
-            // TODO: set sprite to round sprite
-            pacman_sprite_in = pacman_sprite_full;
-            break;
+
+    if(game_model.getStartState()){
+        pacman_sprite_in= pacman_sprite_full;
+    }
+    else{
+
+    
+
+        // ici on change entre les 2 sprites sources pour une jolie animation.
+        int sprite_num = (pacman.getNbAnimatedFramesSinceLastSpeedChange() / 4) % 4;
+
+        SDL_Rect pacman_sprite_in;
+        Direction sprite_orientation = pacman.getDirection();
+        switch (sprite_orientation) {
+            case Direction::RIGHT:
+                pacman_sprite_in = pacman_sprites_r[sprite_num];
+                break;
+            case Direction::DOWN:
+                pacman_sprite_in = pacman_sprites_d[sprite_num];
+                break;
+            case Direction::LEFT:
+                pacman_sprite_in = pacman_sprites_l[sprite_num];
+                break;
+            case Direction::UP:
+                pacman_sprite_in = pacman_sprites_u[sprite_num];
+                break;
+            case Direction::NONE:
+                // TODO: set sprite to round sprite
+                pacman_sprite_in = pacman_sprite_full;
+                break;
+        }
     }
 
     drawCharacterSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition(), true);
@@ -192,7 +202,11 @@ void GameView::drawDots() {
                 drawSprite(spriteSheet_Namco, &dot_sprite, tile, true);
                 break;
             case GameModel::TileType::ENERGIZER:
-                if ((game_model.getFrameCount() / 16) % 2)
+                if(!game_model.getStartState()){
+                    if ((game_model.getFrameCount() / 16) % 2)
+                        drawSprite(spriteSheet_Namco, &power_pellet_sprite, tile, true);
+                }
+                else
                     drawSprite(spriteSheet_Namco, &power_pellet_sprite, tile, true);
                 break;
             default:
@@ -347,7 +361,9 @@ void GameView::drawHUD() {
 }
 
 void GameView::drawScore() {
-    int score = game_model.getPacMan().getScore();
+    int score=0;
+    if(!game_model.getStartState())
+        score = game_model.getPacMan().getScore();
     drawScoreHelper(score, false);
 }
 
@@ -407,6 +423,10 @@ void GameView::drawText() {
     drawSprite(spriteSheet_NES, &O_sprite, Tile({0,17}), true);
     drawSprite(spriteSheet_NES, &R_sprite, Tile({0,18}), true);
     drawSprite(spriteSheet_NES, &E_sprite, Tile({0,19}), true);
+
+    if(game_model.getStartState()){
+        drawSprite(readySheet, & ready_sprite, Tile({20, 11}), true);
+    }
 }
 
 void GameView::drawLives() {

@@ -72,8 +72,12 @@ void GameController::run() {
             input_direction = Direction::DOWN;
 
 
+        if(input_direction != Direction::NONE)
+            gameModel.setStartState(false);
+
+        if(!gameModel.getStartState())
         //là dedans y'a move pour tous les persos
-        gameModel.update(input_direction);
+            gameModel.update(input_direction);
 
         // AFFICHAGE
         gameView.draw();
@@ -82,7 +86,7 @@ void GameController::run() {
         //SDL_Delay(500);
 
         //Animation de la mort
-        if (gameModel.getPacMan().isDead()) {
+        if (gameModel.getPacMan().isGameOver()) {
             int slowdown_factor = 8;
             for (int i = 0; i < slowdown_factor*11; i++) {
                 int death_sprite_num = i / slowdown_factor;
@@ -113,7 +117,9 @@ void GameController::run() {
                 limitFramerate(frameStartTime);
             }
             gameModel.getPacMan().setPosition(gameModel.getPacMan().getSpawnPos());
-            gameModel.getPacMan().setIsDead(false);
+            gameModel.getPacMan().setIsGameOver(false);
+            if(gameModel.getPacMan().getLives() == -1)
+                gameModel.setStartState(true);
         }
 
         // LIMITE A 60 FPS
