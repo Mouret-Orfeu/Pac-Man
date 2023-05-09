@@ -550,4 +550,6 @@ void PacMan::die()
     direction = Direction::RIGHT;
     intended_direction = Direction::RIGHT;
     memory_direction = Direction::RIGHT;
+    resetSpeedORigin();
+    setSpeed(80);
 }

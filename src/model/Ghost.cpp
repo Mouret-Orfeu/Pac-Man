@@ -46,6 +46,7 @@ void Ghost::reset()
     Character::reset();
     resetMode();
     out_of_den=false;
+    resetSpeedORigin();
     setNormalSpeed(75);
     setSpeed(normal_speed);
     is_in_tunnel=false;
