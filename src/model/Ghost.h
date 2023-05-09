@@ -95,8 +95,8 @@ protected:
 
     std::vector<Tile> forbiden_tiles_UP;
     std::vector<Tile> forbiden_tiles_DOWN;
-    Tile Slowing_tile_right;
-    Tile Slowing_tile_left;
+    const Tile Slowing_tile_right;
+    const Tile Slowing_tile_left;
 
     Position out_of_den_position;
     Position center_den_position;

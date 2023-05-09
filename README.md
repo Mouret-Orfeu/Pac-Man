@@ -20,18 +20,16 @@ cmake -S ../ -B ./
 cmake --build ./
 ```
 
+Just copy paste this code in your terminal at the root of the project (Pac-Man folder)
+
 Alternatively, you can use `cmake --build ./ -j8` to enable cmake to use 8 cores for parallel compilation (change 8 to whatever the number of cores you want to use).
 
 # How to launch
-Se placer dans la Racine du jeu (le dossier "Pac-Man") et executer PacMan avec la commande ./PacMan
+Go to the root folder (the Pac-Man folder) and execute PacMan with the command ./PacMan.
 
 # Details & intended limits
 
-Le nombre de points maximum prévu est 1 000 000
-
-## Bug report
-parfois pacman se fige apres avoir perdu une vie
-parfois on ne frize quand on mange un fantome
+The maximum displayable score is 1,000,000.
 
 # How to play
 

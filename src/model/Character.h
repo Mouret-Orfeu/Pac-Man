@@ -1,6 +1,5 @@
 #pragma once
 
-#include "GameObject.h"
 #include "common/GameDimensions.h"
 #include "common/Tile.h"
 #include "common/Position.h"
@@ -12,7 +11,7 @@
 
 class GameModel;
 
-class Character : public GameObject {
+class Character {
 public:
     Character(GameModel& game_model, Position spawn_position, Direction spawn_direction);
     virtual ~Character();
@@ -67,6 +66,6 @@ protected:
     Uint64 frame_count_at_last_speed_change;
     int speed; // as a percentage of the max speed, i.e. 1 pixel per frame
 
-    Tile TELEPORTATION_TILE_RIGHT;
-    Tile TELEPORTATION_TILE_LEFT;
+    const Tile TELEPORTATION_TILE_RIGHT;
+    const Tile TELEPORTATION_TILE_LEFT;
 };

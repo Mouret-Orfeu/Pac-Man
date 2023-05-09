@@ -105,7 +105,7 @@ private:
     //on compte le temps durant lequel les fantomes sont frightened
     float fright_time_count;
 
-    int NB_DOT_TOTAL;
+    const int NB_DOT_TOTAL;
 
     bool fruit;
     int frame_fruit;
