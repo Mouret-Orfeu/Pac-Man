@@ -42,7 +42,6 @@ public:
     Direction getDirection() const;
     void setDirection(Direction direction);
 
-    //DEBUG
     void printDirection(Direction d) const;
 
     Position getSpawnPos() const;
@@ -67,9 +66,6 @@ protected:
     Uint64 nb_animated_frames_since_last_speed_change;
     Uint64 frame_count_at_last_speed_change;
     int speed; // as a percentage of the max speed, i.e. 1 pixel per frame
-
-    //static constexpr Tile TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1);
-    //static constexpr Tile TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0);
 
     Tile TELEPORTATION_TILE_RIGHT;
     Tile TELEPORTATION_TILE_LEFT;

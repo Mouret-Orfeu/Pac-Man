@@ -14,9 +14,7 @@ Clyde::Clyde(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
 :Ghost(game_model, Ghost::Type::CLYDE, spawn_pos_Clyde, spawn_pos_Clyde, Direction::UP, scatter_target_tile_Clyde, false, pacman, monster_den)
 {}
 
-Clyde::~Clyde() {
-    // Clean up Clyde-specific data here
-}
+Clyde::~Clyde() {}
 
 Tile Clyde::findChaseTargetTile()
 {

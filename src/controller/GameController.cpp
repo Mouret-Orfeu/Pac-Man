@@ -37,9 +37,6 @@ void GameController::run() {
     }
 
     // Main game loop
-
-    //DEBUG
-    //int it=0;
     int frame_count_game_over = 0;
 	bool quit = false;
     Uint64 frameStartTime = SDL_GetTicks64();
@@ -84,9 +81,6 @@ void GameController::run() {
         // AFFICHAGE
         gameView.draw();
 
-        //DEBUG
-        //std::cout<<"bool fruit: "<<gameModel.getFruit()<<std::endl;
-
         //Apres 1 secondes (120 frames) d'affichage de game over on passe dans l'etat start
         if(gameModel.getGameOverState()){
             frame_count_game_over++;
@@ -97,9 +91,6 @@ void GameController::run() {
             }
                 
         };
-
-        //DEBUG
-        //SDL_Delay(500);
 
         //Animation de la mort
         if (gameModel.getPacMan().isGameOver()) {

@@ -23,9 +23,7 @@ Blinky::Blinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
 {}
 
 
-Blinky::~Blinky() {
-    // Clean up Blinky-specific data here
-}
+Blinky::~Blinky() {}
 
 void Blinky::reset()
 {
@@ -101,8 +99,6 @@ void Blinky::TimeBasedModeUpdate(float time_count, float fright_time_count, bool
 {
 
     //Si pacman n'a pas mangé d'energizer, on switch les modes des fantomes en fonction du temps
-
-
     //On ne change pas le mode si il vient juste de changer
     if (mode_just_changed != true) {
         if ((std::fabs(time_count - 7.0f) < 0.001f && std::fabs(time_count - 7.0f)>0.0) ||

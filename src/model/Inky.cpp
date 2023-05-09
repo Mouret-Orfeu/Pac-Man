@@ -13,9 +13,7 @@ Inky::Inky(GameModel& game_model, PacMan& pacman, std::unique_ptr<Ghost>& blinky
 blinky_uniq_ptr(blinky_uniq_ptr)
 {}
 
-Inky::~Inky() {
-    // Clean up Inky-specific data here
-}
+Inky::~Inky() {}
 
 Tile Inky::findChaseTargetTile()
 {

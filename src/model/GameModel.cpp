@@ -36,15 +36,11 @@ GameModel::GameModel()
     start_state(true),
     game_over_state(false)
 {
-    //DEBUG
-    //std::cout<<"pinky type: "<<(int)ghosts[1]->getType()<<std::endl;
     resetTilesMatrix();
 
 }
 
-GameModel::~GameModel() {
-    // Clean up if necessary
-}
+GameModel::~GameModel() {}
 
 void GameModel::resetTilesMatrix()
 {
@@ -59,8 +55,6 @@ void GameModel::resetTilesMatrix()
 void GameModel::updateGhostMode()
 {
     if(pacman.isEnergized() && frightened_bool == false){
-        //DEBUG
-        //std::cout<<"frightened mode ON"<<std::endl;
 
         frightened_bool = true;
         frightened_counter = 0;
@@ -69,8 +63,6 @@ void GameModel::updateGhostMode()
         }
     }
     else if(pacman.isEnergized() && frightened_bool == true && std::fabs(fright_time_count - 7.0f)<0.0001f){
-        //DEBUG
-        //std::cout<<"frightened mode OFF"<<std::endl;
 
         pacman.setEnergized(false);
         //pacman.setSpeed(80);
@@ -100,18 +92,6 @@ void GameModel::updateGhostMode()
     if(getFrightTimeCount() > 7.1f)
 
         setFrightTimeCount(0.0f);
-
-    //DEBUG
-    //std::cout << "time_count: " << getTimeCount() << std::endl;
-
-    //DEBUG
-    //it++;
-    //if(it%60==0){
-    //    std::cout << "Second fright: " << static_cast<int>(fright_time_count) << std::endl;
-    //    it=0;
-    //}
-
-
 }
 
 
@@ -123,8 +103,6 @@ void GameModel::HandlePacGhostCollision()
         if(pacman.getPosition().distancePosition(ghost->getPosition())<TILE_SIZE){
             if(frightened_bool==false){
 
-                //DEBUG
-                //std::cout<<"pacman before dead"<<std::endl;
                 pacman.die();
 
                 time_count=0.0f;
@@ -139,9 +117,6 @@ void GameModel::HandlePacGhostCollision()
                     ghost->resetMode();
 
                 }
-
-                //DEBUG
-                //std::cout<<"pacman after dead"<<std::endl;
             }
             else if(frightened_bool==true){
                 pacman.setScore(pacman.getScore()+nb_point_eat_ghost);
@@ -195,7 +170,7 @@ void GameModel::update(Direction input_direction) {
 
     upDateFruit();
 
-    // Update the frame_count, (je pense que ça sert plus à rien ça)
+    // Update the frame_count
     frame_count++;
 }
 
@@ -337,12 +312,6 @@ void GameModel::upDateFruit()
         fruit = false;
         frame_fruit = 0;
     }
-
-    //DEBUG
-    //if(fruit)
-    //    std::cout<<"fruit timer: "<<frame_fruit/60<<std::endl;
-    //else
-    //    std::cout<<"dot count: "<<pacman.getDotsEaten()<<std::endl;
     
 }
 

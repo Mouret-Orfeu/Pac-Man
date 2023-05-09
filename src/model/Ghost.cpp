@@ -35,9 +35,7 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_posit
     setSpeed(75);
 }
 
-Ghost::~Ghost() {
-    // Clean up Ghost-specific data here
-}
+Ghost::~Ghost() {}
 
 void Ghost::reset()
 {
@@ -107,9 +105,6 @@ void Ghost::updateDirection() {
     {
         direction=getOppositeDirection(direction);
         mode_just_changed=false;
-
-        //DEBUG
-        //std::cout<<"mod_just_changed"<<std::endl;
     }
 
     /*Ghosts use a random number generator to pick a way to turn at each intersection when frightened.
@@ -157,13 +152,6 @@ void Ghost::updateDirection() {
         //Les fantomes ne font pas demi tour en état normal
         if (d != getOppositeDirection(direction)) {
 
-            //DEBUG
-            //printDirection(d);
-            //printDirection(direction);
-            //std::cout<<std::endl;
-            //std::cout<<std::endl;
-            //std::cout<<std::endl;
-
             Tile next_possible_tile=position.getNextTile(d);
 
             if(game_model.isTileLegal(next_possible_tile)){
@@ -180,34 +168,10 @@ void Ghost::updateDirection() {
         }
     }
 
-
-    //DEBUG
-    //std::cout<<std::endl;
-    ////loop on next_legal_directions and printDirection()
-    //std::cout << "next_legal_directions (avans filtrage) : ";
-    //for(Direction d : next_legal_directions){
-    //    printDirection(d);
-    //}
-    //std::cout << std::endl<<std::endl;
-
     int nb_legal_direction=next_legal_directions.size();
-
-
-
-    //DEBUG
-    //print all the legal direction
-    //std::cout << "next_legal_directions : "<<std::endl;
-    //for(Direction d : next_legal_directions){
-    //    printDirection(d);
-    //    std::cout << std::endl;
-    //}
 
     //Si le tournant n'a qu'un issue, le fantome prend la direction correspondante
     if(nb_legal_direction == 1){
-        //DEBUG
-        //std::cout<<"seule direction possible: "<<std::endl;
-        //printDirection(next_legal_directions[0]);
-
         direction = next_legal_directions[0];
         return;
     }
@@ -238,12 +202,6 @@ void Ghost::updateDirection() {
             }
         }
 
-        //DEBUG
-        //std::cout<<nb_legal_direction<<" directions possibles (apres filtrage): "<<std::endl;
-        //for(Direction d : best_directions){
-        //    printDirection(d);
-        //
-        //}
     }
     else if(nb_legal_direction==0){
         //message d'erreur
@@ -263,15 +221,9 @@ void Ghost::updateDirection() {
     //On choisit la direction qui minimise la distance à la target tile, si égalité, se référer à l'ordre de priorité (compareDirections)
     std::sort(best_directions.begin(), best_directions.end(), compareDirections);
 
-    //DEBUG
-    //printType(ghost_type);
-    //std::cout << "best_directions : ";
 
     direction = best_directions[0];
 
-    //DEBUG
-    //std::cout << "Direction choisie : ";
-    //printDirection(direction);
     return;
 
 
@@ -427,32 +379,18 @@ void Ghost::move() {
 
     updateTargetTile();
 
-    //DEBUG
-    //std::cout<<"***************"<<std::endl;
-
 
     if(out_of_den==false && monster_den.getCanLeaveDen(ghost_type)==true)
     {
-        //DEBUG
-        //printType(ghost_type);
-        //std::cout<<"leave den"<<std::endl;
 
         leaveTheDen();
     }
 
-    //DEBUG
-    //std::cout<<"***************"<<std::endl;
-
-    //DEBUG
-    //std::cout<<"après if can leave "<<std::endl;
     if (frames_to_drop > 0)
         frames_to_drop--;
     else
     {
         if(position.isCenteredOnTile() && out_of_den==true){
-            //DEBUG
-            //printDirection(direction);
-
             updateDirection();
         }
 

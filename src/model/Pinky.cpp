@@ -14,9 +14,7 @@ Pinky::Pinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
 :Ghost(game_model, Ghost::Type::PINKY, spawn_pos_Pinky, spawn_pos_Pinky, Direction::DOWN, scatter_target_tile_Pinky, false, pacman, monster_den)
 {}
 
-Pinky::~Pinky() {
-    // Clean up Pinky-specific data here
-}
+Pinky::~Pinky() {}
 
 Tile Pinky::findChaseTargetTile()
 {

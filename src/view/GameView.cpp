@@ -31,12 +31,6 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
 
     spriteSheet_Namco = SDL_ConvertSurface(spriteSheet_Namco_before_conversion, win_surf->format, 0);
 
-    // if (SDL_SaveBMP(spriteSheet_Namco, "pacman_sprites_Namco_formatted.bmp") != 0) {
-    //     // handle error
-    //     std::cerr << "Failed to save bitmap: " << SDL_GetError() << std::endl;
-    //     SDL_Quit();
-    //     exit(1);
-    // }
 
     if(!spriteSheet_Namco) {
         // Handle error converting bitmap
@@ -45,17 +39,6 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
         SDL_Quit();
         exit(1);
     }
-
-    //DEBUG
-    //grid_surface = SDL_CreateRGBSurface(0, UPSCALED_WINDOW_WIDTH, UPSCALED_WINDOW_HEIGHT, 32, 0, 0, 0, 0);
-    //SDL_FillRect(grid_surface, NULL, SDL_MapRGB(grid_surface->format, 255, 0, 0)); // fill grid surface with red color
-
-    // DEBUG
-    // Create the renderer for the window
-    // renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    // if (renderer == NULL) {
-    //     printf("SDL_CreateRenderer failed: %s\n", SDL_GetError());
-    // }
 }
 
 GameView::~GameView() {
@@ -80,10 +63,6 @@ void GameView::draw() {
         // Ghosts
         drawGhosts();
     }
-    
-
-    // drawAllTileOutlines();
-    // drawAllColoredTiles();
 
 	SDL_UpdateWindowSurface(pWindow);
 }
@@ -140,21 +119,6 @@ void GameView::drawPacMan() {
     }
 
     drawCharacterSprite(spriteSheet_Namco, &pacman_sprite_in, pacman.getPosition(), true);
-
-    // DEBUG
-    //drawTileOutline(pacman.getPosition().toTile());
-    //drawPacmanPosition();
-
-    //DEBUG
-    //Show teleportation tiles
-    //drawTileOutline();
-    //drawTileOutline({17, 27});
-
-    //draw scatter_target_tile blinky pinky inky & clyde
-    //drawTileOutline(game_model.getGhosts()[0]->getScatterTargetTile());
-    //drawTileOutline(game_model.getGhosts()[1]->getScatterTargetTile());
-    //drawTileOutline(game_model.getGhosts()[2]->getScatterTargetTile());
-    //drawTileOutline(game_model.getGhosts()[3]->getScatterTargetTile());
 }
 
 void GameView::drawGhosts() {
@@ -178,16 +142,6 @@ void GameView::drawGhosts() {
                 }
             }
             drawCharacterSprite(spriteSheet_Namco, &ghost_sprite, ghost->getPosition(), true);
-
-            //DEBUG
-            // if(ghost->getType() == Ghost::Type::PINKY)
-                // drawTileOutline(ghost->getCurrentTargetTile(), pink);
-            // if(ghost->getType() == Ghost::Type::BLINKY)
-                // drawTileOutline(ghost->getCurrentTargetTile(), red);
-            // if(ghost->getType() == Ghost::Type::INKY)
-                // drawTileOutline(ghost->getCurrentTargetTile(), blue);
-            // if(ghost->getType() == Ghost::Type::CLYDE)
-                // drawTileOutline(ghost->getCurrentTargetTile(), orange);
         }
     }
 }
@@ -291,7 +245,6 @@ void GameView::drawGhostPosition(std::unique_ptr<Ghost> ghost) {
 
 
 
-//DEBUG
 void GameView::drawTileOutline(Tile tile, const SDL_Color& color) {
     // Create a new surface with the square outline in the desired color
     SDL_Surface* coloredSquare = SDL_CreateRGBSurface(0, 8, 8, 32, 0, 0, 0, 0);
@@ -306,14 +259,12 @@ void GameView::drawTileOutline(Tile tile, const SDL_Color& color) {
     SDL_FreeSurface(coloredSquare);
 }
 
-//DEBUG
 void GameView::drawAllTileOutlines() {
     for(int i = 0; i < WINDOW_ROWS; i++)
         for (int j = 0; j < WINDOW_COLS; j++)
             drawTileOutline({i,j}, red);
 }
 
-// DEBUG
 void GameView::drawAllColoredTiles() {
     for (int i = 0; i < WINDOW_ROWS; i++) {
         for (int j = 0; j < WINDOW_COLS; j++) {
@@ -364,9 +315,6 @@ void GameView::drawHUD() {
     if(!game_model.getStartState() && !game_model.getGameOverState()){
         drawFruit();
 
-        //DEBUG
-        //std::cout<<"start: "<<game_model.getStartState()<<std::endl;
-        //std::cout<<"gameover: "<<game_model.getGameOverState()<<std::endl;
     }
        
 
@@ -449,9 +397,6 @@ void GameView::drawText() {
 void GameView::drawLives() {
     int lives = game_model.getPacMan().getLives();
 
-    //DEBUG
-    //std::cout << "Lives: " << lives << std::endl;
-
 
     // Clear the area where the lives are drawn
     SDL_Surface* cleared_life_surf = SDL_CreateRGBSurface(0, SPRITE_SIZE, SPRITE_SIZE, 32, 0, 0, 0, 0);
@@ -464,16 +409,10 @@ void GameView::drawLives() {
 }
 
 void GameView::drawFruit() {
-    //bool fruit = game_model.getPacMan().getFruit();
 
-    //DEBUG
-    //std::cout << "Lives: " << lives << std::endl;
     if(game_model.getFruit()){
         
         drawSprite(spriteSheet_Namco, &cherry_sprite, game_model.getFruitPosition().toTopLeft(), true);
-
-        //DEBUG
-        //drawTileOutline(game_model.getFruitPosition().toTile(), red);
         
     }
 

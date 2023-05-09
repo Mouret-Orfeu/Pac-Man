@@ -43,24 +43,16 @@ bool compareGhostType( Ghost::Type t1, Ghost::Type t2){
 
 void MonsterDen::setGhostsInDen()
 {
-    //DEBUG
-    //std::cout << "set ghost in den: " <<std::endl;
 
     ghosts_in_den.clear(); // Clear the vector before filling it up with new values
 
     for(std::unique_ptr<Ghost>& ghost : game_model.getGhosts()){
-
-        //DEBUG
-        //ghost->printType(ghost->getType());
-        //std::cout<<ghost->isOutOfDen() <<std::endl;
 
         //si out_of_den du fantome est false, et si son type n'est pas deja dans ghost_in_den, le rajouter
         if(!ghost->isOutOfDen()){
             if(std::find(ghosts_in_den.begin(), ghosts_in_den.end(), ghost->getType()) == ghosts_in_den.end()){
                 ghosts_in_den.push_back(ghost->getType());
 
-                //DEBUG
-                //ghost->printType(ghost->getType());
 
                 //Si Clyde est dans la Den, quand on est en mode "pacman est mort au moins une fois", et que le conteur de dot correspondant est à 32, ce compteur est reset
                 if(ghost->getType()==Ghost::Type::CLYDE && count_eaten_dots_after_pac_death==32){
@@ -73,8 +65,6 @@ void MonsterDen::setGhostsInDen()
         }
 
     }
-    //DEBUG
-    //std::cout <<std::endl;
 
     std::sort(ghosts_in_den.begin(), ghosts_in_den.end(), compareGhostType);
 
@@ -86,13 +76,6 @@ void MonsterDen::updateMonsterDen(){
 
 
     if(mode_after_pac_death==false){
-
-        //DEBUG
-        //std::cout << "size ghost in den : " << ghosts_in_den.size() <<std::endl;
-        //std::cout << "type ghost : " <<std::endl;
-        //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(game_model.getGhosts()[(int)Ghost::Type::INKY]->getType());
-        //Ghost::Type type= ghosts_in_den[0];
-        //game_model.getGhosts()[(int)Ghost::Type::INKY]->printType(type);
 
 
         //set can_leave_den to true if the ghost in the den has eaten enough dots
@@ -110,8 +93,7 @@ void MonsterDen::updateMonsterDen(){
                 }
                 break;
             case Ghost::Type::CLYDE:
-                //DEBUG
-                //std::cout << "count_eaten_dots_Clyde : " << count_eaten_dots_Clyde << std::endl;
+ 
                 if(count_eaten_dots_Clyde>=dot_limit_clyde){
                     can_leave_den_Clyde=true;
                     //si blinky est à sa speed1, le mettre en speed2
@@ -172,8 +154,6 @@ void MonsterDen::updateMonsterDen(){
     // On fait avancer le timer qui compte le temps que pacman a passé à rien manger (on le remet à 0 quand il mange qlq chose)
     game_model.setLastTimeDotEatenTimer(game_model.getLastTimeDotEatenTimer() + 1.0f/60.0f);
 
-    // DEBUG
-    // std::cout<<"last eaten dot timer: "<<game_model.getLastTimeDotEatenTimer()<<std::endl;
 }
 
 std::vector<Ghost::Type> MonsterDen::getGhostsInDen() const
@@ -232,8 +212,6 @@ bool MonsterDen::getCanLeaveDen(Ghost::Type ghost_type) const
         return can_leave_den_Pinky;
         break;
     case Ghost::Type::INKY:
-        //DEBUG
-        //std::cout << "can leave den inky : " << can_leave_den_Inky << std::endl;
         return can_leave_den_Inky;
         break;
     case Ghost::Type::CLYDE:

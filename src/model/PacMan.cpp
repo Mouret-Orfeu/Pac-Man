@@ -57,26 +57,11 @@ void PacMan::move() {
     if (!should_move())
         return;
 
-    // print frame_count
-    //std::cout<<"frame count: "<<game_model.getFrameCount()<<std::endl;
-    // print frame_count_since_last_speed_change
-    //std::cout<<"frame count since last speed change: "<<game_model.getFrameCount()-frame_count_at_last_speed_change<<std::endl;
-
     // WARNNING: we check too many things at each frame, this is not efficient
-
-    //DEBUG
-    //std::cout<<"before eat"<<std::endl;
 
     // Eat dots and energizers
     eat();
 
-    //DEBUG
-    //std::cout<<"after eat"<<std::endl;
-
-
-    // if(position.isCenteredOnTile()){
-    //     eat();
-    // }
 
     //pour l'instant pacman se contente d'aller dans la direction de l'input sans rien regarder
     if (frames_to_drop > 0)
@@ -85,33 +70,20 @@ void PacMan::move() {
         if (position.isCenteredHorizontallyOnTile() || position.isCenteredVerticallyOnTile())
             updateDirection();
 
-        //DEBUG
-        //std::cout<<"after update direction"<<std::endl;
         updatePosition();
 
-        //DEBUG
-        //std::cout<<"after update position"<<std::endl;
     }
 }
 
 void PacMan::eat() {
 
-    //DEBUG
-    //std::cout<<"eat"<<std::endl;
 
     Tile current_tile = position.toTile();
 
-    //DEBUG
-    //std::cout<<"current tile: "<<current_tile.i<<" "<<current_tile.j<<std::endl;
-
-    //DEBUG
-    //std::cout<<"get current tile done"<<std::endl;
 
     switch (game_model.getTile(current_tile)) {
         case GameModel::TileType::DOT:
 
-            //DEBUG
-            //std::cout<<"DOT"<<std::endl;
 
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=10;
@@ -120,14 +92,8 @@ void PacMan::eat() {
             monster_den.incrementDotCounter();
             game_model.setLastTimeDotEatenTimer(0.0f);
 
-            //DEBUG
-            //std::cout<<"couter dots pac death: "<<monster_den.getCouterDotPacDeath()<<std::endl;
-
             break;
         case GameModel::TileType::ENERGIZER:
-
-            //DEBUG
-            //std::cout<<"ENERGIZER"<<std::endl;
 
             game_model.setTile(current_tile, GameModel::TileType::EMPTY);
             score+=50;
@@ -140,8 +106,6 @@ void PacMan::eat() {
             game_model.setFrightenedCounter(0);
             break;
         default:
-            //DEBUG
-            //std::cout<<"EMPTY"<<std::endl;
             break;
     }
 
@@ -346,9 +310,6 @@ void PacMan::setCornering()
             break;
     }
 
-    //DEBUG
-    //printDirection();
-
 }
 
 void PacMan::setIsCenterPassed()
@@ -435,9 +396,6 @@ void PacMan::updateDirection() {
 
 
             }
-            //DEBUG
-            //printCornering();
-            //std::cout<<is_center_passed<<std::endl;
         }
 
         //Dans le cas d'un demi-tour, on ne peut le faire que au centre d'une tile
@@ -448,9 +406,6 @@ void PacMan::updateDirection() {
             }
         }
     }
-
-    //DEBUG
-    //printDirection();
 
     //PacMan s'arrete quand la tile devant lui est illégale
     Tile next_tile = position.getNextTile(direction);

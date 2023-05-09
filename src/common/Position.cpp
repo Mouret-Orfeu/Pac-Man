@@ -3,7 +3,7 @@
 #include "GameDimensions.h"
 #include "Tile.h"
 #include "model/GameModel.h"
-#include "model/Character.h" // TODO: Put Direction in common/Direction.h
+#include "model/Character.h"
 
 #include <cmath>
 
