@@ -235,7 +235,7 @@ void Ghost::updateDirection() {
 
 }
 
-void Ghost::switchModeFrightened(float time_count, float fright_time_count, bool frightened_bool)
+void Ghost::enableModeFrightened(float time_count, float fright_time_count, bool frightened_bool)
 {
     previous_ghost_mode=ghost_mode;
     ghost_mode=Ghost::Mode::FRIGHTENED;
@@ -246,7 +246,7 @@ void Ghost::switchModeFrightened(float time_count, float fright_time_count, bool
     return;
 }
 
-void Ghost::cancelModeFrightened(float time_count, float fright_time_count, bool frightened_bool)
+void Ghost::disableModeFrightened(float time_count, float fright_time_count, bool frightened_bool)
 {
     ghost_mode=previous_ghost_mode;
     mode_has_changed=true;

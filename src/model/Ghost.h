@@ -49,9 +49,9 @@ public:
 
     void updateDirection();
 
-    void switchModeFrightened(float time_count, float fright_time_count, bool frightened_bool);
+    void enableModeFrightened(float time_count, float fright_time_count, bool frightened_bool);
 
-    void cancelModeFrightened(float time_count, float fright_time_count, bool frightened_bool);
+    void disableModeFrightened(float time_count, float fright_time_count, bool frightened_bool);
 
     void virtual TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool);
 

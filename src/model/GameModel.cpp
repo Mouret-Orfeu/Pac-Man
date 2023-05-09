@@ -59,7 +59,7 @@ void GameModel::updateGhostMode()
         frightened_bool = true;
         frightened_counter = 0;
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
-            ghost->switchModeFrightened(time_count, fright_time_count, frightened_bool);
+            ghost->enableModeFrightened(time_count, fright_time_count, frightened_bool);
         }
     }
     else if(pacman.isEnergized() && frightened_bool == true && std::fabs(fright_time_count - 7.0f)<0.0001f){
@@ -70,7 +70,7 @@ void GameModel::updateGhostMode()
         nb_point_eat_ghost = 200;
 
         for (std::unique_ptr<Ghost>& ghost : ghosts) {
-            ghost->cancelModeFrightened(time_count, fright_time_count, frightened_bool);
+            ghost->disableModeFrightened(time_count, fright_time_count, frightened_bool);
         }
 
     }
