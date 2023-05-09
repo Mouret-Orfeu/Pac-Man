@@ -42,7 +42,7 @@ void Ghost::reset()
     Character::reset();
     resetMode();
     out_of_den=false;
-    
+
 }
 
 Ghost::Type Ghost::getType() const {
@@ -235,7 +235,7 @@ void Ghost::switchModeFrightened(float time_count, float fright_time_count, bool
     ghost_mode=Ghost::Mode::FRIGHTENED;
     mode_has_changed=true;
     mode_just_changed=true;
-    //setSpeed(50);
+    setSpeed(50);
 
     return;
 }
@@ -245,7 +245,7 @@ void Ghost::cancelModeFrightened(float time_count, float fright_time_count, bool
     ghost_mode=previous_ghost_mode;
     mode_has_changed=true;
     mode_just_changed=true;
-    //setSpeed(75);
+    setSpeed(75);
 }
 
 void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool)
@@ -372,7 +372,7 @@ void Ghost::die()
 
 void Ghost::move() {
 
-    //updateSpeed();
+    updateSpeed();
 
     if (!should_move())
         return;

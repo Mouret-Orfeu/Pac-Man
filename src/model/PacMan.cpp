@@ -100,7 +100,7 @@ void PacMan::eat() {
             frames_to_drop = 3;
             dots_eaten++;
             energized = true;
-            //setSpeed(90);
+            setSpeed(90);
             game_model.setLastTimeDotEatenTimer(0.0f);
             game_model.setFrightTimeCount(0.0f);
             game_model.setFrightenedCounter(0);
@@ -111,7 +111,7 @@ void PacMan::eat() {
 
     //manger le fruit si necessaire
     if(game_model.getFruit()){
-        
+
         if(position.distancePosition(game_model.getFruitPosition())==0){
             game_model.setFruit(false);
             score+=100;

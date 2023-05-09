@@ -13,6 +13,7 @@ Character::Character(GameModel& game_model, Position spawn_position, Direction s
  spawn_direction(spawn_direction),
  frames_to_drop(0),
  nb_animated_frames_since_last_speed_change(0),
+ frame_count_at_last_speed_change(0),
  TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
  TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
 {}
@@ -24,12 +25,13 @@ void Character::reset(){
     direction = spawn_direction;
     frames_to_drop = 0;
     nb_animated_frames_since_last_speed_change = 0;
+    frame_count_at_last_speed_change = 0;
     setSpeed(80);
 }
 
 bool Character::should_move() {
     Uint64 frame_count_since_last_speed_change = game_model.getFrameCount() - frame_count_at_last_speed_change;
-    if (frame_count_since_last_speed_change * speed / 100 <= nb_animated_frames_since_last_speed_change) {
+    if (frame_count_since_last_speed_change * speed <= nb_animated_frames_since_last_speed_change * 100) {
         return false;
     }
     nb_animated_frames_since_last_speed_change++;
@@ -119,6 +121,7 @@ int Character::getSpeed() const {
 
 void Character::setSpeed(int speed) {
     frame_count_at_last_speed_change = game_model.getFrameCount();
+    nb_animated_frames_since_last_speed_change = 0;
     this->speed = speed;
 }
 

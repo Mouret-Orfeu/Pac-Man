@@ -65,7 +65,7 @@ void GameModel::updateGhostMode()
     else if(pacman.isEnergized() && frightened_bool == true && std::fabs(fright_time_count - 7.0f)<0.0001f){
 
         pacman.setEnergized(false);
-        //pacman.setSpeed(80);
+        pacman.setSpeed(80);
         frightened_bool = false;
         nb_point_eat_ghost = 200;
 
@@ -156,7 +156,7 @@ void GameModel::update(Direction input_direction) {
     // Make the ghosts move
     for (std::unique_ptr<Ghost>& ghost : ghosts){
         ghost->move();
-        //ghost->updateSpeed();
+        ghost->updateSpeed();
     }
 
     // Update PacMan's intended direction based on user input
@@ -288,7 +288,7 @@ int GameModel::getNbDotTotal() const
     return NB_DOT_TOTAL;
 }
 
-bool GameModel::getFruit() const 
+bool GameModel::getFruit() const
 {
     return fruit;
 }
@@ -303,7 +303,7 @@ void GameModel::upDateFruit()
     if(fruit){
         frame_fruit++;
     }
-    
+
     if(pacman.getDotsEaten() == 70 || pacman.getDotsEaten() == 170){
         fruit = true;
     }
@@ -312,7 +312,7 @@ void GameModel::upDateFruit()
         fruit = false;
         frame_fruit = 0;
     }
-    
+
 }
 
 
