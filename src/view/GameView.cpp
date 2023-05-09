@@ -5,6 +5,7 @@
 #include "model/Ghost.h"
 #include "common/Direction.h"
 #include "common/GameDimensions.h"
+#include "common/Position.h"
 
 #include <SDL.h>
 #include <iostream>
@@ -21,7 +22,7 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
     readySheet = SDL_LoadBMP("./assets/ready.bmp");
     gameOverSheet = SDL_LoadBMP("./assets/game_over.bmp");
 
-    if ((!spriteSheet_NES) || (!spriteSheet_Namco_before_conversion) || (!readySheet)) {
+    if ((!spriteSheet_NES) || (!spriteSheet_Namco_before_conversion) || (!readySheet) || (!gameOverSheet)) {
         // Handle error loading bitmap
         std::cerr << "Failed to load bitmap: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(pWindow);
@@ -91,7 +92,7 @@ void GameView::drawPacMan() {
     }
     else{
 
-    
+
 
         // ici on change entre les 2 sprites sources pour une jolie animation.
         int sprite_num = (pacman.getNbAnimatedFramesSinceLastSpeedChange() / 4) % 4;
@@ -311,12 +312,12 @@ void GameView::drawHUD() {
     drawScore();
     drawHighScore();
     drawLives();
-    
+
     if(!game_model.getStartState() && !game_model.getGameOverState()){
         drawFruit();
 
     }
-       
+
 
     drawText(); // "1UP" and "HIGH SCORE"
 }
@@ -386,11 +387,11 @@ void GameView::drawText() {
     drawSprite(spriteSheet_NES, &E_sprite, Tile({0,19}), true);
 
     if(game_model.getStartState()){
-        drawSprite(readySheet, & ready_sprite, Tile({20, 11}), true);
+        drawSprite(readySheet, &ready_sprite, SDL_Point({11*TILE_SIZE, 20*TILE_SIZE -TILE_SIZE/2}), true);
     }
 
     if(game_model.getGameOverState()){
-        drawSprite(gameOverSheet, &game_over_sprite, Tile({20, 9}), true);
+        drawSprite(gameOverSheet, &game_over_sprite, SDL_Point({9*TILE_SIZE, 20*TILE_SIZE -TILE_SIZE/2}), true);
     }
 }
 
@@ -411,9 +412,9 @@ void GameView::drawLives() {
 void GameView::drawFruit() {
 
     if(game_model.getFruit()){
-        
+
         drawSprite(spriteSheet_Namco, &cherry_sprite, game_model.getFruitPosition().toTopLeft(), true);
-        
+
     }
 
 

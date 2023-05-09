@@ -18,9 +18,10 @@ Blinky::Blinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
 :Ghost(game_model, Ghost::Type::BLINKY, spawn_pos_Blinky,respawn_pos_Blinky, Direction::LEFT, scatter_target_tile_Blinky, true, pacman, monster_den),
  speed1(75),
  speed2(80),
- speed3(90),
- current_speed(speed1)
-{}
+ speed3(90)
+{
+    setSpeed(speed1);
+}
 
 
 Blinky::~Blinky() {}
@@ -28,7 +29,7 @@ Blinky::~Blinky() {}
 void Blinky::reset()
 {
     Ghost::reset();
-    current_speed=speed1;
+    setSpeed(speed1);
 }
 
 void Blinky::leaveTheDen()
@@ -66,7 +67,7 @@ void Blinky::updateSpeed()
         setSpeed(40);
     }
     if(position.toTile()==Slowing_tile_left && direction==Direction::RIGHT){
-        setSpeed(current_speed);
+        setSpeed(speed);
     }
 
     //entrée et sortie du couloir de teleportation de droite
@@ -74,22 +75,19 @@ void Blinky::updateSpeed()
         setSpeed(40);
     }
     if(position.toTile()==Slowing_tile_right && direction==Direction::LEFT){
-        setSpeed(current_speed);
+        setSpeed(speed);
     }
 
     //Quand clyde sort du den, Blinky passe en vitesse 2 s'il ne l'est pas déjà
-    if(monster_den.getCanLeaveDen(Type::CLYDE)==true && current_speed==speed1){
-        current_speed=speed2;
+    if(monster_den.getCanLeaveDen(Type::CLYDE)==true && speed==speed1){
         setSpeed(speed2);
     }
 
     //acceleration basé sur le nombre de dot restant
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-20 && current_speed!=speed2){
-        current_speed=speed2;
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-20 && speed!=speed2){
         setSpeed(speed2);
     }
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-10 && current_speed!=speed3){
-        current_speed=speed3;
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-10 && speed!=speed3){
         setSpeed(speed3);
     }
 }
@@ -114,12 +112,12 @@ void Blinky::TimeBasedModeUpdate(float time_count, float fright_time_count, bool
                   (std::fabs(time_count - 54.0f) < 0.001f && std::fabs(time_count - 54.0f)>0.0)||
                   (std::fabs(time_count - 79.0f) < 0.001f) && std::fabs(time_count - 79.0f)>0.0){
 
-            if(current_speed==speed1){
+            if(speed==speed1){
                 ghost_mode=Ghost::Mode::SCATTER;
                 mode_has_changed=true;
                 mode_just_changed=true;
             }
-            //Si blinky est en mode elroy (current_speed!=speed1, il ne passe plus en mode scatter)
+            //Si blinky est en mode elroy (speed!=speed1, il ne passe plus en mode scatter)
             else{
                 ghost_mode=Ghost::Mode::CHASE;
             }
@@ -131,33 +129,10 @@ void Blinky::TimeBasedModeUpdate(float time_count, float fright_time_count, bool
     }
 }
 
-int Blinky::getCurrentSpeed() const
-{
-    return current_speed;
-}
-
-int Blinky::getSpeed1() const
-{
-    return speed1;
-}
-
-int Blinky::getSpeed2() const
-{
-    return speed2;
-}
-
-int Blinky::getSpeed3() const
-{
-    return speed3;
-}
-
 void Blinky::die()
 {
     direction=spawn_direction;
     position=respawn_position;
     out_of_den=false;
-    current_speed=speed1;
+    speed=speed1;
 }
-
-
-

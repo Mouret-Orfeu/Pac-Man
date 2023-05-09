@@ -48,10 +48,10 @@ static constexpr SDL_Rect life_sprite = { GRID_ORIGIN+8*SPRITE_SIZE,SPRITE_SIZE,
 static constexpr SDL_Rect cherry_sprite = { GRID_ORIGIN+2*SPRITE_SIZE,3*SPRITE_SIZE, SPRITE_SIZE,SPRITE_SIZE };
 
 // Ready sprite
-static constexpr SDL_Rect ready_sprite = { 0,0, 45,11};
+static constexpr SDL_Rect ready_sprite = { 0,0, 3*SPRITE_SIZE,SPRITE_SIZE};
 
 // Game over sprite
-static constexpr SDL_Rect game_over_sprite = { 0,0, 79,15};
+static constexpr SDL_Rect game_over_sprite = { 0,0, 5*SPRITE_SIZE,SPRITE_SIZE};
 
 // Ghost sprites
 std::map<Ghost::Type, std::map<Direction, SDL_Rect>> ghost_sprites = {

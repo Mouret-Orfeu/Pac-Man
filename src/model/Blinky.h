@@ -37,6 +37,4 @@ private:
     int speed1;
     int speed2;
     int speed3;
-
-    int current_speed;
 };
