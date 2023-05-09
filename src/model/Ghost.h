@@ -129,4 +129,5 @@ protected:
 
     bool is_in_tunnel;
     bool normal_speed_changed;
+    bool dropping_frames;
 };

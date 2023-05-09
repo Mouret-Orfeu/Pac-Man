@@ -33,7 +33,8 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_posit
  respawn_position(respawn_position),
  normal_speed(75),
  is_in_tunnel(false),
- normal_speed_changed(false)
+ normal_speed_changed(false),
+ dropping_frames(false)
 {
     setSpeed(normal_speed);
 }
@@ -49,6 +50,7 @@ void Ghost::reset()
     setSpeed(normal_speed);
     is_in_tunnel=false;
     normal_speed_changed = false;
+    dropping_frames = false;
 }
 
 Ghost::Type Ghost::getType() const {
@@ -414,6 +416,16 @@ void Ghost::die()
 
 void Ghost::move() {
 
+    if (frames_to_drop > 0) {
+        dropping_frames = true;
+        frames_to_drop--;
+        return;
+    }
+    if (dropping_frames) {
+        dropping_frames = false;
+        setSpeed(getSpeed());
+    }
+
     updateSpeed();
 
     if (!should_move())
@@ -428,17 +440,12 @@ void Ghost::move() {
         leaveTheDen();
     }
 
-    if (frames_to_drop > 0)
-        frames_to_drop--;
-    else
-    {
-        if(position.isCenteredOnTile() && out_of_den==true){
-            updateDirection();
-        }
+    if(position.isCenteredOnTile() && out_of_den==true){
+        updateDirection();
+    }
 
-        if(monster_den.getCanLeaveDen(ghost_type)==true){
-            updatePosition();
-        }
+    if(monster_den.getCanLeaveDen(ghost_type)==true){
+        updatePosition();
     }
 }
 
