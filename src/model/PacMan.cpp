@@ -40,7 +40,7 @@ void PacMan::reset()
     if(lives==-1)
         score=0;
 
-    lives=3;
+    lives=2;
     game_over=false;
     cornering_direction=Cornering::NONE;
     cornering=false;
