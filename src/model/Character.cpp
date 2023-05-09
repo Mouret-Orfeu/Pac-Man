@@ -17,7 +17,7 @@ Character::Character(GameModel& game_model, Position spawn_position, Direction s
  TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
  TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
 {
-    setSpeed(80);
+    setSpeed(100);
 }
 
 Character::~Character() {}
@@ -28,7 +28,7 @@ void Character::reset(){
     frames_to_drop = 0;
     nb_animated_frames_since_last_speed_change = 0;
     frame_count_at_last_speed_change = 0;
-    setSpeed(80);
+    setSpeed(100);
 }
 
 bool Character::should_move() {
