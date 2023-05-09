@@ -27,13 +27,6 @@ Blinky::Blinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
 
 Blinky::~Blinky() {}
 
-void Blinky::reset()
-{
-    Ghost::reset();
-    setNormalSpeed(speed1);
-    setSpeed(normal_speed);
-}
-
 void Blinky::leaveTheDen()
 {
     if(position==center_den_position)
@@ -71,10 +64,10 @@ void Blinky::updateSpeed()
     }
 
     //acceleration basé sur le nombre de dot restant
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()<20 && normal_speed!=speed2 && ghost_mode!=Ghost::Mode::FRIGHTENED){
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-20 && normal_speed!=speed2 && ghost_mode!=Ghost::Mode::FRIGHTENED){
         setNormalSpeed(speed2);
     }
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()<10 && normal_speed!=speed3 && ghost_mode!=Ghost::Mode::FRIGHTENED){
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-10 && normal_speed!=speed3 && ghost_mode!=Ghost::Mode::FRIGHTENED){
         setNormalSpeed(speed3);
     }
 
@@ -124,4 +117,5 @@ void Blinky::die()
     position = respawn_position;
     out_of_den = false;
     setNormalSpeed(speed1);
+    setSpeed(normal_speed);
 }

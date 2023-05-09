@@ -15,8 +15,6 @@ public:
     Blinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den);
     ~Blinky();
 
-    void reset() override;
-
     void leaveTheDen() override;
 
     void updateTargetTile() override;
