@@ -25,7 +25,7 @@ Just copy paste this code in your terminal at the root of the project (Pac-Man f
 Alternatively, you can use `cmake --build ./ -j8` to enable cmake to use 8 cores for parallel compilation (change 8 to whatever the number of cores you want to use).
 
 # How to launch
-Go to the root folder (the Pac-Man folder) and execute PacMan with the command ./PacMan.
+Go to the build folder and execute PacMan with the command ./PacMan.
 
 # Details & intended limits
 
