@@ -360,7 +360,6 @@ void Ghost::updateSpeed()
     }
     if(position.toTile()==Slowing_tile_left && direction==Direction::RIGHT){
         is_in_tunnel = false;
-        setSpeed(normal_speed);
     }
 
     //entrée et sortie du couloir de teleportation de droite
@@ -369,11 +368,14 @@ void Ghost::updateSpeed()
     }
     if(position.toTile()==Slowing_tile_right && direction==Direction::LEFT){
         is_in_tunnel = false;
-        setSpeed(normal_speed);
     }
 
     if (!was_in_tunnel && is_in_tunnel) {
         setSpeed(40);
+        normal_speed_changed = false;
+    }
+    if (was_in_tunnel && !is_in_tunnel) {
+        setSpeed(normal_speed);
         normal_speed_changed = false;
     }
 
