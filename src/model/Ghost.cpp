@@ -374,17 +374,14 @@ void Ghost::updateSpeed()
 
     if (!was_in_tunnel && is_in_tunnel) {
         setSpeed(40);
-        normal_speed_changed = false;
     }
     if (was_in_tunnel && !is_in_tunnel) {
         setSpeed(normal_speed);
-        normal_speed_changed = false;
     }
-
     if (normal_speed_changed && !is_in_tunnel) {
         setSpeed(normal_speed);
-        normal_speed_changed = false;
     }
+    normal_speed_changed = false;
 }
 
 int Ghost::getNormalSpeed() const
