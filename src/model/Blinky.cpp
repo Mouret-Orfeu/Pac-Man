@@ -66,15 +66,15 @@ void Blinky::updateSpeed()
 {
 
     //Quand clyde sort du den, Blinky passe en vitesse 2 s'il ne l'est pas déjà
-    if(monster_den.getCanLeaveDen(Type::CLYDE)==true && normal_speed==speed1){
+    if(monster_den.getCanLeaveDen(Type::CLYDE)==true && normal_speed==speed1 && ghost_mode!=Ghost::Mode::FRIGHTENED){
         setNormalSpeed(speed2);
     }
 
     //acceleration basé sur le nombre de dot restant
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-20 && normal_speed!=speed2){
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()<20 && normal_speed!=speed2 && ghost_mode!=Ghost::Mode::FRIGHTENED){
         setNormalSpeed(speed2);
     }
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-10 && normal_speed!=speed3){
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()<10 && normal_speed!=speed3 && ghost_mode!=Ghost::Mode::FRIGHTENED){
         setNormalSpeed(speed3);
     }
 
