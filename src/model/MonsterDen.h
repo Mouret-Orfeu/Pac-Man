@@ -69,6 +69,6 @@ private:
     bool mode_after_pac_death;
 
     //la limite après laquelle on force les fantomes à sortir quand pacman mange pas de dot (ce timer est dans game_model)
-    float limit_last_dot_eaten_timer;
+    const float limit_last_dot_eaten_timer;
     
 };
