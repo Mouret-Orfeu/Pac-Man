@@ -85,7 +85,12 @@ public:
 
     virtual void die() override;
 
+    int getNormalSpeed() const;
     void setNormalSpeed(int normal_speed);
+
+    void setIsInTunnel(bool is_in_tunnel);
+
+    void setNormalSpeedChanged(bool normal_speed_changed);
 
 protected:
     Type ghost_type;

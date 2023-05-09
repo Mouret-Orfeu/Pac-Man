@@ -47,6 +47,7 @@ void Ghost::reset()
     out_of_den=false;
     setNormalSpeed(75);
     setSpeed(normal_speed);
+    is_in_tunnel=false;
     normal_speed_changed = false;
 }
 
@@ -382,11 +383,31 @@ void Ghost::updateSpeed()
     }
 }
 
+int Ghost::getNormalSpeed() const
+{
+    return normal_speed;
+}
+
+void Ghost::setIsInTunnel(bool is_in_tunnel)
+{
+    this->is_in_tunnel=is_in_tunnel;
+}
+
+void Ghost::setNormalSpeedChanged(bool normal_speed_changed)
+{
+    this->normal_speed_changed=normal_speed_changed;
+}
+
 void Ghost::die()
 {
     direction=spawn_direction;
     position=respawn_position;
     out_of_den=false;
+    setSpeed(normal_speed);
+    is_in_tunnel=false;
+    normal_speed_changed=false;
+
+
 }
 
 void Ghost::move() {

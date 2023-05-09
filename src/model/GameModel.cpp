@@ -111,6 +111,9 @@ void GameModel::HandlePacGhostCollision()
                 for(std::unique_ptr<Ghost>& ghost : ghosts){
                     ghost->setPosition(ghost->getSpawnPosition());
                     ghost->setDirection(ghost->getSpawnDirection());
+                    ghost->setIsInTunnel(false);
+                    ghost->setSpeed(ghost->getNormalSpeed());
+                    ghost->setNormalSpeedChanged(false);
                     if(ghost->getType()!=Ghost::Type::BLINKY){
                         ghost->setOutOfDen(false);
                     }
