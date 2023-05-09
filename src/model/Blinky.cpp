@@ -67,7 +67,7 @@ void Blinky::updateSpeed()
         setSpeed(40);
     }
     if(position.toTile()==Slowing_tile_left && direction==Direction::RIGHT){
-        setSpeed(speed);
+        setSpeed(normal_speed);
     }
 
     //entrée et sortie du couloir de teleportation de droite
@@ -75,19 +75,22 @@ void Blinky::updateSpeed()
         setSpeed(40);
     }
     if(position.toTile()==Slowing_tile_right && direction==Direction::LEFT){
-        setSpeed(speed);
+        setSpeed(normal_speed);
     }
 
     //Quand clyde sort du den, Blinky passe en vitesse 2 s'il ne l'est pas déjà
-    if(monster_den.getCanLeaveDen(Type::CLYDE)==true && speed==speed1){
+    if(monster_den.getCanLeaveDen(Type::CLYDE)==true && normal_speed==speed1){
+        normal_speed=speed2;
         setSpeed(speed2);
     }
 
     //acceleration basé sur le nombre de dot restant
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-20 && speed!=speed2){
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-20 && normal_speed!=speed2){
+        normal_speed=speed2;
         setSpeed(speed2);
     }
-    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-10 && speed!=speed3){
+    if(pacman.getDotsEaten()==game_model.getNbDotTotal()-10 && normal_speed!=speed3){
+        normal_speed=speed3;
         setSpeed(speed3);
     }
 }
@@ -112,12 +115,12 @@ void Blinky::TimeBasedModeUpdate(float time_count, float fright_time_count, bool
                   (std::fabs(time_count - 54.0f) < 0.001f && std::fabs(time_count - 54.0f)>0.0)||
                   (std::fabs(time_count - 79.0f) < 0.001f) && std::fabs(time_count - 79.0f)>0.0){
 
-            if(speed==speed1){
+            if(normal_speed==speed1){
                 ghost_mode=Ghost::Mode::SCATTER;
                 mode_has_changed=true;
                 mode_just_changed=true;
             }
-            //Si blinky est en mode elroy (speed!=speed1, il ne passe plus en mode scatter)
+            //Si blinky est en mode elroy (normal_speed!=speed1, il ne passe plus en mode scatter)
             else{
                 ghost_mode=Ghost::Mode::CHASE;
             }
@@ -134,5 +137,5 @@ void Blinky::die()
     direction=spawn_direction;
     position=respawn_position;
     out_of_den=false;
-    speed=speed1;
+    normal_speed=speed1;
 }

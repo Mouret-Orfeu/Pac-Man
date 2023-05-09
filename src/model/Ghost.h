@@ -118,4 +118,6 @@ protected:
     Direction spawn_direction;
     Position spawn_position;
     Position respawn_position;
+
+    int normal_speed;
 };

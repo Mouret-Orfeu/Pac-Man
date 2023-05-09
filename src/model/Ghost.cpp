@@ -30,7 +30,8 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_posit
  mode_just_changed(false),
  spawn_direction(spawn_direction),
  spawn_position(spawn_position),
- respawn_position(respawn_position)
+ respawn_position(respawn_position),
+ normal_speed(75)
 {
     setSpeed(75);
 }
@@ -351,7 +352,7 @@ void Ghost::updateSpeed()
         setSpeed(40);
     }
     if(position.toTile()==Slowing_tile_left && direction==Direction::RIGHT){
-        setSpeed(speed);
+        setSpeed(normal_speed);
     }
 
     //entrée et sortie du couloir de teleportation de droite
@@ -359,7 +360,7 @@ void Ghost::updateSpeed()
         setSpeed(40);
     }
     if(position.toTile()==Slowing_tile_right && direction==Direction::LEFT){
-        setSpeed(speed);
+        setSpeed(normal_speed);
     }
 }
 
