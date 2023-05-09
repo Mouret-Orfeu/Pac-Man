@@ -17,7 +17,7 @@ Character::Character(GameModel& game_model, Position spawn_position, Direction s
  TELEPORTATION_TILE_RIGHT(3+(MAZE_ROWS/2)-1, MAZE_COLS-1),
  TELEPORTATION_TILE_LEFT(3+(MAZE_ROWS/2)-1, 0)
 {
-    setSpeed(100);
+    setSpeed(20);
 }
 
 Character::~Character() {}
