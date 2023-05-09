@@ -122,9 +122,15 @@ int Character::getSpeed() const {
 }
 
 void Character::setSpeed(int speed) {
+    resetSpeedORigin();
+    this->speed = speed;
+}
+
+//
+void Character::resetSpeedORigin()
+{
     frame_count_at_last_speed_change = game_model.getFrameCount();
     nb_animated_frames_since_last_speed_change = 0;
-    this->speed = speed;
 }
 
 Uint64 Character::getNbAnimatedFramesSinceLastSpeedChange() const {

@@ -423,7 +423,7 @@ void Ghost::move() {
     }
     if (dropping_frames) {
         dropping_frames = false;
-        setSpeed(getSpeed());
+        resetSpeedORigin();
     }
 
     updateSpeed();

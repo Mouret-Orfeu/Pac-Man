@@ -53,6 +53,8 @@ public:
     int getSpeed() const;
     void setSpeed(int speed);
 
+    void resetSpeedORigin();
+
     Uint64 getNbAnimatedFramesSinceLastSpeedChange() const;
 
 protected:
