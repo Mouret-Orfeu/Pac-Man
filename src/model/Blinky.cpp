@@ -20,7 +20,8 @@ Blinky::Blinky(GameModel& game_model, PacMan& pacman, MonsterDen& monster_den)
  speed2(80),
  speed3(90)
 {
-    setSpeed(speed1);
+    setNormalSpeed(speed1);
+    setSpeed(normal_speed);
 }
 
 
@@ -29,7 +30,8 @@ Blinky::~Blinky() {}
 void Blinky::reset()
 {
     Ghost::reset();
-    setSpeed(speed1);
+    setNormalSpeed(speed1);
+    setSpeed(normal_speed);
 }
 
 void Blinky::leaveTheDen()
@@ -62,37 +64,21 @@ void Blinky::updateTargetTile()
 
 void Blinky::updateSpeed()
 {
-    //entrée et sortie du couloir de teleportation de gauche
-    if(position.toTile()==Slowing_tile_left && direction==Direction::LEFT){
-        setSpeed(40);
-    }
-    if(position.toTile()==Slowing_tile_left && direction==Direction::RIGHT){
-        setSpeed(normal_speed);
-    }
-
-    //entrée et sortie du couloir de teleportation de droite
-    if(position.toTile()==Slowing_tile_right && direction==Direction::RIGHT){
-        setSpeed(40);
-    }
-    if(position.toTile()==Slowing_tile_right && direction==Direction::LEFT){
-        setSpeed(normal_speed);
-    }
 
     //Quand clyde sort du den, Blinky passe en vitesse 2 s'il ne l'est pas déjà
     if(monster_den.getCanLeaveDen(Type::CLYDE)==true && normal_speed==speed1){
-        normal_speed=speed2;
-        setSpeed(speed2);
+        setNormalSpeed(speed2);
     }
 
     //acceleration basé sur le nombre de dot restant
     if(pacman.getDotsEaten()==game_model.getNbDotTotal()-20 && normal_speed!=speed2){
-        normal_speed=speed2;
-        setSpeed(speed2);
+        setNormalSpeed(speed2);
     }
     if(pacman.getDotsEaten()==game_model.getNbDotTotal()-10 && normal_speed!=speed3){
-        normal_speed=speed3;
-        setSpeed(speed3);
+        setNormalSpeed(speed3);
     }
+
+    Ghost::updateSpeed();
 }
 
 
@@ -134,8 +120,8 @@ void Blinky::TimeBasedModeUpdate(float time_count, float fright_time_count, bool
 
 void Blinky::die()
 {
-    direction=spawn_direction;
-    position=respawn_position;
-    out_of_den=false;
-    normal_speed=speed1;
+    direction = spawn_direction;
+    position = respawn_position;
+    out_of_den = false;
+    setNormalSpeed(speed1);
 }

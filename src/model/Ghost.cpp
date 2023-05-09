@@ -31,9 +31,11 @@ Ghost::Ghost(GameModel& game_model, Ghost::Type ghost_type, Position spawn_posit
  spawn_direction(spawn_direction),
  spawn_position(spawn_position),
  respawn_position(respawn_position),
- normal_speed(75)
+ normal_speed(75),
+ is_in_tunnel(false),
+ normal_speed_changed(false)
 {
-    setSpeed(75);
+    setSpeed(normal_speed);
 }
 
 Ghost::~Ghost() {}
@@ -43,7 +45,9 @@ void Ghost::reset()
     Character::reset();
     resetMode();
     out_of_den=false;
-
+    setNormalSpeed(75);
+    setSpeed(normal_speed);
+    normal_speed_changed = false;
 }
 
 Ghost::Type Ghost::getType() const {
@@ -236,7 +240,7 @@ void Ghost::switchModeFrightened(float time_count, float fright_time_count, bool
     ghost_mode=Ghost::Mode::FRIGHTENED;
     mode_has_changed=true;
     mode_just_changed=true;
-    setSpeed(50);
+    setNormalSpeed(50);
 
     return;
 }
@@ -246,7 +250,7 @@ void Ghost::cancelModeFrightened(float time_count, float fright_time_count, bool
     ghost_mode=previous_ghost_mode;
     mode_has_changed=true;
     mode_just_changed=true;
-    setSpeed(75);
+    setNormalSpeed(75);
 }
 
 void Ghost::TimeBasedModeUpdate(float time_count, float fright_time_count, bool frightened_bool)
@@ -347,20 +351,34 @@ void Ghost::resetMode()
 
 void Ghost::updateSpeed()
 {
+    bool was_in_tunnel = is_in_tunnel;
+
     //entrée et sortie du couloir de teleportation de gauche
     if(position.toTile()==Slowing_tile_left && direction==Direction::LEFT){
-        setSpeed(40);
+        is_in_tunnel = true;
     }
     if(position.toTile()==Slowing_tile_left && direction==Direction::RIGHT){
+        is_in_tunnel = false;
         setSpeed(normal_speed);
     }
 
     //entrée et sortie du couloir de teleportation de droite
     if(position.toTile()==Slowing_tile_right && direction==Direction::RIGHT){
-        setSpeed(40);
+        is_in_tunnel = true;
     }
     if(position.toTile()==Slowing_tile_right && direction==Direction::LEFT){
+        is_in_tunnel = false;
         setSpeed(normal_speed);
+    }
+
+    if (!was_in_tunnel && is_in_tunnel) {
+        setSpeed(40);
+        normal_speed_changed = false;
+    }
+
+    if (normal_speed_changed && !is_in_tunnel) {
+        setSpeed(normal_speed);
+        normal_speed_changed = false;
     }
 }
 
@@ -399,4 +417,9 @@ void Ghost::move() {
             updatePosition();
         }
     }
+}
+
+void Ghost::setNormalSpeed(int normal_speed) {
+    this->normal_speed = normal_speed;
+    normal_speed_changed = true;
 }

@@ -85,6 +85,7 @@ public:
 
     virtual void die() override;
 
+    void setNormalSpeed(int normal_speed);
 
 protected:
     Type ghost_type;
@@ -120,4 +121,7 @@ protected:
     Position respawn_position;
 
     int normal_speed;
+
+    bool is_in_tunnel;
+    bool normal_speed_changed;
 };
