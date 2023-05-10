@@ -31,7 +31,8 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
     }
     win_surf = *win_surf_ptr;
 
-
+    // Print the original pointer
+    std::cout << "Constructor: win_surf_ptr: " << win_surf_ptr << std::endl;
     std::cout << "Constructor: win_surf: width=" << win_surf.w << ", height=" << win_surf.h << ", pitch=" << win_surf.pitch << std::endl;
     // Print the pointer
     std::cout << "Constructor: win_surf: " << &win_surf << std::endl;
