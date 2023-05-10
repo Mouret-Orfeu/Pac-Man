@@ -16,6 +16,13 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, UPSCALED_WINDOW_WIDTH , UPSCALED_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 	win_surf = SDL_GetWindowSurface(pWindow);
 
+    if (win_surf == nullptr) {
+        std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(pWindow);
+        SDL_Quit();
+        exit(1);
+    }
+
     //On utilise des sprites venant des ces 2 fichiers
 	spriteSheet_NES = SDL_LoadBMP("./assets/pacman_sprites_NES.bmp");
     spriteSheet_Namco_before_conversion = SDL_LoadBMP("./assets/pacman_sprites_Namco.bmp");
