@@ -33,7 +33,7 @@ public:
     void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL_Point top_left_position, bool transparency);
     void drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Tile tile, bool transparency);
     void drawCharacterSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, Position position, bool transparency);
-    
+
 
     void drawTileOutline(Tile tile, const SDL_Color& color);
     void drawAllTileOutlines();
@@ -46,7 +46,7 @@ private:
 
     // SDL window and surfaces
     SDL_Window* pWindow = nullptr;
-    SDL_Surface* win_surf = nullptr;
+    SDL_Surface* win_surf;
     SDL_Surface* spriteSheet_NES = nullptr;
     SDL_Surface* spriteSheet_Namco_before_conversion = nullptr;
     SDL_Surface* spriteSheet_Namco = nullptr;

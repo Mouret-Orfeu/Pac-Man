@@ -14,7 +14,14 @@
 GameView::GameView(GameModel& game_model) : game_model(game_model) {
     // Initialize game view related data here
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, UPSCALED_WINDOW_WIDTH , UPSCALED_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
-	win_surf = SDL_GetWindowSurface(pWindow);
+
+    if (pWindow == nullptr) {
+        std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        exit(1);
+    }
+
+	SDL_Surface* win_surf = SDL_GetWindowSurface(pWindow);
 
     if (win_surf == nullptr) {
         std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl;
@@ -22,6 +29,7 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
         SDL_Quit();
         exit(1);
     }
+    std::cout << "Constructor: win_surf: width=" << win_surf->w << ", height=" << win_surf->h << ", pitch=" << win_surf->pitch << std::endl;
 
     //On utilise des sprites venant des ces 2 fichiers
 	spriteSheet_NES = SDL_LoadBMP("./assets/pacman_sprites_NES.bmp");
@@ -87,10 +95,10 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
 }
 
 void GameView::drawBlackBackground() {
-    if (win_surf == nullptr) {
-        std::cerr << "win_surf is nullptr. Cannot draw black background." << std::endl;
-        return;
-    }
+    // Temporary check
+    std::cout << "drawBlackBackground: win_surf: width=" << win_surf->w << ", height=" << win_surf->h << ", pitch=" << win_surf->pitch << std::endl;
+
+
     SDL_FillRect(win_surf, NULL, SDL_MapRGB(win_surf->format, 0, 0, 0));
 }
 
