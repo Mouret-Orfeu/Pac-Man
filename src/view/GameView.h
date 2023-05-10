@@ -45,8 +45,8 @@ private:
     GameModel& game_model;
 
     // SDL window and surfaces
-    SDL_Window* pWindow = nullptr;
-    SDL_Surface* win_surf = nullptr;
+    SDL_Window* pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, UPSCALED_WINDOW_WIDTH , UPSCALED_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    SDL_Surface* win_surf = SDL_GetWindowSurface(pWindow);
     SDL_Surface* spriteSheet_NES = nullptr;
     SDL_Surface* spriteSheet_Namco_before_conversion = nullptr;
     SDL_Surface* spriteSheet_Namco = nullptr;

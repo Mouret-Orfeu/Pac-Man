@@ -12,23 +12,23 @@
 
 
 GameView::GameView(GameModel& game_model) : game_model(game_model) {
-    // Initialize game view related data here
-	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, UPSCALED_WINDOW_WIDTH , UPSCALED_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    // // Initialize game view related data here
+	// pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, UPSCALED_WINDOW_WIDTH , UPSCALED_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
-    if (pWindow == nullptr) {
-        std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        exit(1);
-    }
+    // if (pWindow == nullptr) {
+    //     std::cerr << "Failed to create window: " << SDL_GetError() << std::endl;
+    //     SDL_Quit();
+    //     exit(1);
+    // }
 
-	win_surf = SDL_GetWindowSurface(pWindow);
+	// win_surf = SDL_GetWindowSurface(pWindow);
 
-    if (win_surf == nullptr) {
-        std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(pWindow);
-        SDL_Quit();
-        exit(1);
-    }
+    // if (win_surf == nullptr) {
+    //     std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl;
+    //     SDL_DestroyWindow(pWindow);
+    //     SDL_Quit();
+    //     exit(1);
+    // }
     std::cout << "Constructor: win_surf: width=" << win_surf->w << ", height=" << win_surf->h << ", pitch=" << win_surf->pitch << std::endl;
     // Print the pointer
     std::cout << "Constructor: win_surf: " << win_surf << std::endl;
