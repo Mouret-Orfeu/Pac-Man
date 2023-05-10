@@ -76,7 +76,7 @@ void GameController::run() {
             //là dedans y'a move pour tous les persos
             gameModel.update(input_direction);
         }
-        
+
 
         // AFFICHAGE
         gameView.draw();
@@ -89,7 +89,7 @@ void GameController::run() {
                 frame_count_game_over = 0;
                 gameModel.setStartState(true);
             }
-                
+
         };
 
         //Animation de la mort
@@ -123,14 +123,14 @@ void GameController::run() {
                 // LIMITE A 60 FPS
                 limitFramerate(frameStartTime);
             }
-            
+
             gameModel.getPacMan().setPosition(gameModel.getPacMan().getSpawnPos());
             gameModel.getPacMan().setIsGameOver(false);
             if(gameModel.getPacMan().getLives() == -1){
                 gameModel.setGameOverState(true);
                 gameModel.resetTilesMatrix();
             }
-                
+
         }
 
         // LIMITE A 60 FPS
@@ -140,10 +140,10 @@ void GameController::run() {
 
 void GameController::limitFramerate(Uint64& frameStartTime) {
     const Uint64 desiredFrameTime = 1000 / 60; // 60 FPS -> 1000 ms for 60 frames
-    Uint64 currentTime = SDL_GetTicks64();
+    Uint64 currentTime = SDL_GetTicks();
     Uint64 elapsedTime = currentTime - frameStartTime;
     if (elapsedTime < desiredFrameTime) {
         SDL_Delay(static_cast<Uint32>(desiredFrameTime - elapsedTime));
     }
-    frameStartTime = SDL_GetTicks64();
+    frameStartTime = SDL_GetTicks();
 }
