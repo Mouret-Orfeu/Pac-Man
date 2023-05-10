@@ -39,7 +39,7 @@ void GameController::run() {
     // Main game loop
     int frame_count_game_over = 0;
 	bool quit = false;
-    Uint64 frameStartTime = SDL_GetTicks64();
+    Uint32 frameStartTime = SDL_GetTicks();
 	while (!quit) {
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
@@ -138,7 +138,7 @@ void GameController::run() {
 	}
 }
 
-void GameController::limitFramerate(Uint64& frameStartTime) {
+void GameController::limitFramerate(Uint32& frameStartTime) {
     const Uint64 desiredFrameTime = 1000 / 60; // 60 FPS -> 1000 ms for 60 frames
     Uint64 currentTime = SDL_GetTicks();
     Uint64 elapsedTime = currentTime - frameStartTime;

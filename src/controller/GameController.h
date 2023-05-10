@@ -13,7 +13,7 @@ public:
     bool init();
     void run();
 
-    void limitFramerate(Uint64& frameStartTime);
+    void limitFramerate(Uint32& frameStartTime);
 private:
     bool sdl_initialized;
     GameModel gameModel;
