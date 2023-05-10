@@ -6,7 +6,7 @@ A project by Orfeú Mouret and Maxime Drouhin
 
 ### Requirements for compilation
 
-- SDL2 (`sudo apt-get install libsdl2-dev`)
+- SDL2 (`sudo apt-get install libsdl2-dev`) (il faut la version 2.0.20)
 
 ### How to compile
 
@@ -23,6 +23,8 @@ cmake --build ./
 Just copy paste this code in your terminal at the root of the project (Pac-Man folder)
 
 Alternatively, you can use `cmake --build ./ -j8` to enable cmake to use 8 cores for parallel compilation (change 8 to whatever the number of cores you want to use).
+
+
 
 # How to launch
 Go to the build folder and execute PacMan with the command ./PacMan.
