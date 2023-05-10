@@ -46,7 +46,7 @@ private:
 
     // SDL window and surfaces
     SDL_Window* pWindow = nullptr;
-    SDL_Surface* win_surf = nullptr;
+    SDL_Surface win_surf;
     SDL_Surface* spriteSheet_NES = nullptr;
     SDL_Surface* spriteSheet_Namco_before_conversion = nullptr;
     SDL_Surface* spriteSheet_Namco = nullptr;

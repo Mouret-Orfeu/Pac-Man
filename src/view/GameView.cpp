@@ -21,17 +21,20 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
         exit(1);
     }
 
-	win_surf = SDL_GetWindowSurface(pWindow);
+	SDL_Surface* win_surf_ptr = SDL_GetWindowSurface(pWindow);
 
-    if (win_surf == nullptr) {
+    if (win_surf_ptr == nullptr) {
         std::cerr << "Failed to get window surface: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
         exit(1);
     }
-    std::cout << "Constructor: win_surf: width=" << win_surf->w << ", height=" << win_surf->h << ", pitch=" << win_surf->pitch << std::endl;
+    win_surf = *win_surf_ptr;
+
+
+    std::cout << "Constructor: win_surf: width=" << win_surf.w << ", height=" << win_surf.h << ", pitch=" << win_surf.pitch << std::endl;
     // Print the pointer
-    std::cout << "Constructor: win_surf: " << win_surf << std::endl;
+    std::cout << "Constructor: win_surf: " << &win_surf << std::endl;
 
     //On utilise des sprites venant des ces 2 fichiers
 	spriteSheet_NES = SDL_LoadBMP("./assets/pacman_sprites_NES.bmp");
@@ -47,7 +50,7 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
         exit(1);
     }
 
-    spriteSheet_Namco = SDL_ConvertSurface(spriteSheet_Namco_before_conversion, win_surf->format, 0);
+    spriteSheet_Namco = SDL_ConvertSurface(spriteSheet_Namco_before_conversion, win_surf.format, 0);
 
 
     if(!spriteSheet_Namco) {
@@ -60,6 +63,7 @@ GameView::GameView(GameModel& game_model) : game_model(game_model) {
 }
 
 GameView::~GameView() {
+    std::cout << "Destructor: win_surf: " << &win_surf << std::endl;
     // Clean up game view related data here
     SDL_FreeSurface(spriteSheet_NES);
     SDL_FreeSurface(spriteSheet_Namco_before_conversion);
@@ -98,12 +102,12 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
 
 void GameView::drawBlackBackground() {
     // Temporary check
-    std::cout << "drawBlackBackground: win_surf: width=" << win_surf->w << ", height=" << win_surf->h << ", pitch=" << win_surf->pitch << std::endl;
+    std::cout << "drawBlackBackground: win_surf: width=" << win_surf.w << ", height=" << win_surf.h << ", pitch=" << win_surf.pitch << std::endl;
     // Print the pointer
-    std::cout << "drawBlackBackground: win_surf: " << win_surf << std::endl;
+    std::cout << "drawBlackBackground: win_surf: " << &win_surf << std::endl;
 
 
-    SDL_FillRect(win_surf, NULL, SDL_MapRGB(win_surf->format, 0, 0, 0));
+    SDL_FillRect(&win_surf, NULL, SDL_MapRGB(win_surf.format, 0, 0, 0));
 }
 
 void GameView::drawPacMan() {
@@ -224,7 +228,7 @@ void GameView::drawSprite(SDL_Surface* sprite_sheet, const SDL_Rect* sprite, SDL
     SDL_Rect sprite_out = { UPSCALING_FACTOR*top_left_position.x,UPSCALING_FACTOR*top_left_position.y, UPSCALING_FACTOR*w,UPSCALING_FACTOR*h };
 
     // Copy the upscaled sprite to the window surface
-    if(SDL_BlitScaled(sprite_sheet, sprite, win_surf, &sprite_out)<0){
+    if(SDL_BlitScaled(sprite_sheet, sprite, &win_surf, &sprite_out)<0){
         printf("SDL_BlitScaled failed: %s\n", SDL_GetError());
     }
 }
