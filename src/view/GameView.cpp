@@ -80,6 +80,10 @@ void GameView::drawDeathAnimation(int death_sprite_num) {
 }
 
 void GameView::drawBlackBackground() {
+    if (win_surf == nullptr) {
+        std::cerr << "win_surf is nullptr. Cannot draw black background." << std::endl;
+        return;
+    }
     SDL_FillRect(win_surf, NULL, SDL_MapRGB(win_surf->format, 0, 0, 0));
 }
 
